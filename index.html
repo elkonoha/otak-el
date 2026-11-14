@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reels Autopilot Studio — AI Content Generator</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        studio: {
+                            950: '#07090e',
+                            900: '#0d111a',
+                            800: '#151c2c',
+                            700: '#212b42',
+                            accent: '#6366f1',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #07090e;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.10) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d111a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #212b42;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4f46e5;
+        }
+
+        /* Aspect Ratio 9:16 Container */
+        .aspect-9-16 {
+            aspect-ratio: 9 / 16;
+        }
+
+        /* Shimmer Loading Effect */
+        .shimmer {
+            background: linear-gradient(90deg, #151c2c 25%, #212b42 50%, #151c2c 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.6s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Audio Wave Animation */
+        .wave-bar {
+            display: inline-block;
+            width: 3px;
+            height: 12px;
+            background-color: currentColor;
+            margin: 0 1px;
+            border-radius: 2px;
+            animation: wave 1s infinite ease-in-out;
+        }
+        .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1.2); }
+        }
+    </style>
+</head>
+<body class="text-slate-100 antialiased min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- ================= HEADER / NAVBAR ================= -->
+    <header class="sticky top-0 z-40 backdrop-blur-xl bg-studio-950/80 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                    <i class="fa-solid fa-wand-magic-sparkles text-white text-xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">
+                            Reels Autopilot Studio
+                        </h1>
+                        <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                            Gemini 2.5 Flash
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 hidden sm:block">Otomatisasi Ide, Naskah, Visual 9:16 & Publikasi Facebook Reels</p>
+                </div>
+            </div>
+
+            <!-- Live Clock & Quick Actions -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <!-- Live WIB Clock -->
+                <div class="hidden md:flex items-center gap-2.5 bg-studio-900 border border-slate-800 px-3.5 py-2 rounded-xl text-xs">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-slate-400">WIB:</span>
+                    <span id="liveClock" class="font-mono font-semibold text-white">--:--:--</span>
+                </div>
+
+                <!-- History Button -->
+                <button onclick="toggleHistoryModal()" class="relative inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-studio-900 hover:bg-studio-800 border border-slate-800 text-xs font-semibold text-slate-200 transition">
+                    <i class="fa-solid fa-clock-rotate-left text-indigo-400"></i>
+                    <span class="hidden sm:inline">Riwayat Topik</span>
+                    <span id="historyBadgeCount" class="px-1.5 py-0.5 text-[10px] rounded-full bg-indigo-500/20 text-indigo-300 font-mono">0/50</span>
+                </button>
+
+                <!-- Settings Toggle Button -->
+                <button onclick="toggleSettingsPanel()" id="btnSettingsToggle" class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-studio-900 hover:bg-studio-800 border border-slate-800 text-xs font-semibold text-slate-200 transition">
+                    <i class="fa-solid fa-sliders text-purple-400"></i>
+                    <span class="hidden sm:inline">Pengaturan API</span>
+                    <span id="apiKeyStatusDot" class="w-2 h-2 rounded-full bg-rose-500" title="Status API Key"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
+
+        <!-- 1. PANEL PENGATURAN (Collapsible, Stored in localStorage) -->
+        <section id="settingsPanel" class="hidden transition-all duration-300">
+            <div class="bg-studio-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-2xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-5 border-b border-slate-800">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-key text-indigo-400"></i>
+                            Konfigurasi Kredensial & Anti-Duplikat
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            Semua kunci API disimpan secara lokal di browser Anda (<code class="text-indigo-300 font-mono">localStorage</code>) dan tidak pernah dikirim ke server pihak ketiga.
+                        </p>
+                    </div>
+                    <button onclick="toggleSettingsPanel()" class="self-end sm:self-center text-slate-400 hover:text-white text-xs flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-studio-800">
+                        <i class="fa-solid fa-xmark"></i> Tutup
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <!-- Gemini API Key -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-slate-300">
+                            GEMINI_API_KEY <span class="text-rose-400">*Wajib</span>
+                        </label>
+                        <div class="relative">
+                            <input type="password" id="inputGeminiKey" placeholder="AIzaSy..." 
+                                class="w-full bg-studio-950 border border-slate-700/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl pl-3.5 pr-10 py-2.5 text-sm text-white font-mono placeholder-slate-600 outline-none transition">
+                            <button type="button" onclick="togglePasswordVisibility('inputGeminiKey', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-slate-400">
+                            Dapatkan gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="text-indigo-400 hover:underline">Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i></a>
+                        </p>
+                    </div>
+
+                    <!-- FB Page ID -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-slate-300">
+                            FB_PAGE_ID <span class="text-slate-500 font-normal">(Opsional)</span>
+                        </label>
+                        <input type="text" id="inputFbPageId" placeholder="Contoh: 104928192839102" 
+                            class="w-full bg-studio-950 border border-slate-700/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono placeholder-slate-600 outline-none transition">
+                        <p class="text-[11px] text-slate-400">ID Halaman Facebook tujuan untuk fitur Auto-Upload.</p>
+                    </div>
+
+                    <!-- FB Access Token -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-slate-300">
+                            FB_ACCESS_TOKEN <span class="text-slate-500 font-normal">(Opsional)</span>
+                        </label>
+                        <div class="relative">
+                            <input type="password" id="inputFbToken" placeholder="EAAGm0PX4ZCps..." 
+                                class="w-full bg-studio-950 border border-slate-700/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl pl-3.5 pr-10 py-2.5 text-sm text-white font-mono placeholder-slate-600 outline-none transition">
+                            <button type="button" onclick="togglePasswordVisibility('inputFbToken', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-slate-400">Page Access Token dengan izin <code class="text-slate-300">pages_manage_posts</code>.</p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2 text-xs text-slate-400">
+                        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                        <span>Memori Anti-Duplikat aktif menyimpan maks. <strong>50 topik terakhir</strong> secara otomatis.</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="clearCredentials()" class="px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 text-xs font-semibold transition">
+                            Reset Kredensial
+                        </button>
+                        <button onclick="saveSettings()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/25 transition flex items-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PENGATURAN SESI & KATEGORI PINTAR -->
+        <section class="bg-studio-900/80 backdrop-blur-md border border-slate-800/90 rounded-3xl p-5 sm:p-7 shadow-xl">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- Kolom Kiri: Pemilihan Sesi Pintar (7 Cols) -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-400">Konfigurasi Sesi & Mood</span>
+                            <h2 class="text-lg font-bold text-white">Pilih Sesi Tayang Konten</h2>
+                        </div>
+                        <span id="autoDetectBadge" class="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                            <i class="fa-solid fa-wand-sparkles text-[10px]"></i>
+                            <span id="autoDetectText">Deteksi Jam Otomatis Aktif</span>
+                        </span>
+                    </div>
+
+                    <!-- Pilihan Mode Sesi (3 Kartu Radio) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <!-- Mode Otomatis -->
+                        <button type="button" onclick="selectSessionMode('auto')" id="sessionBtn-auto"
+                            class="session-card text-left p-4 rounded-2xl border transition-all duration-200 relative overflow-hidden group">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+                                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Pintar</span>
+                            </div>
+                            <h3 class="font-bold text-sm text-white">Deteksi Otomatis</h3>
+                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">Menyesuaikan sesi Siang atau Malam secara pintar mengikuti jam WIB saat ini.</p>
+                        </button>
+
+                        <!-- Sesi Istirahat Siang -->
+                        <button type="button" onclick="selectSessionMode('siang')" id="sessionBtn-siang"
+                            class="session-card text-left p-4 rounded-2xl border transition-all duration-200 relative overflow-hidden group">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-sun"></i>
+                                </span>
+                                <span class="text-[10px] font-mono font-semibold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded">11.30 - 13.30 WIB</span>
+                            </div>
+                            <h3 class="font-bold text-sm text-white">Sesi Istirahat Siang</h3>
+                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed"><strong>Fakta Unik & Teknologi</strong>. Gaya segar, tempo cepat, visual terang & hidup.</p>
+                        </button>
+
+                        <!-- Sesi Santai Malam -->
+                        <button type="button" onclick="selectSessionMode('malam')" id="sessionBtn-malam"
+                            class="session-card text-left p-4 rounded-2xl border transition-all duration-200 relative overflow-hidden group">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-moon"></i>
+                                </span>
+                                <span class="text-[10px] font-mono font-semibold text-purple-300 bg-purple-500/10 px-2 py-0.5 rounded">19.00 - 21.30 WIB</span>
+                            </div>
+                            <h3 class="font-bold text-sm text-white">Sesi Santai Malam</h3>
+                            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed"><strong>Misteri & Sejarah</strong> (selingan Fakta/Tekno). Bikin merinding, visual gelap/dramatis.</p>
+                        </button>
+                    </div>
+
+                    <!-- Info Box Sesi Aktif -->
+                    <div id="activeSessionSummary" class="p-3.5 rounded-2xl bg-studio-950/90 border border-slate-800/80 flex items-start gap-3">
+                        <div id="summaryIcon" class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div class="text-xs space-y-0.5">
+                            <div class="font-bold text-slate-200" id="summaryTitle">Sesi Aktif: Memuat...</div>
+                            <p class="text-slate-400 leading-relaxed" id="summaryDesc">Memuat konfigurasi fokus kategori dan gaya pembawaan...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Jumlah Konten & Tombol Generate (5 Cols) -->
+                <div class="lg:col-span-5 flex flex-col justify-between bg-studio-950/70 border border-slate-800/80 rounded-2xl p-5 space-y-5">
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-indigo-400">
+                            Kuantitas Produksi
+                        </label>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <!-- 1 Konten -->
+                            <button type="button" onclick="selectQuantity(1)" id="qtyBtn-1"
+                                class="p-3.5 rounded-xl border text-left transition-all flex items-start gap-3">
+                                <div class="mt-0.5 text-indigo-400">
+                                    <i class="fa-solid fa-bolt-lightning text-base"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-xs text-white">Buat 1 Konten</div>
+                                    <div class="text-[11px] text-slate-400 mt-0.5">Siap Upload Cepat</div>
+                                </div>
+                            </button>
+
+                            <!-- 5 Konten -->
+                            <button type="button" onclick="selectQuantity(5)" id="qtyBtn-5"
+                                class="p-3.5 rounded-xl border text-left transition-all flex items-start gap-3">
+                                <div class="mt-0.5 text-purple-400">
+                                    <i class="fa-solid fa-layer-group text-base"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-xs text-white">Buat 5 Konten</div>
+                                    <div class="text-[11px] text-slate-400 mt-0.5">Stok Harian Sekaligus</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Fokus Tambahan Opsional -->
+                    <div class="space-y-1.5">
+                        <label for="inputCustomKeyword" class="block text-xs font-semibold text-slate-300">
+                            Kata Kunci / Fokus Spesifik <span class="text-slate-500 font-normal">(Opsional)</span>
+                        </label>
+                        <input type="text" id="inputCustomKeyword" placeholder="Kosongkan untuk ide otomatis 100% dari AI..." 
+                            class="w-full bg-studio-900 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition">
+                    </div>
+
+                    <!-- Tombol CTA Generate -->
+                    <button id="btnGenerate" onclick="generateReelsContent()" 
+                        class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 text-white font-extrabold text-sm shadow-xl shadow-indigo-600/25 hover:shadow-indigo-500/40 active:scale-[0.99] transition-all flex items-center justify-center gap-3 group">
+                        <i class="fa-solid fa-wand-magic-sparkles text-base group-hover:rotate-12 transition-transform"></i>
+                        <span id="btnGenerateText">Generate Konten Sekarang</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= ALERT / ERROR BANNER ================= -->
+        <div id="errorAlert" class="hidden bg-rose-950/60 border border-rose-500/40 rounded-2xl p-4 sm:p-5 text-rose-200 shadow-lg">
+            <div class="flex items-start gap-3.5">
+                <div class="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                </div>
+                <div class="flex-1 text-xs sm:text-sm space-y-1">
+                    <h4 class="font-bold text-white" id="errorTitle">Terjadi Kesalahan</h4>
+                    <p id="errorMessage" class="text-rose-200/90 leading-relaxed"></p>
+                </div>
+                <button onclick="hideError()" class="text-rose-300 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= LOADING STATE ANIMATION ================= -->
+        <section id="loadingSection" class="hidden space-y-6">
+            <div class="bg-studio-900/90 border border-indigo-500/30 rounded-2xl p-6 text-center max-w-xl mx-auto space-y-4 shadow-2xl">
+                <div class="relative w-16 h-16 mx-auto flex items-center justify-center">
+                    <div class="absolute inset-0 rounded-full border-4 border-indigo-500/20"></div>
+                    <div class="absolute inset-0 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin"></div>
+                    <i class="fa-solid fa-robot text-2xl text-indigo-400 animate-pulse"></i>
+                </div>
+                <div class="space-y-1">
+                    <h3 class="text-base font-bold text-white" id="loadingStatusTitle">Merakit Konsep Konten dengan Gemini 2.5 Flash...</h3>
+                    <p class="text-xs text-slate-400" id="loadingStatusSub">Menganalisis riwayat topik agar bebas duplikat & menyusun prompt visual 9:16 sinematik 8K.</p>
+                </div>
+            </div>
+
+            <!-- Skeleton Cards -->
+            <div id="skeletonGrid" class="grid grid-cols-1 gap-6">
+                <div class="bg-studio-900 border border-slate-800 rounded-3xl p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-4 aspect-9-16 max-h-[460px] mx-auto w-full rounded-2xl shimmer"></div>
+                    <div class="lg:col-span-8 space-y-4">
+                        <div class="h-6 w-1/3 rounded-lg shimmer"></div>
+                        <div class="h-10 w-3/4 rounded-xl shimmer"></div>
+                        <div class="h-28 w-full rounded-2xl shimmer"></div>
+                        <div class="h-28 w-full rounded-2xl shimmer"></div>
+                        <div class="h-20 w-full rounded-2xl shimmer"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 3. OUTPUT KARTU KONTEN INTERAKTIF ================= -->
+        <section id="outputSection" class="space-y-6">
+            <!-- Empty State Awal -->
+            <div id="emptyState" class="bg-studio-900/40 border border-dashed border-slate-800 rounded-3xl p-10 sm:p-14 text-center max-w-2xl mx-auto my-4">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-clapperboard"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Studio Siap Merakit Konten Reels Anda</h3>
+                <p class="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed">
+                    Pilih sesi tayang serta jumlah konten di atas, lalu klik tombol <strong>"Generate Konten Sekarang"</strong>. AI akan membuat ide segar beserta Hook 3 detik, Naskah Voiceover, Visual 9:16 otomatis, hingga Caption siap pakai.
+                </p>
+            </div>
+
+            <!-- Header Hasil (Muncul setelah generate) -->
+            <div id="resultsHeader" class="hidden flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-white" id="resultsCountTitle">Hasil Rakit Konten</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="stopAllSpeech()" id="btnStopGlobalSpeech" class="hidden px-3.5 py-2 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-volume-xmark"></i> Hentikan Suara
+                    </button>
+                    <button onclick="exportAllAsJson()" class="px-3.5 py-2 rounded-xl bg-studio-900 hover:bg-studio-800 border border-slate-700 text-xs font-semibold text-slate-300 flex items-center gap-2 transition">
+                        <i class="fa-solid fa-file-export text-indigo-400"></i> Ekspor JSON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Container Kartu Konten -->
+            <div id="cardsContainer" class="space-y-8"></div>
+        </section>
+
+    </main>
+
+    <!-- ================= MODAL RIWAYAT TOPIK (Maks 50 Topik) ================= -->
+    <div id="historyModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-studio-900 border border-slate-800 rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-5 max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-indigo-400"></i>
+                        Riwayat Topik Anti-Duplikat
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Daftar topik di bawah ini dikirim ke Gemini agar AI tidak membuat ide kembar.</p>
+                </div>
+                <button onclick="toggleHistoryModal()" class="w-8 h-8 rounded-lg bg-studio-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="historyListContainer" class="flex-1 overflow-y-auto space-y-2 pr-1">
+                <!-- Diisi via JS -->
+            </div>
+
+            <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+                <span id="historyModalFooterCount" class="text-xs text-slate-400 font-mono">0 / 50 Topik</span>
+                <div class="flex gap-2">
+                    <button onclick="clearTopicHistory()" class="px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 text-xs font-semibold transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-trash-can"></i> Hapus Semua Riwayat
+                    </button>
+                    <button onclick="toggleHistoryModal()" class="px-4 py-2 rounded-xl bg-studio-800 hover:bg-studio-700 text-white text-xs font-semibold transition">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= TOAST NOTIFICATION ================= -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="border-t border-slate-800/70 bg-studio-950/60 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-bolt text-indigo-400"></i>
+                <span><strong>Reels Autopilot Studio</strong> — Ditenagai Gemini 2.5 Flash & Pollinations Visual AI</span>
+            </div>
+            <div>
+                Rasio Visual 9:16 Vertikal • Web Speech API Indonesia •Penyimpanan Lokal Aman
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // --- KONSTANTA STORAGE KEYS ---
+        const STORAGE_KEYS = {
+            GEMINI_KEY: 'RAS_GEMINI_API_KEY',
+            FB_PAGE_ID: 'RAS_FB_PAGE_ID',
+            FB_TOKEN: 'RAS_FB_ACCESS_TOKEN',
+            TOPIC_HISTORY: 'RAS_TOPIC_HISTORY_V1'
+        };
+
+        const MAX_HISTORY_ITEMS = 50;
+
+        // --- STATE APLIKASI ---
+        let state = {
+            sessionMode: 'auto', // 'auto' | 'siang' | 'malam'
+            resolvedSession: 'siang', // 'siang' | 'malam'
+            quantity: 1, // 1 | 5
+            generatedItems: [], // Menyimpan objek hasil generate saat ini
+            activeSpeechIndex: null
+        };
+
+        // --- INISIALISASI SAAT HALAMAN DIMUAT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSettingsFromStorage();
+            updateHistoryUI();
+            startLiveWibClock();
+            selectSessionMode('auto');
+            selectQuantity(1);
+
+            // Pre-load daftar suara Web Speech API
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+                window.speechSynthesis.onvoiceschanged = () => {
+                    window.speechSynthesis.getVoices();
+                };
+            }
+        });
+
+        // =========================================================================
+        // 1. MANAJEMEN PENGATURAN & LOCALSTORAGE (API KEY, FB, RIWAYAT 50 TOPIK)
+        // =========================================================================
+        function loadSettingsFromStorage() {
+            const geminiKey = localStorage.getItem(STORAGE_KEYS.GEMINI_KEY) || '';
+            const fbPageId = localStorage.getItem(STORAGE_KEYS.FB_PAGE_ID) || '';
+            const fbToken = localStorage.getItem(STORAGE_KEYS.FB_TOKEN) || '';
+
+            document.getElementById('inputGeminiKey').value = geminiKey;
+            document.getElementById('inputFbPageId').value = fbPageId;
+            document.getElementById('inputFbToken').value = fbToken;
+
+            updateApiKeyStatusIndicator(geminiKey);
+
+            // Buka panel pengaturan otomatis jika API Key masih kosong
+            if (!geminiKey.trim()) {
+                document.getElementById('settingsPanel').classList.remove('hidden');
+            }
+        }
+
+        function saveSettings() {
+            const geminiKey = document.getElementById('inputGeminiKey').value.trim();
+            const fbPageId = document.getElementById('inputFbPageId').value.trim();
+            const fbToken = document.getElementById('inputFbToken').value.trim();
+
+            localStorage.setItem(STORAGE_KEYS.GEMINI_KEY, geminiKey);
+            localStorage.setItem(STORAGE_KEYS.FB_PAGE_ID, fbPageId);
+            localStorage.setItem(STORAGE_KEYS.FB_TOKEN, fbToken);
+
+            updateApiKeyStatusIndicator(geminiKey);
+
+            if (geminiKey) {
+                hideError();
+                showToast('Pengaturan & API Key berhasil disimpan di browser!', 'success');
+                document.getElementById('settingsPanel').classList.add('hidden');
+            } else {
+                showToast('Pengaturan disimpan, namun GEMINI_API_KEY masih kosong.', 'warning');
+            }
+        }
+
+        function clearCredentials() {
+            if (!confirm('Hapus GEMINI_API_KEY, FB_PAGE_ID, dan FB_ACCESS_TOKEN dari browser ini?')) return;
+            localStorage.removeItem(STORAGE_KEYS.GEMINI_KEY);
+            localStorage.removeItem(STORAGE_KEYS.FB_PAGE_ID);
+            localStorage.removeItem(STORAGE_KEYS.FB_TOKEN);
+            loadSettingsFromStorage();
+            showToast('Kredensial API berhasil direset.', 'info');
+        }
+
+        function updateApiKeyStatusIndicator(key) {
+            const dot = document.getElementById('apiKeyStatusDot');
+            if (key && key.trim().length > 10) {
+                dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/50';
+                dot.title = 'GEMINI_API_KEY Tersimpan';
+            } else {
+                dot.className = 'w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse';
+                dot.title = 'GEMINI_API_KEY Belum Diisi';
+            }
+        }
+
+        function toggleSettingsPanel() {
+            const panel = document.getElementById('settingsPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-regular fa-eye';
+            }
+        }
+
+        // --- Riwayat Topik (Maksimal 50 Topik Terakhir) ---
+        function getTopicHistory() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEYS.TOPIC_HISTORY);
+                const parsed = raw ? JSON.parse(raw) : [];
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function addTopicsToHistory(newTopicsArray) {
+            let current = getTopicHistory();
+            newTopicsArray.forEach(topic => {
+                const clean = (topic || '').trim();
+                if (clean && !current.some(t => t.toLowerCase() === clean.toLowerCase())) {
+                    current.unshift(clean); // Masukkan yang terbaru di paling atas
+                }
+            });
+            // Potong agar selalu maksimal 50 topik terakhir
+            if (current.length > MAX_HISTORY_ITEMS) {
+                current = current.slice(0, MAX_HISTORY_ITEMS);
+            }
+            localStorage.setItem(STORAGE_KEYS.TOPIC_HISTORY, JSON.stringify(current));
+            updateHistoryUI();
+        }
+
+        function removeSingleTopicFromHistory(index) {
+            let current = getTopicHistory();
+            current.splice(index, 1);
+            localStorage.setItem(STORAGE_KEYS.TOPIC_HISTORY, JSON.stringify(current));
+            updateHistoryUI();
+        }
+
+        function clearTopicHistory() {
+            if (!confirm('Hapus seluruh riwayat 50 topik terakhir?')) return;
+            localStorage.removeItem(STORAGE_KEYS.TOPIC_HISTORY);
+            updateHistoryUI();
+            showToast('Riwayat topik berhasil dikosongkan.', 'info');
+        }
+
+        function updateHistoryUI() {
+            const history = getTopicHistory();
+            document.getElementById('historyBadgeCount').textContent = `${history.length}/${MAX_HISTORY_ITEMS}`;
+            document.getElementById('historyModalFooterCount').textContent = `${history.length} / ${MAX_HISTORY_ITEMS} Topik Tersimpan`;
+
+            const container = document.getElementById('historyListContainer');
+            if (history.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 text-slate-500 text-xs">
+                        <i class="fa-solid fa-inbox text-2xl mb-2 block text-slate-600"></i>
+                        Belum ada riwayat topik. Setiap konten yang Anda buat akan otomatis tercatat di sini.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = history.map((topic, idx) => `
+                <div class="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-studio-950 border border-slate-800/80 text-xs">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <span class="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 font-mono text-[10px] shrink-0">#${idx + 1}</span>
+                        <span class="text-slate-200 truncate font-medium">${escapeHtml(topic)}</span>
+                    </div>
+                    <button onclick="removeSingleTopicFromHistory(${idx})" class="text-slate-500 hover:text-rose-400 p-1 shrink-0" title="Hapus topik ini">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function toggleHistoryModal() {
+            const modal = document.getElementById('historyModal');
+            modal.classList.toggle('hidden');
+        }
+
+        // =========================================================================
+        // 2. DETEKSI JAM WIB OTOMATIS & PENGATURAN SESI PINTAR
+        // =========================================================================
+        function getWibDateObject() {
+            // Mengambil waktu zona Asia/Jakarta (WIB) secara akurat
+            const now = new Date();
+            const jakartaString = now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
+            return new Date(jakartaString);
+        }
+
+        function startLiveWibClock() {
+            const updateClock = () => {
+                const wib = getWibDateObject();
+                const hh = String(wib.getHours()).padStart(2, '0');
+                const mm = String(wib.getMinutes()).padStart(2, '0');
+                const ss = String(wib.getSeconds()).padStart(2, '0');
+                const clockEl = document.getElementById('liveClock');
+                if (clockEl) clockEl.textContent = `${hh}:${mm}:${ss}`;
+
+                // Jika mode otomatis, perbarui sesi bila berganti jam
+                if (state.sessionMode === 'auto') {
+                    resolveAutoSession(false);
+                }
+            };
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        function resolveAutoSession(updateUI = true) {
+            const wib = getWibDateObject();
+            const totalMinutes = wib.getHours() * 60 + wib.getMinutes();
+
+            // Rentang Siang: 11:30 (690) s/d 13:30 (810)
+            // Rentang Malam: 19:00 (1140) s/d 21:30 (1290)
+            let detected = 'siang';
+            let statusNote = '';
+
+            if (totalMinutes >= 690 && totalMinutes <= 810) {
+                detected = 'siang';
+                statusNote = 'Jam Istirahat Siang sedang berlangsung (11.30 - 13.30 WIB)';
+            } else if (totalMinutes >= 1140 && totalMinutes <= 1290) {
+                detected = 'malam';
+                statusNote = 'Jam Santai Malam sedang berlangsung (19.00 - 21.30 WIB)';
+            } else if (totalMinutes > 810 && totalMinutes < 1140) {
+                // Antara 13:31 - 18:59 -> Persiapan sesi terdekat yaitu Sesi Santai Malam
+                detected = 'malam';
+                statusNote = 'Menyiapkan sesi terdekat: Sesi Santai Malam (19.00 - 21.30 WIB)';
+            } else {
+                // Pagi (<11:30) atau Larut Malam (>21:30) -> Siapkan Sesi Istirahat Siang atau Malam sesuai kedekatan
+                if (totalMinutes < 690) {
+                    detected = 'siang';
+                    statusNote = 'Menyiapkan sesi terdekat: Sesi Istirahat Siang (11.30 - 13.30 WIB)';
+                } else {
+                    detected = 'malam';
+                    statusNote = 'Waktu Malam aktif — Mode Sesi Santai Malam dipilih otomatis';
+                }
+            }
+
+            state.resolvedSession = detected;
+            if (updateUI) {
+                renderSessionSummary(statusNote);
+            }
+        }
+
+        function selectSessionMode(mode) {
+            state.sessionMode = mode;
+
+            // Reset styling semua tombol sesi
+            ['auto', 'siang', 'malam'].forEach(m => {
+                const btn = document.getElementById(`sessionBtn-${m}`);
+                if (m === mode) {
+                    btn.className = 'session-card text-left p-4 rounded-2xl border-2 border-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/10 transition-all duration-200 relative overflow-hidden';
+                } else {
+                    btn.className = 'session-card text-left p-4 rounded-2xl border border-slate-800 bg-studio-950/60 hover:border-slate-700 transition-all duration-200 relative overflow-hidden';
+                }
+            });
+
+            const badge = document.getElementById('autoDetectBadge');
+            const badgeText = document.getElementById('autoDetectText');
+
+            if (mode === 'auto') {
+                badge.className = 'inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20';
+                badgeText.textContent = 'Deteksi Jam Otomatis Aktif';
+                resolveAutoSession(true);
+            } else if (mode === 'siang') {
+                state.resolvedSession = 'siang';
+                badge.className = 'inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20';
+                badgeText.textContent = 'Mode Manual: Sesi Siang';
+                renderSessionSummary('Dipilih manual untuk slot tayang 11.30 - 13.30 WIB');
+            } else if (mode === 'malam') {
+                state.resolvedSession = 'malam';
+                badge.className = 'inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20';
+                badgeText.textContent = 'Mode Manual: Sesi Malam';
+                renderSessionSummary('Dipilih manual untuk slot tayang 19.00 - 21.30 WIB');
+            }
+        }
+
+        function renderSessionSummary(extraNote = '') {
+            const iconBox = document.getElementById('summaryIcon');
+            const titleEl = document.getElementById('summaryTitle');
+            const descEl = document.getElementById('summaryDesc');
+
+            if (state.resolvedSession === 'siang') {
+                iconBox.className = 'w-9 h-9 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center shrink-0 mt-0.5';
+                iconBox.innerHTML = '<i class="fa-solid fa-sun text-base"></i>';
+                titleEl.innerHTML = `Target Aktif: <span class="text-amber-300">Sesi Istirahat Siang (11.30 - 13.30 WIB)</span>`;
+                descEl.innerHTML = `Fokus Kategori: <strong>Fakta Unik Dunia</strong> & <strong>Teknologi Masa Kini</strong> • Gaya pembawaan segar, cepat, antusias & visual 9:16 terang/cerah. <span class="text-indigo-300">${extraNote ? `(${extraNote})` : ''}</span>`;
+            } else {
+                iconBox.className = 'w-9 h-9 rounded-xl bg-purple-500/15 text-purple-400 flex items-center justify-center shrink-0 mt-0.5';
+                iconBox.innerHTML = '<i class="fa-solid fa-moon text-base"></i>';
+                titleEl.innerHTML = `Target Aktif: <span class="text-purple-300">Sesi Santai Malam (19.00 - 21.30 WIB)</span>`;
+                descEl.innerHTML = `Fokus Utama: <strong>Misteri Dunia & Sejarah</strong> (diselingi Fakta Unik & Teknologi) • Gaya cerita bikin merinding/penasaran & visual atmosfer gelap/dramatis. <span class="text-indigo-300">${extraNote ? `(${extraNote})` : ''}</span>`;
+            }
+        }
+
+        function selectQuantity(qty) {
+            state.quantity = qty;
+            const btn1 = document.getElementById('qtyBtn-1');
+            const btn5 = document.getElementById('qtyBtn-5');
+
+            if (qty === 1) {
+                btn1.className = 'p-3.5 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-left transition-all flex items-start gap-3';
+                btn5.className = 'p-3.5 rounded-xl border border-slate-800 bg-studio-900/60 hover:border-slate-700 text-left transition-all flex items-start gap-3';
+                document.getElementById('btnGenerateText').textContent = 'Generate 1 Konten (Siap Upload)';
+            } else {
+                btn5.className = 'p-3.5 rounded-xl border-2 border-purple-500 bg-purple-500/10 text-left transition-all flex items-start gap-3';
+                btn1.className = 'p-3.5 rounded-xl border border-slate-800 bg-studio-900/60 hover:border-slate-700 text-left transition-all flex items-start gap-3';
+                document.getElementById('btnGenerateText').textContent = 'Generate 5 Konten Sekaligus (Stok Harian)';
+            }
+        }
+
+        // =========================================================================
+        // 3. PEMANGGILAN GEMINI API (gemini-2.5-flash) & JSON TERSTRUKTUR
+        // =========================================================================
+        async function generateReelsContent() {
+            hideError();
+            stopAllSpeech();
+
+            const apiKey = (localStorage.getItem(STORAGE_KEYS.GEMINI_KEY) || document.getElementById('inputGeminiKey').value || '').trim();
+
+            if (!apiKey) {
+                showError(
+                    'GEMINI_API_KEY Belum Diisi!',
+                    'Silakan masukkan GEMINI_API_KEY Anda terlebih dahulu pada Panel Pengaturan di atas, lalu klik tombol "Simpan Pengaturan".'
+                );
+                document.getElementById('settingsPanel').classList.remove('hidden');
+                document.getElementById('inputGeminiKey').focus();
+                return;
+            }
+
+            // Simpan otomatis jika pengguna mengetik langsung tanpa menekan simpan
+            localStorage.setItem(STORAGE_KEYS.GEMINI_KEY, apiKey);
+            updateApiKeyStatusIndicator(apiKey);
+
+            const history = getTopicHistory();
+            const customKeyword = document.getElementById('inputCustomKeyword').value.trim();
+            const isSiang = state.resolvedSession === 'siang';
+            const count = state.quantity;
+
+            // UI Loading State
+            const btnGenerate = document.getElementById('btnGenerate');
+            btnGenerate.disabled = true;
+            btnGenerate.classList.add('opacity-60', 'cursor-not-allowed');
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('loadingSection').classList.remove('hidden');
+            document.getElementById('loadingStatusTitle').textContent = `Merakit ${count} Konsep Konten (${isSiang ? 'Sesi Istirahat Siang' : 'Sesi Santai Malam'})...`;
+
+            // Menyusun Instruksi Sesi
+            const sessionRules = isSiang
+                ? `SESI ISTIRAHAT SIANG (11.30 - 13.30 WIB):
+- Kategori yang diizinkan HANYA: "Fakta Unik" atau "Teknologi". (Jika membuat lebih dari 1 konten, variasikan keduanya).
+- Jam Upload yang disarankan: pilih jam spesifik di rentang "11.30 WIB" hingga "13.30 WIB".
+- Gaya Pembawaan Naskah: Segar, tempo cepat, antusias, padat informasi, langsung memikat di 3 detik pertama.
+- Gaya Visual (Image/Video Prompt): Pencahayaan terang (bright daylight / studio vibrant lighting), warna hidup dan tajam, komposisi bersih, hyper-realistic, cinematic 8k, vertical 9:16 aspect ratio.`
+                : `SESI SANTAI MALAM (19.00 - 21.30 WIB):
+- Kategori fokus utama: "Misteri" (Misteri Dunia & Sejarah), boleh diselingi sedikit "Fakta Unik" atau "Teknologi" yang bernuansa mind-blowing/misterius. Gunakan label badge kategori persis salah satu dari: "Misteri", "Fakta Unik", atau "Teknologi".
+- Jam Upload yang disarankan: pilih jam spesifik di rentang "19.00 WIB" hingga "21.30 WIB".
+- Gaya Pembawaan Naskah: Bikin merinding, memicu rasa penasaran tinggi, atmosferik, storytelling dramatis yang menahan penonton sampai detik terakhir.
+- Gaya Visual (Image/Video Prompt): Atmosfer gelap dan dramatis (dark moody atmosphere, chiaroscuro lighting, volumetric fog, cinematic shadows, mysterious tone), hyper-detailed, 8k resolution, vertical 9:16 aspect ratio.`;
+
+            const avoidHistoryInstruction = history.length > 0
+                ? `DAFTAR RIWAYAT TOPIK TERLARANG (DILARANG KERAS membuat topik, objek bahasan, atau sudut pandang cerita yang sama/mirip dengan daftar berikut):\n[${history.join(' | ')}]`
+                : `Buatlah topik yang benar-benar segar, jarang diketahui orang banyak, dan sangat menarik untuk penonton Indonesia.`;
+
+            const customFocusInstruction = customKeyword
+                ? `FOKUS / KATA KUNCI KHUSUS DARI USER: "${customKeyword}" (Kembangkan topik di sekitar tema ini namun tetap mematuhi gaya sesi).`
+                : '';
+
+            const promptText = `Anda adalah Produser Kreatif Facebook Reels kelas dunia. Tugas Anda adalah merakit tepat ${count} konsep konten Facebook Reels yang viral dan orisinal.
+
+${sessionRules}
+
+${avoidHistoryInstruction}
+
+${customFocusInstruction}
+
+ATURAN WAJIB UNTUK SETIAP ITEM:
+1. "kategori": Isi HANYA dengan salah satu nilai berikut: "Fakta Unik", "Teknologi", atau "Misteri".
+2. "jam_upload": Contoh format "12.00 WIB" atau "19.45 WIB" sesuai sesi aktif.
+3. "judul_topik": Judul topik singkat, spesifik, dan unik (4-8 kata) untuk dicatat di riwayat anti-duplikat.
+4. "hook_3_detik": Teks pancingan singkat yang muncul di layar pada 3 detik pertama (maksimal 10 kata, memancing rasa penasaran tinggi).
+5. "naskah_voiceover": Naskah voiceover bahasa Indonesia yang mengalir natural, enak dibacakan, dan WAJIB memiliki panjang antara 25 hingga 35 kata! Jangan kurang dari 25 kata dan jangan lebih dari 35 kata.
+6. "video_prompt": Teks perintah visual (Image/Video Prompt) dalam BAHASA INGGRIS untuk rasio vertikal 9:16. Harus sangat detail mendeskripsikan subjek utama, latar, pencahayaan sesuai sesi (terang untuk siang / gelap dramatis untuk malam), sudut kamera, serta kata kunci kualitas "vertical 9:16 aspect ratio, cinematic lighting, photorealistic, unreal engine 5 render, 8k resolution, ultra-detailed".
+7. "caption_reels": Caption Facebook Reels bahasa Indonesia yang menarik (1-2 kalimat memancing komentar/diskusi penonton). Jangan masukkan hashtag di field ini.
+8. "hashtags": Array berisi tepat 5 hashtag populer dan relevan (diawali tanda #, contoh: "#FaktaUnik").`;
+
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+            const requestBody = {
+                contents: [
+                    {
+                        parts: [{ text: promptText }]
+                    }
+                ],
+                generationConfig: {
+                    temperature: 0.9,
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        description: `Daftar ${count} konten Facebook Reels`,
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                kategori: { type: "STRING" },
+                                jam_upload: { type: "STRING" },
+                                judul_topik: { type: "STRING" },
+                                hook_3_detik: { type: "STRING" },
+                                naskah_voiceover: { type: "STRING" },
+                                video_prompt: { type: "STRING" },
+                                caption_reels: { type: "STRING" },
+                                hashtags: {
+                                    type: "ARRAY",
+                                    items: { type: "STRING" }
+                                }
+                            },
+                            required: [
+                                "kategori",
+                                "jam_upload",
+                                "judul_topik",
+                                "hook_3_detik",
+                                "naskah_voiceover",
+                                "video_prompt",
+                                "caption_reels",
+                                "hashtags"
+                            ]
+                        }
+                    }
+                }
+            };
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    let errData = {};
+                    try { errData = await response.json(); } catch (_) {}
+                    const apiMsg = errData?.error?.message || `HTTP Error ${response.status}`;
+                    throw new Error(apiMsg);
+                }
+
+                const data = await response.json();
+                const rawJsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (!rawJsonText) {
+                    throw new Error('Respons dari Gemini API kosong atau tidak memiliki teks JSON.');
+                }
+
+                const parsedItems = JSON.parse(rawJsonText);
+                if (!Array.isArray(parsedItems) || parsedItems.length === 0) {
+                    throw new Error('Format JSON yang diterima bukan array konten yang valid.');
+                }
+
+                // Tambahkan seed unik & url gambar Pollinations AI pada setiap item
+                state.generatedItems = parsedItems.map((item, idx) => {
+                    const seed = Math.floor(100000 + Math.random() * 900000) + idx;
+                    return {
+                        ...item,
+                        seed: seed,
+                        imageUrl: buildPollinationsUrl(item.video_prompt, seed)
+                    };
+                });
+
+                // Simpan judul_topik ke localStorage (Maks 50 Topik)
+                const newTopics = state.generatedItems.map(i => i.judul_topik);
+                addTopicsToHistory(newTopics);
+
+                // Render Kartu ke Layar
+                renderContentCards();
+                showToast(`Berhasil merakit ${state.generatedItems.length} konten Reels baru!`, 'success');
+
+            } catch (err) {
+                console.error('Gemini API Error:', err);
+                showError(
+                    'Gagal Menghubungi Gemini API',
+                    `Detail Error: ${err.message}. Pastikan GEMINI_API_KEY Anda valid dan memiliki kuota aktif.`
+                );
+                if (state.generatedItems.length === 0) {
+                    document.getElementById('emptyState').classList.remove('hidden');
+                }
+            } finally {
+                document.getElementById('loadingSection').classList.add('hidden');
+                btnGenerate.disabled = false;
+                btnGenerate.classList.remove('opacity-60', 'cursor-not-allowed');
+            }
+        }
+
+        function buildPollinationsUrl(promptText, seed) {
+            const cleanPrompt = `${promptText}, vertical 9:16 portrait, high quality, 8k, no text, no watermark`;
+            return `https://image.pollinations.ai/prompt/${encodeURIComponent(cleanPrompt)}?width=720&height=1280&seed=${seed}&nologo=true`;
+        }
+
+        // =========================================================================
+        // 4. RENDER KARTU KONTEN INTERAKTIF
+        // =========================================================================
+        function renderContentCards() {
+            const container = document.getElementById('cardsContainer');
+            const resultsHeader = document.getElementById('resultsHeader');
+            const resultsTitle = document.getElementById('resultsCountTitle');
+
+            if (!state.generatedItems || state.generatedItems.length === 0) {
+                resultsHeader.classList.add('hidden');
+                container.innerHTML = '';
+                return;
+            }
+
+            resultsHeader.classList.remove('hidden');
+            resultsTitle.textContent = `${state.generatedItems.length} Paket Konten Siap Produksi (${state.resolvedSession === 'siang' ? 'Sesi Siang' : 'Sesi Malam'})`;
+
+            container.innerHTML = state.generatedItems.map((item, index) => {
+                const badgeStyle = getCategoryBadgeStyle(item.kategori);
+                const wordCount = countWords(item.naskah_voiceover);
+                const hashtagsString = (item.hashtags || []).map(h => h.startsWith('#') ? h : `#${h}`).join(' ');
+                const fullCaptionText = `${item.caption_reels}\n\n${hashtagsString}`;
+
+                return `
+                <article class="bg-studio-900/95 border border-slate-800 hover:border-slate-700/90 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300">
+                    <!-- Top Bar Card -->
+                    <div class="px-5 sm:px-7 py-4 bg-studio-950/80 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 font-mono text-xs font-bold flex items-center justify-center">
+                                #${index + 1}
+                            </span>
+                            <!-- Badge Kategori -->
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${badgeStyle.classes}">
+                                <i class="${badgeStyle.icon}"></i>
+                                ${escapeHtml(item.kategori)}
+                            </span>
+                            <!-- Jam Upload yang Disarankan -->
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-slate-800/90 text-slate-200 border border-slate-700">
+                                <i class="fa-regular fa-clock text-indigo-400"></i>
+                                Saran Upload: ${escapeHtml(item.jam_upload)}
+                            </span>
+                        </div>
+
+                        <!-- Tombol Auto-Upload FB (Opsional sesuai Pengaturan) -->
+                        <button onclick="uploadToFacebookReels(${index})" id="btnFbUpload-${index}"
+                            class="px-3.5 py-1.5 rounded-xl bg-blue-600/15 hover:bg-blue-600/25 text-blue-300 border border-blue-500/30 text-xs font-bold transition flex items-center gap-2">
+                            <i class="fa-brands fa-facebook text-sm"></i>
+                            <span>Posting ke FB Page</span>
+                        </button>
+                    </div>
+
+                    <!-- Isi Kartu: Grid Visual 9:16 (Kiri) & Detail Naskah/Prompt (Kanan) -->
+                    <div class="p-5 sm:p-7 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                        
+                        <!-- KOLOM KIRI: PREVIEW GAMBAR VISUAL 9:16 POLLINATIONS AI (4 Cols) -->
+                        <div class="lg:col-span-4 flex flex-col items-center">
+                            <div class="w-full max-w-[300px] sm:max-w-[320px] aspect-9-16 rounded-2xl overflow-hidden bg-studio-950 border border-slate-800 relative group shadow-xl">
+                                <!-- Skeleton Shimmer saat gambar sedang di-render Pollinations -->
+                                <div id="imgLoader-${index}" class="absolute inset-0 shimmer flex flex-col items-center justify-center p-4 text-center z-10">
+                                    <i class="fa-solid fa-paintbrush text-2xl text-indigo-400 animate-bounce mb-2"></i>
+                                    <span class="text-xs font-semibold text-slate-200">Merender Visual AI 9:16...</span>
+                                    <span class="text-[10px] text-slate-400 mt-1">Pollinations AI sedang melukis prompt Anda</span>
+                                </div>
+
+                                <img id="previewImg-${index}" 
+                                    src="${item.imageUrl}" 
+                                    alt="${escapeHtml(item.judul_topik)}"
+                                    onload="handleImageLoaded(${index})"
+                                    onerror="handleImageError(${index})"
+                                    class="w-full h-full object-cover transition duration-500 group-hover:scale-[1.02]">
+
+                                <!-- Overlay Hook 3 Detik Pertama di atas Preview Visual -->
+                                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 pt-12 pointer-events-none">
+                                    <span class="inline-block text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-amber-500 text-black mb-1">
+                                        Hook Layar 3 Detik
+                                    </span>
+                                    <p class="text-white font-extrabold text-xs sm:text-sm leading-snug drop-shadow">
+                                        "${escapeHtml(item.hook_3_detik)}"
+                                    </p>
+                                </div>
+
+                                <!-- Tombol Regenerate Gambar (Seed Baru) -->
+                                <button onclick="regenerateVisual(${index})" title="Buat ulang variasi gambar baru"
+                                    class="absolute top-3 right-3 z-20 w-8 h-8 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-md text-white border border-white/15 flex items-center justify-center text-xs transition">
+                                    <i class="fa-solid fa-rotate"></i>
+                                </button>
+                            </div>
+
+                            <!-- Tombol Download Gambar -->
+                            <div class="w-full max-w-[300px] sm:max-w-[320px] mt-3 grid grid-cols-2 gap-2">
+                                <button onclick="downloadImage(${index})" id="btnDownloadImg-${index}"
+                                    class="col-span-2 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/20 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-download"></i>
+                                    <span>Download Gambar (9:16)</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KOLOM KANAN: DETAIL TOPIK, VOICEOVER, VIDEO PROMPT & CAPTION (8 Cols) -->
+                        <div class="lg:col-span-8 space-y-5">
+                            
+                            <!-- 1. Judul Topik & Hook 3 Detik Pertama -->
+                            <div class="space-y-3">
+                                <div>
+                                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Judul Topik</span>
+                                    <h3 class="text-lg sm:text-xl font-extrabold text-white mt-0.5">${escapeHtml(item.judul_topik)}</h3>
+                                </div>
+
+                                <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start justify-between gap-3">
+                                    <div class="space-y-1">
+                                        <span class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-400">
+                                            <i class="fa-solid fa-magnet"></i> Hook 3 Detik Pertama (Teks Pancingan di Layar)
+                                        </span>
+                                        <p class="text-sm sm:text-base font-bold text-amber-100">"${escapeHtml(item.hook_3_detik)}"</p>
+                                    </div>
+                                    <button onclick="copyHook(${index})" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs font-semibold transition">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 2. Naskah Voiceover (25-35 Kata) + Web Speech API -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-studio-950 border border-slate-800/90 space-y-3">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-7 h-7 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-xs">
+                                            <i class="fa-solid fa-microphone-lines"></i>
+                                        </span>
+                                        <div>
+                                            <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400">Naskah Voiceover</h4>
+                                            <span class="text-[11px] text-slate-400">${wordCount} kata • Bahasa Indonesia Natural</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-2">
+                                        <!-- Tombol Dengarkan Suara (Web Speech API) -->
+                                        <button onclick="toggleSpeakVoiceover(${index})" id="btnSpeak-${index}"
+                                            class="px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition flex items-center gap-2">
+                                            <i class="fa-solid fa-volume-high"></i>
+                                            <span>Dengarkan Suara</span>
+                                        </button>
+                                        <button onclick="copyVoiceover(${index})"
+                                            class="px-3 py-2 rounded-xl bg-studio-800 hover:bg-studio-700 text-slate-200 border border-slate-700 text-xs font-semibold transition flex items-center gap-1.5">
+                                            <i class="fa-regular fa-copy"></i> Copy Naskah
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <p class="text-sm sm:text-base text-slate-100 leading-relaxed font-medium bg-studio-900/90 p-3.5 rounded-xl border border-slate-800/80 select-all">
+                                    ${escapeHtml(item.naskah_voiceover)}
+                                </p>
+                            </div>
+
+                            <!-- 3. Teks Perintah Video / Image Prompt (Bahasa Inggris 9:16 Sinematik 8K) -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-studio-950 border border-slate-800/90 space-y-2.5">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-7 h-7 rounded-lg bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-xs">
+                                            <i class="fa-solid fa-film"></i>
+                                        </span>
+                                        <div>
+                                            <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400">Teks Perintah Video / Image Prompt</h4>
+                                            <span class="text-[11px] text-slate-400">Rasio 9:16 Vertikal • Sinematik • 8K Detail (English)</span>
+                                        </div>
+                                    </div>
+
+                                    <button onclick="copyPrompt(${index})"
+                                        class="px-3.5 py-2 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                                        <i class="fa-regular fa-copy"></i> Copy Prompt
+                                    </button>
+                                </div>
+
+                                <p class="text-xs text-slate-300 font-mono leading-relaxed bg-studio-900/90 p-3.5 rounded-xl border border-slate-800/80 select-all">
+                                    ${escapeHtml(item.video_prompt)}
+                                </p>
+                            </div>
+
+                            <!-- 4. Caption Facebook Reels + 5 Hashtag Populer -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-studio-950 border border-slate-800/90 space-y-3">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-7 h-7 rounded-lg bg-pink-500/15 text-pink-400 flex items-center justify-center text-xs">
+                                            <i class="fa-solid fa-hashtag"></i>
+                                        </span>
+                                        <div>
+                                            <h4 class="text-xs font-bold uppercase tracking-wider text-pink-400">Caption Facebook Reels & 5 Hashtag</h4>
+                                            <span class="text-[11px] text-slate-400">Siap tempel saat publikasi</span>
+                                        </div>
+                                    </div>
+
+                                    <button onclick="copyCaption(${index})"
+                                        class="px-3.5 py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 border border-pink-500/30 text-xs font-bold transition flex items-center gap-1.5">
+                                        <i class="fa-regular fa-copy"></i> Copy Caption
+                                    </button>
+                                </div>
+
+                                <div class="bg-studio-900/90 p-3.5 rounded-xl border border-slate-800/80 space-y-2">
+                                    <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">${escapeHtml(item.caption_reels)}</p>
+                                    <div class="flex flex-wrap gap-1.5 pt-1">
+                                        ${(item.hashtags || []).map(tag => {
+                                            const formattedTag = tag.startsWith('#') ? tag : `#${tag}`;
+                                            return `<span class="px-2.5 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 text-xs font-mono">${escapeHtml(formattedTag)}</span>`;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </article>
+                `;
+            }).join('');
+        }
+
+        function getCategoryBadgeStyle(kategori = '') {
+            const k = kategori.toLowerCase();
+            if (k.includes('misteri') || k.includes('sejarah')) {
+                return {
+                    classes: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+                    icon: 'fa-solid fa-ghost'
+                };
+            } else if (k.includes('teknologi')) {
+                return {
+                    classes: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+                    icon: 'fa-solid fa-microchip'
+                };
+            } else {
+                return {
+                    classes: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+                    icon: 'fa-solid fa-earth-asia'
+                };
+            }
+        }
+
+        // =========================================================================
+        // 5. HANDLER GAMBAR POLLINATIONS AI (LOAD, REGENERATE, DOWNLOAD)
+        // =========================================================================
+        function handleImageLoaded(index) {
+            const loader = document.getElementById(`imgLoader-${index}`);
+            if (loader) loader.classList.add('hidden');
+        }
+
+        function handleImageError(index) {
+            const loader = document.getElementById(`imgLoader-${index}`);
+            if (loader) {
+                loader.innerHTML = `
+                    <i class="fa-solid fa-circle-exclamation text-2xl text-rose-400 mb-2"></i>
+                    <span class="text-xs font-semibold text-slate-200">Gagal Memuat Gambar</span>
+                    <button onclick="regenerateVisual(${index})" class="mt-2 px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-[11px] font-bold">
+                        Coba Lagi
+                    </button>
+                `;
+            }
+        }
+
+        function regenerateVisual(index) {
+            const item = state.generatedItems[index];
+            if (!item) return;
+
+            const newSeed = Math.floor(100000 + Math.random() * 900000);
+            item.seed = newSeed;
+            item.imageUrl = buildPollinationsUrl(item.video_prompt, newSeed);
+
+            const loader = document.getElementById(`imgLoader-${index}`);
+            const img = document.getElementById(`previewImg-${index}`);
+
+            if (loader) {
+                loader.classList.remove('hidden');
+                loader.innerHTML = `
+                    <i class="fa-solid fa-paintbrush text-2xl text-indigo-400 animate-bounce mb-2"></i>
+                    <span class="text-xs font-semibold text-slate-200">Merender Ulang Visual 9:16...</span>
+                    <span class="text-[10px] text-slate-400 mt-1">Seed #${newSeed}</span>
+                `;
+            }
+            if (img) {
+                img.src = item.imageUrl;
+            }
+        }
+
+        async function downloadImage(index) {
+            const item = state.generatedItems[index];
+            if (!item) return;
+
+            const btn = document.getElementById(`btnDownloadImg-${index}`);
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Mengunduh Gambar...</span>`;
+
+            try {
+                const response = await fetch(item.imageUrl);
+                if (!response.ok) throw new Error('Gagal mengunduh file gambar');
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+
+                const safeTitle = (item.judul_topik || 'reels-visual')
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/(^-|-$)/g, '');
+
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `reels-9x16-${safeTitle}-${item.seed}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(blobUrl);
+
+                showToast('Gambar visual 9:16 berhasil diunduh!', 'success');
+            } catch (err) {
+                // Fallback buka di tab baru jika diblokir CORS jaringan tertentu
+                window.open(item.imageUrl, '_blank');
+                showToast('Gambar dibuka di tab baru (Klik kanan > Simpan Gambar).', 'info');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+
+        // =========================================================================
+        // 6. WEB SPEECH API (DENGARKAN SUARA BAHASA INDONESIA)
+        // =========================================================================
+        function toggleSpeakVoiceover(index) {
+            if (!('speechSynthesis' in window)) {
+                showToast('Browser Anda tidak mendukung fitur Web Speech API.', 'error');
+                return;
+            }
+
+            // Jika sedang memutar kartu yang sama, hentikan
+            if (state.activeSpeechIndex === index && window.speechSynthesis.speaking) {
+                stopAllSpeech();
+                return;
+            }
+
+            stopAllSpeech();
+
+            const item = state.generatedItems[index];
+            if (!item) return;
+
+            const utterance = new SpeechSynthesisUtterance(item.naskah_voiceover);
+            utterance.lang = 'id-ID';
+
+            // Cari voice Bahasa Indonesia terbaik yang tersedia di perangkat
+            const voices = window.speechSynthesis.getVoices();
+            const indoVoice = voices.find(v => v.lang && (v.lang.toLowerCase().includes('id-id') || v.lang.toLowerCase().includes('id_id') || v.name.toLowerCase().includes('indonesia')));
+            if (indoVoice) {
+                utterance.voice = indoVoice;
+            }
+
+            // Sesuaikan intonasi dengan sesi (Siang lebih cepat/segar, Malam sedikit lebih dalam/dramatis)
+            if (state.resolvedSession === 'siang') {
+                utterance.rate = 1.05;
+                utterance.pitch = 1.02;
+            } else {
+                utterance.rate = 0.94;
+                utterance.pitch = 0.92;
+            }
+
+            utterance.onstart = () => {
+                state.activeSpeechIndex = index;
+                updateSpeechButtonUI(index, true);
+                document.getElementById('btnStopGlobalSpeech').classList.remove('hidden');
+            };
+
+            utterance.onend = () => {
+                state.activeSpeechIndex = null;
+                updateSpeechButtonUI(index, false);
+                document.getElementById('btnStopGlobalSpeech').classList.add('hidden');
+            };
+
+            utterance.onerror = () => {
+                state.activeSpeechIndex = null;
+                updateSpeechButtonUI(index, false);
+                document.getElementById('btnStopGlobalSpeech').classList.add('hidden');
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function stopAllSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            if (state.activeSpeechIndex !== null) {
+                updateSpeechButtonUI(state.activeSpeechIndex, false);
+                state.activeSpeechIndex = null;
+            }
+            const globalBtn = document.getElementById('btnStopGlobalSpeech');
+            if (globalBtn) globalBtn.classList.add('hidden');
+        }
+
+        function updateSpeechButtonUI(index, isSpeaking) {
+            const btn = document.getElementById(`btnSpeak-${index}`);
+            if (!btn) return;
+
+            if (isSpeaking) {
+                btn.className = 'px-3.5 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 text-xs font-bold transition flex items-center gap-2';
+                btn.innerHTML = `
+                    <span class="flex items-center h-3">
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                    </span>
+                    <span>Hentikan Suara</span>
+                `;
+            } else {
+                btn.className = 'px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition flex items-center gap-2';
+                btn.innerHTML = `
+                    <i class="fa-solid fa-volume-high"></i>
+                    <span>Dengarkan Suara</span>
+                `;
+            }
+        }
+
+        // =========================================================================
+        // 7. FITUR COPY & AUTO-UPLOAD KE FACEBOOK PAGE
+        // =========================================================================
+        function copyPrompt(index) {
+            const item = state.generatedItems[index];
+            if (!item) return;
+            copyToClipboard(item.video_prompt, 'Video/Image Prompt berhasil disalin!');
+        }
+
+        function copyCaption(index) {
+            const item = state.generatedItems[index];
+            if (!item) return;
+            const hashtags = (item.hashtags || []).map(h => h.startsWith('#') ? h : `#${h}`).join(' ');
+            const fullCaption = `${item.caption_reels}\n\n${hashtags}`;
+            copyToClipboard(fullCaption, 'Caption + 5 Hashtag berhasil disalin!');
+        }
+
+        function copyVoiceover(index) {
+            const item = state.generatedItems[index];
+            if (!item) return;
+            copyToClipboard(item.naskah_voiceover, 'Naskah Voiceover berhasil disalin!');
+        }
+
+        function copyHook(index) {
+            const item = state.generatedItems[index];
+            if (!item) return;
+            copyToClipboard(item.hook_3_detik, 'Teks Hook 3 Detik berhasil disalin!');
+        }
+
+        async function copyToClipboard(text, successMsg) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast(successMsg, 'success');
+            } catch (err) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast(successMsg, 'success');
+            }
+        }
+
+        async function uploadToFacebookReels(index) {
+            const fbPageId = (localStorage.getItem(STORAGE_KEYS.FB_PAGE_ID) || '').trim();
+            const fbToken = (localStorage.getItem(STORAGE_KEYS.FB_TOKEN) || '').trim();
+
+            if (!fbPageId || !fbToken) {
+                showToast('Isi FB_PAGE_ID & FB_ACCESS_TOKEN di Pengaturan API terlebih dahulu.', 'warning');
+                document.getElementById('settingsPanel').classList.remove('hidden');
+                document.getElementById('inputFbPageId').focus();
+                return;
+            }
+
+            const item = state.generatedItems[index];
+            if (!item) return;
+
+            const btn = document.getElementById(`btnFbUpload-${index}`);
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Mengunggah ke FB...</span>`;
+
+            const hashtags = (item.hashtags || []).map(h => h.startsWith('#') ? h : `#${h}`).join(' ');
+            const caption = `${item.hook_3_detik}\n\n${item.naskah_voiceover}\n\n${item.caption_reels}\n\n${hashtags}`;
+
+            try {
+                const fbUrl = `https://graph.facebook.com/v19.0/${encodeURIComponent(fbPageId)}/photos`;
+                const formData = new URLSearchParams();
+                formData.append('url', item.imageUrl);
+                formData.append('caption', caption);
+                formData.append('access_token', fbToken);
+
+                const response = await fetch(fbUrl, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const resData = await response.json();
+                if (!response.ok || resData.error) {
+                    throw new Error(resData?.error?.message || 'Gagal mengunggah ke Facebook Graph API');
+                }
+
+                showToast(`Berhasil dipublikasikan ke Facebook Page! (Post ID: ${resData.post_id || resData.id})`, 'success');
+                btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> <span>Terpublikasi</span>`;
+            } catch (err) {
+                showToast(`Gagal Upload FB: ${err.message}`, 'error');
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+
+        function exportAllAsJson() {
+            if (!state.generatedItems || state.generatedItems.length === 0) return;
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.generatedItems, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `reels-autopilot-${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+            showToast('File JSON berhasil diekspor!', 'info');
+        }
+
+        // =========================================================================
+        // 8. UTILITAS UMUM (ERROR BANNER, TOAST, WORD COUNT, ESCAPE HTML)
+        // =========================================================================
+        function showError(title, message) {
+            const box = document.getElementById('errorAlert');
+            document.getElementById('errorTitle').textContent = title;
+            document.getElementById('errorMessage').textContent = message;
+            box.classList.remove('hidden');
+            box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function hideError() {
+            document.getElementById('errorAlert').classList.add('hidden');
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+
+            let colorClasses = 'bg-studio-900 border-indigo-500/40 text-slate-100';
+            let icon = 'fa-solid fa-circle-info text-indigo-400';
+
+            if (type === 'success') {
+                colorClasses = 'bg-studio-900 border-emerald-500/40 text-emerald-100';
+                icon = 'fa-solid fa-circle-check text-emerald-400';
+            } else if (type === 'warning') {
+                colorClasses = 'bg-studio-900 border-amber-500/40 text-amber-100';
+                icon = 'fa-solid fa-triangle-exclamation text-amber-400';
+            } else if (type === 'error') {
+                colorClasses = 'bg-studio-900 border-rose-500/40 text-rose-100';
+                icon = 'fa-solid fa-circle-xmark text-rose-400';
+            }
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl border shadow-2xl backdrop-blur-xl text-xs font-semibold transition-all duration-300 ${colorClasses}`;
+            toast.innerHTML = `
+                <i class="${icon} text-base shrink-0"></i>
+                <span class="flex-1 leading-snug">${escapeHtml(message)}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function countWords(str = '') {
+            return str.trim().split(/\s+/).filter(Boolean).length;
+        }
+
+        function escapeHtml(unsafe = '') {
+            return String(unsafe)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
