@@ -1,399 +1,957 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reels Autopilot Studio</title>
+<title>El Otak Studio — AI Video Reels Autopilot</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='50%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23e879f9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%2306080d'/%3E%3Cpolygon points='50,8 88,28 88,72 50,92 12,72 12,28' fill='none' stroke='url(%23g)' stroke-width='5'/%3E%3Cpath d='M32 34 H58 M32 50 H52 M32 66 H58 M32 34 V66' stroke='%23fff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpolygon points='58,38 76,50 58,62' fill='url(%23g)'/%3E%3C/svg%3E">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <style>
-body{background:#07090e;background-image:radial-gradient(at 0 0,rgba(99,102,241,.14),transparent 50%),radial-gradient(at 100% 0,rgba(168,85,247,.1),transparent 50%);background-attachment:fixed;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.sh{background:linear-gradient(90deg,#151c2c 25%,#212b42 50%,#151c2c 75%);background-size:200% 100%;animation:sh 1.6s infinite linear}
+body{background:#06080d;background-image:radial-gradient(at 0 0,rgba(56,189,248,.12),transparent 50%),radial-gradient(at 100% 0,rgba(139,92,246,.12),transparent 50%);background-attachment:fixed;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.sh{background:linear-gradient(90deg,#141b29 25%,#1f293d 50%,#141b29 75%);background-size:200% 100%;animation:sh 1.6s infinite linear}
 @keyframes sh{to{background-position:-200% 0}}
+.logo-glow{filter:drop-shadow(0 0 10px rgba(56,189,248,.4))}
 </style>
 <style type="text/tailwindcss">
-.inp{@apply w-full bg-slate-950 border border-slate-700 focus:border-indigo-500 rounded-xl px-3 py-2 text-sm text-white outline-none}
-.btn{@apply px-3.5 py-2 rounded-xl text-xs font-bold border transition disabled:opacity-50}
-.b-ind{@apply bg-indigo-600 hover:bg-indigo-500 border-indigo-500 text-white}
-.b-gh{@apply bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200}
-.pan{@apply bg-slate-900/90 border border-slate-800 rounded-2xl p-4}
-.opt{@apply text-left p-3 rounded-2xl border-2 border-slate-800 bg-slate-950/60 transition hover:border-slate-600}
-.opt.on{@apply border-indigo-500 bg-indigo-500/10}
+.inp{@apply w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-xl px-3 py-2 text-sm text-white outline-none transition}
+.btn{@apply px-3.5 py-2 rounded-xl text-xs font-bold border transition disabled:opacity-50 cursor-pointer}
+.b-ind{@apply bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 border-cyan-500/40 text-white shadow-lg shadow-indigo-600/20}
+.b-gh{@apply bg-slate-800/90 hover:bg-slate-700 border-slate-700 text-slate-200}
+.pan{@apply bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl}
+.opt{@apply text-left p-3.5 rounded-2xl border-2 border-slate-800 bg-slate-950/60 transition hover:border-slate-600 cursor-pointer}
+.opt.on{@apply border-cyan-500 bg-cyan-500/10 shadow-lg shadow-cyan-500/10}
 </style>
 </head>
-<body class="text-slate-100 antialiased min-h-screen">
+<body class="text-slate-100 antialiased min-h-screen flex flex-col">
 
-<header class="sticky top-0 z-40 backdrop-blur-xl bg-slate-950/80 border-b border-slate-800">
-  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
-    <div class="min-w-0">
-      <h1 class="font-extrabold text-lg truncate">🎬 Reels Autopilot Studio</h1>
-      <p class="text-[11px] text-slate-400">Model aktif: <span id="modelBadge" class="text-indigo-300 font-mono">auto-fallback</span></p>
+<!-- ================= HEADER ================= -->
+<header class="sticky top-0 z-40 backdrop-blur-xl bg-slate-950/85 border-b border-slate-800">
+  <div class="max-w-6xl mx-auto px-4 h-18 py-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3 min-w-0">
+      <!-- Custom SVG Emblem Logo: EL OTAK STUDIO -->
+      <div class="w-11 h-11 shrink-0 logo-glow">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <defs>
+            <linearGradient id="bgG" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#0f172a"/><stop offset="100%" stop-color="#1e1b4b"/>
+            </linearGradient>
+            <linearGradient id="neonG" x1="10" y1="10" x2="110" y2="110" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#38bdf8"/><stop offset="50%" stop-color="#818cf8"/><stop offset="100%" stop-color="#e879f9"/>
+            </linearGradient>
+          </defs>
+          <polygon points="60,6 108,32 108,88 60,114 12,88 12,32" fill="url(#bgG)" stroke="url(#neonG)" stroke-width="4"/>
+          <polygon points="60,16 98,37 98,83 60,104 22,83 22,37" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="5 4"/>
+          <path d="M35 39 H63 M35 60 H55 M35 81 H63 M35 39 V81" stroke="#f8fafc" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polygon points="63,43 90,60 63,77" fill="url(#neonG)"/>
+          <circle cx="48" cy="60" r="3.5" fill="#38bdf8"/>
+        </svg>
+      </div>
+      <div class="min-w-0">
+        <h1 class="font-extrabold text-base sm:text-lg tracking-tight bg-gradient-to-r from-white via-cyan-100 to-indigo-300 bg-clip-text text-transparent truncate">EL OTAK STUDIO</h1>
+        <p class="text-[11px] text-slate-400 truncate">Engine: <span id="modelBadge" class="text-cyan-300 font-mono font-semibold">gemini-3.8-flash</span></p>
+      </div>
     </div>
+
     <div class="flex items-center gap-2">
-      <span class="hidden sm:block text-xs font-mono bg-slate-900 border border-slate-800 rounded-xl px-3 py-2">WIB <b id="clock">--:--:--</b></span>
-      <button class="btn b-gh" onclick="toggleHist()">🕘 Riwayat <span id="histCount" class="font-mono text-indigo-300">0/50</span></button>
-      <button class="btn b-gh" onclick="$('settings').classList.toggle('hidden')">⚙ API <span id="dot" class="inline-block w-2 h-2 rounded-full bg-rose-500"></span></button>
+      <span class="hidden sm:block text-xs font-mono bg-slate-900 border border-slate-800 rounded-xl px-3 py-2">WIB <b id="clock" class="text-cyan-300">--:--:--</b></span>
+      <button class="btn b-gh" onclick="toggleHist()">Riwayat <span id="histCount" class="font-mono text-cyan-300">0/50</span></button>
+      <button class="btn b-gh flex items-center gap-1.5" onclick="$('settings').classList.toggle('hidden')">
+        <span>Pengaturan API</span>
+        <span id="dot" class="inline-block w-2 h-2 rounded-full bg-rose-500"></span>
+      </button>
     </div>
   </div>
 </header>
 
-<main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+<!-- ================= MAIN ================= -->
+<main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 space-y-6">
 
+  <!-- PANEL PENGATURAN (HANYA 3.8 FLASH & 4 ARGON) -->
   <section id="settings" class="hidden pan space-y-4">
-    <p class="text-xs text-slate-400">Kunci disimpan di <code class="text-indigo-300">localStorage</code> browser ini dan hanya dikirim ke Google (Gemini) dan Facebook saat dipakai.</p>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <label class="text-xs font-semibold space-y-1 block">GEMINI_API_KEY <span class="text-rose-400">*wajib</span>
-        <input id="key" type="password" class="inp font-mono" placeholder="AIza..." autocomplete="off"></label>
-      <label class="text-xs font-semibold space-y-1 block">Model (kosong/auto = otomatis)
-        <input id="model" list="ml" class="inp font-mono" placeholder="auto">
-        <datalist id="ml"><option value="auto"><option value="gemini-2.5-flash"><option value="gemini-flash-latest"><option value="gemini-2.5-flash-lite"></datalist></label>
-      <label class="text-xs font-semibold space-y-1 block">FB_PAGE_ID (opsional)
-        <input id="pid" class="inp font-mono" autocomplete="off"></label>
-      <label class="text-xs font-semibold space-y-1 block">FB_ACCESS_TOKEN (opsional)
-        <input id="tok" type="password" class="inp font-mono" autocomplete="off"></label>
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h2 class="font-bold text-sm text-white">Konfigurasi API & Model (Gemini 3.8 Flash & 4 Argon)</h2>
+        <p class="text-xs text-slate-400">Disimpan aman di <code class="text-cyan-300">localStorage</code> browser Anda.</p>
+      </div>
+      <button class="btn b-gh" onclick="$('settings').classList.add('hidden')">Tutup ✕</button>
     </div>
-    <div class="flex flex-wrap justify-end gap-2">
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <label class="text-xs font-semibold space-y-1.5 block">
+        <span>GEMINI_API_KEY <span class="text-rose-400">*wajib</span></span>
+        <input id="key" type="password" class="inp font-mono" placeholder="AIzaSy..." autocomplete="off">
+      </label>
+
+      <label class="text-xs font-semibold space-y-1.5 block">
+        <span>Pilih Model AI <span class="text-emerald-400">(Aktif)</span></span>
+        <select id="model" class="inp font-mono">
+          <option value="auto">Otomatis (3.8 Flash ➔ 4 Argon)</option>
+          <option value="gemini-3.8-flash">gemini-3.8-flash (Cepat & Stabil)</option>
+          <option value="gemini-4-argon">gemini-4-argon (Penalaran Tinggi)</option>
+        </select>
+      </label>
+
+      <label class="text-xs font-semibold space-y-1.5 block">
+        <span>FB_PAGE_ID <span class="text-slate-500">(opsional)</span></span>
+        <input id="pid" class="inp font-mono" placeholder="10492819283..." autocomplete="off">
+      </label>
+
+      <label class="text-xs font-semibold space-y-1.5 block">
+        <span>FB_ACCESS_TOKEN <span class="text-slate-500">(opsional)</span></span>
+        <input id="tok" type="password" class="inp font-mono" placeholder="EAAGm0PX..." autocomplete="off">
+      </label>
+    </div>
+
+    <div class="flex flex-wrap justify-end gap-2 pt-2">
       <button class="btn bg-rose-500/10 border-rose-500/30 text-rose-300" onclick="resetCred()">Reset Kredensial</button>
       <button class="btn b-ind" onclick="saveSettings()">Simpan Pengaturan</button>
     </div>
   </section>
 
+  <!-- KONTROL SESI & KUANTITAS VIDEO -->
   <section class="pan grid lg:grid-cols-12 gap-5">
     <div class="lg:col-span-7 space-y-3">
-      <h2 class="font-bold">Sesi Tayang <span id="autoTag" class="ml-2 text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300">deteksi jam aktif</span></h2>
+      <div class="flex items-center justify-between">
+        <h2 class="font-bold text-sm sm:text-base">Pilih Sesi Tayang Video Reels</h2>
+        <span id="autoTag" class="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Deteksi Jam Otomatis</span>
+      </div>
+
       <div class="grid sm:grid-cols-3 gap-3">
-        <button class="opt" data-mode="auto" onclick="setMode('auto')"><b class="text-sm">⏱ Otomatis</b><p class="text-[11px] text-slate-400 mt-1">Ikuti jam WIB saat ini.</p></button>
-        <button class="opt" data-mode="siang" onclick="setMode('siang')"><b class="text-sm">☀️ Siang</b><p class="text-[11px] text-slate-400 mt-1">Fakta Unik & Teknologi. 11.30–13.30</p></button>
-        <button class="opt" data-mode="malam" onclick="setMode('malam')"><b class="text-sm">🌙 Malam</b><p class="text-[11px] text-slate-400 mt-1">Misteri & Sejarah. 19.00–21.30</p></button>
+        <button class="opt" data-mode="auto" onclick="setMode('auto')">
+          <b class="text-sm text-white">⏱ Otomatis</b>
+          <p class="text-[11px] text-slate-400 mt-1">Ikuti jam WIB saat ini secara pintar.</p>
+        </button>
+        <button class="opt" data-mode="siang" onclick="setMode('siang')">
+          <b class="text-sm text-amber-300">☀️ Sesi Siang</b>
+          <p class="text-[11px] text-slate-400 mt-1">Fakta Unik & Tekno (11.30–13.30)</p>
+        </button>
+        <button class="opt" data-mode="malam" onclick="setMode('malam')">
+          <b class="text-sm text-purple-300">🌙 Sesi Malam</b>
+          <p class="text-[11px] text-slate-400 mt-1">Misteri & Sejarah (19.00–21.30)</p>
+        </button>
       </div>
-      <div class="rounded-xl bg-slate-950 border border-slate-800 p-3 text-xs"><b id="sumT"></b><p id="sumD" class="text-slate-400 mt-0.5"></p></div>
+
+      <div class="rounded-xl bg-slate-950 border border-slate-800 p-3 text-xs">
+        <b id="sumT" class="text-cyan-300"></b>
+        <p id="sumD" class="text-slate-400 mt-0.5"></p>
+      </div>
     </div>
-    <div class="lg:col-span-5 space-y-3">
+
+    <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
       <div class="grid grid-cols-2 gap-3">
-        <button class="opt" data-qty="1" onclick="setQty(1)"><b class="text-xs">⚡ 1 Konten</b></button>
-        <button class="opt" data-qty="5" onclick="setQty(5)"><b class="text-xs">📚 5 Konten</b></button>
+        <button class="opt" data-qty="1" onclick="setQty(1)">
+          <b class="text-xs text-white">🎬 1 Video Reels</b>
+          <p class="text-[10px] text-slate-400 mt-0.5">Siap Render Cepat</p>
+        </button>
+        <button class="opt" data-qty="5" onclick="setQty(5)">
+          <b class="text-xs text-white">🔥 5 Video Reels</b>
+          <p class="text-[10px] text-slate-400 mt-0.5">Stok Harian Sekaligus</p>
+        </button>
       </div>
-      <input id="kw" class="inp" maxlength="120" placeholder="Kata kunci / fokus (opsional)">
-      <button id="gen" onclick="generate()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 font-extrabold text-sm disabled:opacity-60">✨ Generate Konten</button>
+
+      <input id="kw" class="inp" maxlength="120" placeholder="Kata kunci / fokus topik (opsional, contoh: Misteri Piramida)">
+
+      <button id="gen" onclick="generate()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:from-cyan-400 hover:via-indigo-500 hover:to-purple-500 font-extrabold text-sm text-white shadow-xl shadow-indigo-600/25 disabled:opacity-60 transition cursor-pointer">
+        Rakit 1 Video Reels Sekarang
+      </button>
     </div>
   </section>
 
+  <!-- ERROR ALERT -->
   <div id="err" class="hidden rounded-2xl border border-rose-500/40 bg-rose-950/60 p-4 text-sm" role="alert">
-    <div class="flex justify-between gap-3"><div><b id="errT" class="text-white"></b><p id="errM" class="text-rose-200 mt-1"></p></div><button onclick="hideErr()" aria-label="Tutup">✕</button></div>
-    <button class="btn b-gh mt-3" onclick="generate()">↻ Coba lagi</button>
+    <div class="flex justify-between gap-3">
+      <div>
+        <b id="errT" class="text-white"></b>
+        <p id="errM" class="text-rose-200 mt-1 text-xs leading-relaxed"></p>
+      </div>
+      <button onclick="hideErr()" aria-label="Tutup" class="text-rose-300 hover:text-white">✕</button>
+    </div>
+    <button class="btn b-gh mt-3" onclick="generate()">↻ Coba Lagi Sekarang</button>
   </div>
 
-  <section id="loading" class="hidden pan text-center max-w-xl mx-auto space-y-3">
-    <div class="w-12 h-12 mx-auto rounded-full border-4 border-indigo-500 border-t-transparent animate-spin"></div>
-    <b id="ldTitle">Merakit konsep konten...</b>
-    <p id="ldSub" class="text-xs text-slate-400">Menyusun ide bebas duplikat.</p>
+  <!-- LOADING STATE -->
+  <section id="loading" class="hidden pan text-center max-w-xl mx-auto space-y-3 py-8">
+    <div class="w-12 h-12 mx-auto rounded-full border-4 border-cyan-400 border-t-transparent animate-spin"></div>
+    <b id="ldTitle" class="block text-base">El Otak Studio merakit storyboard video...</b>
+    <p id="ldSub" class="text-xs text-slate-400">Menyusun naskah & 3 adegan visual 9:16.</p>
     <button class="btn b-gh" onclick="cancelGen()">Batalkan</button>
   </section>
 
+  <!-- OUTPUT SECTION -->
   <section class="space-y-5">
-    <div id="empty" class="pan text-center py-10 max-w-2xl mx-auto"><div class="text-3xl">🎞</div><h3 class="font-bold mt-2">Studio siap</h3><p class="text-xs text-slate-400 mt-1">Pilih sesi & jumlah, lalu klik Generate. Anda mendapat hook, naskah 25–35 kata, visual 9:16, dan caption.</p></div>
-    <div id="resHead" class="hidden flex flex-wrap justify-between items-center gap-3 border-b border-slate-800 pb-2">
-      <h2 id="resTitle" class="font-extrabold text-lg"></h2>
-      <div class="flex gap-2"><button id="stopAll" class="hidden btn bg-rose-500/20 border-rose-500/30 text-rose-300" onclick="stopSpeak()">Hentikan Suara</button><button class="btn b-gh" onclick="exportJson()">Ekspor JSON</button></div>
+    <div id="empty" class="pan text-center py-12 max-w-2xl mx-auto space-y-3">
+      <div class="w-16 h-16 mx-auto logo-glow">
+        <svg viewBox="0 0 120 120" fill="none" class="w-full h-full">
+          <polygon points="60,8 106,33 106,87 60,112 14,87 14,33" fill="#0f172a" stroke="url(#neonG)" stroke-width="4"/>
+          <path d="M35 39 H63 M35 60 H55 M35 81 H63 M35 39 V81" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <polygon points="63,43 90,60 63,77" fill="url(#neonG)"/>
+        </svg>
+      </div>
+      <h3 class="font-extrabold text-lg">El Otak Studio Siap Merender Video</h3>
+      <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+        Ditenagai <b>gemini-3.8-flash</b> & <b>gemini-4-argon</b>. Menghasilkan Video Reels 9:16 bergerak (3 adegan sinematik + subtitle otomatis) yang siap diunduh menjadi file video.
+      </p>
     </div>
+
+    <div id="resHead" class="hidden flex flex-wrap justify-between items-center gap-3 border-b border-slate-800 pb-3">
+      <h2 id="resTitle" class="font-extrabold text-lg"></h2>
+      <div class="flex gap-2">
+        <button id="stopAll" class="hidden btn bg-rose-500/20 border-rose-500/30 text-rose-300" onclick="stopSpeak()">⏹ Hentikan Suara</button>
+        <button class="btn b-gh" onclick="exportJson()">Ekspor JSON</button>
+      </div>
+    </div>
+
     <div id="cards" class="space-y-6"></div>
   </section>
 </main>
 
+<!-- MODAL RIWAYAT -->
 <div id="histModal" class="hidden fixed inset-0 z-50 bg-black/75 items-center justify-center p-4" onclick="if(event.target===this)toggleHist()">
   <div class="pan max-w-xl w-full max-h-[85vh] flex flex-col space-y-3">
-    <div class="flex justify-between items-center"><b>Riwayat Topik Anti-Duplikat</b><button onclick="toggleHist()" aria-label="Tutup">✕</button></div>
-    <div id="histList" class="flex-1 overflow-y-auto space-y-2"></div>
-    <div class="flex justify-between items-center"><span id="histFoot" class="text-xs font-mono text-slate-400"></span><button class="btn bg-rose-500/10 border-rose-500/30 text-rose-300" onclick="clearHist()">Hapus semua</button></div>
+    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+      <b>Riwayat Topik Anti-Duplikat (Maks 50)</b>
+      <button onclick="toggleHist()" aria-label="Tutup">✕</button>
+    </div>
+    <div id="histList" class="flex-1 overflow-y-auto space-y-2 pr-1"></div>
+    <div class="flex justify-between items-center pt-2 border-t border-slate-800">
+      <span id="histFoot" class="text-xs font-mono text-slate-400"></span>
+      <button class="btn bg-rose-500/10 border-rose-500/30 text-rose-300" onclick="clearHist()">Hapus Semua</button>
+    </div>
   </div>
 </div>
+
 <div id="toasts" class="fixed bottom-4 right-4 z-[60] flex flex-col gap-2 max-w-sm pointer-events-none" aria-live="polite"></div>
 
 <script>
-const $=id=>document.getElementById(id);
-const K={key:'RAS_GEMINI_API_KEY',model:'RAS_GEMINI_MODEL_PREF',pid:'RAS_FB_PAGE_ID',tok:'RAS_FB_ACCESS_TOKEN',hist:'RAS_TOPIC_HISTORY_V1',last:'RAS_LAST_GENERATED_ITEMS_V1'};
-const MAX=50, FALLBACK=['gemini-2.5-flash','gemini-flash-latest','gemini-2.5-flash-lite'], CATS=['Fakta Unik','Teknologi','Misteri'];
-const st={mode:'auto',qty:1,items:[],ctl:null,cancelled:false,speak:null,tok:0};
-const ls={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},del:k=>{try{localStorage.removeItem(k)}catch{}}};
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const words=s=>String(s||'').trim().split(/\s+/).filter(Boolean).length;
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const save=()=>ls.set(K.last,JSON.stringify(st.items));
+const $ = id => document.getElementById(id);
+const K = {
+  key: 'RAS_GEMINI_API_KEY',
+  model: 'RAS_GEMINI_MODEL_V3',
+  pid: 'RAS_FB_PAGE_ID',
+  tok: 'RAS_FB_ACCESS_TOKEN',
+  hist: 'RAS_TOPIC_HISTORY_V1',
+  last: 'RAS_LAST_VIDEO_ITEMS_V3'
+};
 
-/* ---------- Waktu & sesi (WIB, akurat via Intl) ---------- */
-function wib(){
-  const p={};new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
-  return{h:(+p.hour)%24,m:+p.minute,t:`${p.hour}:${p.minute}:${p.second}`};
-}
-function session(){if(st.mode!=='auto')return st.mode;const w=wib();return w.h*60+w.m<=810?'siang':'malam'}
-function renderSession(){
-  const siang=session()==='siang';
-  $('sumT').textContent=siang?'☀️ Sesi Istirahat Siang (11.30–13.30 WIB)':'🌙 Sesi Santai Malam (19.00–21.30 WIB)';
-  $('sumD').textContent=siang?'Fakta Unik & Teknologi • gaya segar & cepat • visual terang.':'Misteri & Sejarah (selingan Fakta/Tekno) • gaya merinding • visual gelap dramatis.';
-  $('autoTag').classList.toggle('hidden',st.mode!=='auto');
-}
-function setMode(m){st.mode=m;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));renderSession()}
-function setQty(q){st.qty=q;document.querySelectorAll('[data-qty]').forEach(b=>b.classList.toggle('on',+b.dataset.qty===q));$('gen').textContent=`✨ Generate ${q} Konten`}
-let lastS;function tick(){$('clock').textContent=wib().t;const s=session();if(s!==lastS){lastS=s;renderSession()}}
+// HANYA MODEL BARU YANG AKTIF: gemini-3.8-flash & gemini-4-argon
+const ALLOWED_MODELS = ['gemini-3.8-flash', 'gemini-4-argon'];
+const MAX = 50, VID_SEC = 12, CATS = ['Fakta Unik', 'Teknologi', 'Misteri'];
 
-/* ---------- Pengaturan ---------- */
-function dot(){const ok=($('key').value||'').trim().length>10;$('dot').className='inline-block w-2 h-2 rounded-full '+(ok?'bg-emerald-400':'bg-rose-500 animate-pulse')}
-function saveSettings(){
-  const k=$('key').value.trim();
-  ls.set(K.key,k);ls.set(K.model,$('model').value.trim()||'auto');ls.set(K.pid,$('pid').value.trim());ls.set(K.tok,$('tok').value.trim());
+const st = { mode: 'auto', qty: 1, items: [], ctl: null, cancelled: false, speak: null, tok: 0, players: {} };
+const ls = {
+  get: k => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
+  del: k => { try { localStorage.removeItem(k); } catch {} }
+};
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const words = s => String(s || '').trim().split(/\s+/).filter(Boolean).length;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const save = () => ls.set(K.last, JSON.stringify(st.items));
+
+/* ---------- Waktu & Sesi WIB ---------- */
+function wib() {
+  const p = {};
+  new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
+    .formatToParts(new Date()).forEach(x => p[x.type] = x.value);
+  return { h: (+p.hour) % 24, m: +p.minute, t: `${p.hour}:${p.minute}:${p.second}` };
+}
+function session() {
+  if (st.mode !== 'auto') return st.mode;
+  const w = wib();
+  return w.h * 60 + w.m <= 810 ? 'siang' : 'malam';
+}
+function renderSession() {
+  const siang = session() === 'siang';
+  $('sumT').textContent = siang ? '☀️ Sesi Istirahat Siang (11.30–13.30 WIB)' : '🌙 Sesi Santai Malam (19.00–21.30 WIB)';
+  $('sumD').textContent = siang
+    ? 'Fokus: Fakta Unik & Teknologi • Video 3 scene cerah, gerak kamera dinamis & subtitle cepat.'
+    : 'Fokus: Misteri & Sejarah • Video 3 scene atmosfer gelap dramatis & subtitle merinding.';
+  $('autoTag').classList.toggle('hidden', st.mode !== 'auto');
+}
+function setMode(m) {
+  st.mode = m;
+  document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  renderSession();
+}
+function setQty(q) {
+  st.qty = q;
+  document.querySelectorAll('[data-qty]').forEach(b => b.classList.toggle('on', +b.dataset.qty === q));
+  $('gen').textContent = `Rakit ${q} Video Reels Sekarang`;
+}
+let lastS;
+function tick() {
+  $('clock').textContent = wib().t;
+  const s = session();
+  if (s !== lastS) { lastS = s; renderSession(); }
+}
+
+/* ---------- Pengaturan (Validasi Ketat Hanya 3.8 & Argon) ---------- */
+function getValidModelPref() {
+  const saved = ls.get(K.model);
+  if (saved === 'auto' || ALLOWED_MODELS.includes(saved)) return saved;
+  ls.set(K.model, 'auto');
+  return 'auto';
+}
+function dot() {
+  const ok = ($('key').value || '').trim().length > 10;
+  $('dot').className = 'inline-block w-2 h-2 rounded-full ' + (ok ? 'bg-emerald-400' : 'bg-rose-500 animate-pulse');
+}
+function saveSettings() {
+  const k = $('key').value.trim();
+  const m = $('model').value;
+  const validM = (m === 'auto' || ALLOWED_MODELS.includes(m)) ? m : 'auto';
+  ls.set(K.key, k);
+  ls.set(K.model, validM);
+  ls.set(K.pid, $('pid').value.trim());
+  ls.set(K.tok, $('tok').value.trim());
+  $('modelBadge').textContent = validM === 'auto' ? '3.8-flash ➔ 4-argon' : validM;
   dot();
-  if(k){hideErr();$('settings').classList.add('hidden');toast('Pengaturan disimpan.','success')}else toast('Tersimpan, tetapi GEMINI_API_KEY masih kosong.','warning');
-}
-function resetCred(){
-  if(!confirm('Hapus API key & token Facebook dari browser ini?'))return;
-  [K.key,K.pid,K.tok].forEach(ls.del);['key','pid','tok'].forEach(i=>$(i).value='');dot();toast('Kredensial dihapus.','info');
-}
-
-/* ---------- Riwayat topik ---------- */
-function getHist(){try{const a=JSON.parse(ls.get(K.hist)||'[]');return Array.isArray(a)?a:[]}catch{return[]}}
-function addHist(t){let h=getHist();t.forEach(x=>{x=(x||'').trim();if(x&&!h.some(y=>y.toLowerCase()===x.toLowerCase()))h.unshift(x)});ls.set(K.hist,JSON.stringify(h.slice(0,MAX)));renderHist()}
-function delHist(i){const h=getHist();h.splice(i,1);ls.set(K.hist,JSON.stringify(h));renderHist()}
-function clearHist(){if(confirm('Hapus seluruh riwayat topik?')){ls.del(K.hist);renderHist()}}
-function toggleHist(){const m=$('histModal');m.classList.toggle('hidden');m.classList.toggle('flex')}
-function renderHist(){
-  const h=getHist();$('histCount').textContent=`${h.length}/${MAX}`;$('histFoot').textContent=`${h.length} / ${MAX} topik`;
-  $('histList').innerHTML=h.length?h.map((t,i)=>`<div class="flex justify-between gap-3 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs"><span class="truncate"><b class="text-indigo-400 font-mono">#${i+1}</b> ${esc(t)}</span><button class="text-slate-500 hover:text-rose-400" onclick="delHist(${i})" aria-label="Hapus">✕</button></div>`).join(''):'<p class="text-center text-xs text-slate-500 py-8">Belum ada riwayat.</p>';
-}
-function similar(a,b){
-  a=a.toLowerCase().trim();b=b.toLowerCase().trim();if(a===b)return true;
-  const A=new Set(a.split(/\W+/).filter(w=>w.length>2)),B=new Set(b.split(/\W+/).filter(w=>w.length>2));
-  if(!A.size||!B.size)return false;let n=0;A.forEach(w=>B.has(w)&&n++);return n/(A.size+B.size-n)>=.6;
-}
-
-/* ---------- Gemini: retry, fallback model, timeout, pembatalan ---------- */
-async function gemini(key,body,status){
-  const pref=ls.get(K.model)||'auto';
-  const models=[...new Set(pref==='auto'?FALLBACK:[pref,...FALLBACK])];
-  let last;
-  for(const model of models){
-    for(let a=1;a<=2;a++){
-      if(st.cancelled)throw new Error('CANCELLED');
-      status(`Mencoba ${model} (percobaan ${a})...`);
-      const ctl=st.ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),45000);
-      try{
-        const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-          {method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body),signal:ctl.signal});
-        if(!r.ok){
-          const e=await r.json().catch(()=>({})),msg=e?.error?.message||`HTTP ${r.status}`;
-          if(r.status===401||r.status===403||/api key not valid|invalid api key/i.test(msg))throw Object.assign(new Error('API key tidak valid atau tidak punya akses: '+msg),{fatal:true});
-          if(r.status===404||/not found|no longer available/i.test(msg)){last=new Error(`${model}: ${msg}`);break}
-          if([429,500,503].includes(r.status)||/overloaded|high demand/i.test(msg)){last=new Error(msg);await sleep(2000*a);continue}
-          throw Object.assign(new Error(msg),{fatal:true});
-        }
-        const d=await r.json(),txt=(d?.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('');
-        if(!txt){last=new Error('Respons kosong (mungkin terblokir filter keamanan).');continue}
-        const arr=JSON.parse(txt.replace(/^```(?:json)?\s*|\s*```$/gi,'').trim());
-        if(!Array.isArray(arr)||!arr.length){last=new Error('Format JSON bukan daftar konten.');continue}
-        $('modelBadge').textContent=model;return arr;
-      }catch(e){
-        if(e.fatal)throw e;
-        if(e.name==='AbortError'){if(st.cancelled)throw new Error('CANCELLED');last=new Error('Waktu tunggu habis.')}else last=e;
-        await sleep(1000);
-      }finally{clearTimeout(to)}
-    }
+  if (k) {
+    hideErr();
+    $('settings').classList.add('hidden');
+    toast('Pengaturan El Otak Studio disimpan.', 'success');
+  } else {
+    toast('Tersimpan, tetapi GEMINI_API_KEY masih kosong.', 'warning');
   }
-  throw last||new Error('Gagal menghubungi Gemini.');
 }
-function cancelGen(){st.cancelled=true;st.ctl?.abort()}
-
-function buildBody(n,sess,known,kw){
-  const rules=sess==='siang'
-   ?'SESI SIANG (11.30-13.30 WIB): kategori hanya "Fakta Unik" atau "Teknologi" (variasikan). jam_upload dalam rentang 11.30-13.30 WIB. Naskah segar, cepat, antusias. Visual terang, warna hidup, bright daylight.'
-   :'SESI MALAM (19.00-21.30 WIB): fokus "Misteri" (misteri dunia & sejarah), boleh selingan "Fakta Unik"/"Teknologi" yang misterius. jam_upload dalam rentang 19.00-21.30 WIB. Naskah bikin merinding & penasaran. Visual gelap dramatis, chiaroscuro, volumetric fog.';
-  const prompt=`Anda produser kreatif Facebook Reels. Buat tepat ${n} konsep konten orisinal untuk penonton Indonesia.
-${rules}
-${known.length?`TOPIK TERLARANG (jangan sama/mirip): [${known.join(' | ')}]`:'Pilih topik segar dan jarang diketahui.'}
-${kw?`Fokus dari user (tetap ikuti gaya sesi): "${kw}"`:''}
-Aturan tiap item: kategori salah satu dari "Fakta Unik","Teknologi","Misteri"; jam_upload contoh "12.00 WIB"; judul_topik 4-8 kata unik; hook_3_detik maks 10 kata; naskah_voiceover bahasa Indonesia natural WAJIB 25-35 kata; video_prompt bahasa Inggris, detail subjek/latar/pencahayaan/sudut kamera, akhiri dengan "vertical 9:16 aspect ratio, cinematic lighting, photorealistic, 8k, ultra-detailed"; caption_reels 1-2 kalimat pemancing diskusi tanpa hashtag; hashtags tepat 5 diawali #.`;
-  const S={type:'STRING'};
-  return{contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:.9,responseMimeType:'application/json',responseSchema:{type:'ARRAY',items:{type:'OBJECT',
-    properties:{kategori:S,jam_upload:S,judul_topik:S,hook_3_detik:S,naskah_voiceover:S,video_prompt:S,caption_reels:S,hashtags:{type:'ARRAY',items:S}},
-    required:['kategori','jam_upload','judul_topik','hook_3_detik','naskah_voiceover','video_prompt','caption_reels','hashtags']}}}};
-}
-function pollUrl(p,seed){
-  const s=String(p||'').replace(/\s+/g,' ').trim().slice(0,380);
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(s+', vertical 9:16 portrait, cinematic, no text, no watermark')}?width=720&height=1280&seed=${seed}&nologo=true`;
-}
-function norm(r,sess){
-  if(!r||!r.judul_topik||!r.naskah_voiceover||!r.video_prompt)return null;
-  let cat=CATS.find(c=>String(r.kategori).toLowerCase().includes(c.toLowerCase().split(' ')[0]))||(sess==='siang'?'Fakta Unik':'Misteri');
-  if(sess==='siang'&&cat==='Misteri')cat='Fakta Unik';
-  const seed=Math.floor(1e5+Math.random()*9e5);
-  return{kategori:cat,jam_upload:String(r.jam_upload||(sess==='siang'?'12.00 WIB':'20.00 WIB')),judul_topik:String(r.judul_topik).trim(),
-    hook_3_detik:String(r.hook_3_detik||'').trim(),naskah_voiceover:String(r.naskah_voiceover).trim(),video_prompt:String(r.video_prompt).trim(),
-    caption_reels:String(r.caption_reels||'').trim(),hashtags:(Array.isArray(r.hashtags)?r.hashtags:[]).slice(0,5).map(h=>{h=String(h).replace(/\s+/g,'');return h.startsWith('#')?h:'#'+h}),
-    session:sess,seed,tries:0,imageUrl:pollUrl(r.video_prompt,seed)};
+function resetCred() {
+  if (!confirm('Hapus API key & token Facebook dari browser ini?')) return;
+  [K.key, K.pid, K.tok].forEach(ls.del);
+  ['key', 'pid', 'tok'].forEach(i => $(i).value = '');
+  dot();
+  toast('Kredensial dihapus.', 'info');
 }
 
-function busy(on){
-  $('gen').disabled=on;$('loading').classList.toggle('hidden',!on);
-  if(on)$('empty').classList.add('hidden');else if(!st.items.length)$('empty').classList.remove('hidden');
+/* ---------- Riwayat Topik ---------- */
+function getHist() {
+  try { const a = JSON.parse(ls.get(K.hist) || '[]'); return Array.isArray(a) ? a : []; } catch { return []; }
 }
-async function generate(){
-  if($('gen').disabled)return;
-  hideErr();stopSpeak();
-  const key=($('key').value||ls.get(K.key)||'').trim();
-  if(!key){showErr('API key belum diisi','Isi GEMINI_API_KEY di Pengaturan, lalu simpan.');$('settings').classList.remove('hidden');$('key').focus();return}
-  ls.set(K.key,key);dot();
-  const sess=session(),n=st.qty,kw=$('kw').value.trim().replace(/["\n\r]/g,' ');
-  st.cancelled=false;busy(true);
-  $('ldTitle').textContent=`Merakit ${n} konsep (${sess==='siang'?'Sesi Siang':'Sesi Malam'})...`;
-  try{
-    const kept=[];
-    for(let round=0;round<2&&kept.length<n;round++){
-      const known=[...getHist(),...kept.map(k=>k.judul_topik)].slice(0,80);
-      const raw=await gemini(key,buildBody(n-kept.length,sess,known,kw),m=>$('ldSub').textContent=m);
-      for(const r of raw){
-        const it=norm(r,sess);if(!it)continue;
-        if([...known,...kept.map(k=>k.judul_topik)].some(t=>similar(t,it.judul_topik)))continue;
-        kept.push(it);if(kept.length>=n)break;
+function addHist(t) {
+  let h = getHist();
+  t.forEach(x => {
+    x = (x || '').trim();
+    if (x && !h.some(y => y.toLowerCase() === x.toLowerCase())) h.unshift(x);
+  });
+  ls.set(K.hist, JSON.stringify(h.slice(0, MAX)));
+  renderHist();
+}
+function delHist(i) {
+  const h = getHist(); h.splice(i, 1); ls.set(K.hist, JSON.stringify(h)); renderHist();
+}
+function clearHist() {
+  if (confirm('Hapus seluruh riwayat topik?')) { ls.del(K.hist); renderHist(); }
+}
+function toggleHist() {
+  const m = $('histModal'); m.classList.toggle('hidden'); m.classList.toggle('flex');
+}
+function renderHist() {
+  const h = getHist();
+  $('histCount').textContent = `${h.length}/${MAX}`;
+  $('histFoot').textContent = `${h.length} / ${MAX} topik`;
+  $('histList').innerHTML = h.length
+    ? h.map((t, i) => `<div class="flex justify-between gap-3 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs"><span class="truncate"><b class="text-cyan-400 font-mono">#${i + 1}</b> ${esc(t)}</span><button class="text-slate-500 hover:text-rose-400" onclick="delHist(${i})">✕</button></div>`).join('')
+    : '<p class="text-center text-xs text-slate-500 py-8">Belum ada riwayat topik.</p>';
+}
+function similar(a, b) {
+  a = a.toLowerCase().trim(); b = b.toLowerCase().trim();
+  if (a === b) return true;
+  const A = new Set(a.split(/\W+/).filter(w => w.length > 2)), B = new Set(b.split(/\W+/).filter(w => w.length > 2));
+  if (!A.size || !B.size) return false;
+  let n = 0; A.forEach(w => B.has(w) && n++);
+  return n / (A.size + B.size - n) >= 0.6;
+}
+
+/* ---------- Pemanggilan Gemini (Hanya gemini-3.8-flash & gemini-4-argon) ---------- */
+async function gemini(key, body, status) {
+  const pref = getValidModelPref();
+  const models = pref === 'auto'
+    ? [...ALLOWED_MODELS]
+    : [pref, ...ALLOWED_MODELS.filter(m => m !== pref)];
+
+  let last;
+  for (const model of models) {
+    for (let a = 1; a <= 3; a++) {
+      if (st.cancelled) throw new Error('CANCELLED');
+      status(`Menghubungi ${model} (percobaan ${a}/3)...`);
+      const ctl = st.ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 45000);
+      try {
+        const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+          signal: ctl.signal
+        });
+        if (!r.ok) {
+          const e = await r.json().catch(() => ({})), msg = e?.error?.message || `HTTP ${r.status}`;
+          if (r.status === 401 || r.status === 403 || /api key not valid|invalid api key/i.test(msg)) {
+            throw Object.assign(new Error('GEMINI_API_KEY tidak valid: ' + msg), { fatal: true });
+          }
+          if (r.status === 404 || /not found|no longer available/i.test(msg)) {
+            last = new Error(`${model}: ${msg}`);
+            break; // Pindah ke model berikutnya (3.8 <-> 4-argon)
+          }
+          if ([429, 500, 503].includes(r.status) || /overloaded|high demand/i.test(msg)) {
+            last = new Error(`Server ${model} sedang padat (High Demand).`);
+            await sleep(2200 * a);
+            continue;
+          }
+          throw Object.assign(new Error(msg), { fatal: true });
+        }
+        const d = await r.json(), txt = (d?.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('');
+        if (!txt) { last = new Error('Respons kosong dari server.'); continue; }
+        const arr = JSON.parse(txt.replace(/^```(?:json)?\s*|\s*```$/gi, '').trim());
+        if (!Array.isArray(arr) || !arr.length) { last = new Error('Format JSON tidak valid.'); continue; }
+        $('modelBadge').textContent = model;
+        return arr;
+      } catch (e) {
+        if (e.fatal) throw e;
+        if (e.name === 'AbortError') {
+          if (st.cancelled) throw new Error('CANCELLED');
+          last = new Error('Waktu tunggu habis (Timeout).');
+        } else {
+          last = e;
+        }
+        await sleep(1200);
+      } finally {
+        clearTimeout(to);
       }
     }
-    if(!kept.length)throw new Error('Semua ide mirip dengan riwayat. Coba lagi atau pakai kata kunci lain.');
-    st.items=kept;save();addHist(kept.map(k=>k.judul_topik));render();
-    toast(kept.length<n?`Hanya ${kept.length} dari ${n} ide unik berhasil dibuat.`:`Berhasil membuat ${kept.length} konten!`,kept.length<n?'warning':'success');
-  }catch(e){
-    if(e.message==='CANCELLED')toast('Proses dibatalkan.','info');else showErr('Gagal membuat konten',e.message);
-  }finally{busy(false)}
+  }
+  throw last || new Error('Gagal menghubungi server Gemini.');
+}
+function cancelGen() { st.cancelled = true; st.ctl?.abort(); }
+
+function buildBody(n, sess, known, kw) {
+  const rules = sess === 'siang'
+    ? 'SESI SIANG (11.30-13.30 WIB): kategori hanya "Fakta Unik" atau "Teknologi". jam_upload 11.30-13.30 WIB. Naskah segar, cepat. Visual terang, warna tajam.'
+    : 'SESI MALAM (19.00-21.30 WIB): fokus "Misteri" (sejarah/dunia), boleh selingan Fakta/Tekno misterius. jam_upload 19.00-21.30 WIB. Naskah merinding & penasaran. Visual gelap dramatis.';
+  const prompt = `Anda sutradara Video Facebook Reels di El Otak Studio. Buat tepat ${n} paket storyboard video orisinal.
+${rules}
+${known.length ? `TOPIK TERLARANG (jangan mirip): [${known.join(' | ')}]` : 'Pilih topik viral & jarang diketahui.'}
+${kw ? `Fokus topik dari user: "${kw}"` : ''}
+Aturan tiap item:
+- kategori: "Fakta Unik", "Teknologi", atau "Misteri"
+- jam_upload: contoh "12.00 WIB"
+- judul_topik: 4-7 kata unik
+- hook_3_detik: kalimat pancingan di layar maks 8 kata
+- naskah_voiceover: bahasa Indonesia natural WAJIB 25-35 kata
+- video_prompt: master video prompt bahasa Inggris (vertical 9:16, cinematic, 8k)
+- scene_prompts: array berisi TEPAT 3 prompt visual bahasa Inggris berbeda sudut kamera (Scene 1 close-up hook, Scene 2 medium shot inti, Scene 3 dramatic climax)
+- caption_reels: 1-2 kalimat memancing komentar tanpa hashtag
+- hashtags: array 5 hashtag populer diawali #`;
+  const S = { type: 'STRING' };
+  return {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.9,
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            kategori: S, jam_upload: S, judul_topik: S, hook_3_detik: S,
+            naskah_voiceover: S, video_prompt: S,
+            scene_prompts: { type: 'ARRAY', items: S },
+            caption_reels: S, hashtags: { type: 'ARRAY', items: S }
+          },
+          required: ['kategori', 'jam_upload', 'judul_topik', 'hook_3_detik', 'naskah_voiceover', 'video_prompt', 'scene_prompts', 'caption_reels', 'hashtags']
+        }
+      }
+    }
+  };
 }
 
-/* ---------- Kartu konten ---------- */
-function render(){
-  const it=st.items;
-  $('resHead').classList.toggle('hidden',!it.length);$('empty').classList.toggle('hidden',!!it.length);
-  $('resTitle').textContent=`${it.length} Paket Konten Siap Produksi`;
-  $('cards').innerHTML=it.map((x,i)=>{
-    const wc=words(x.naskah_voiceover),ok=wc>=25&&wc<=35,hw=words(x.hook_3_detik);
+function pollUrl(p, seed) {
+  const s = String(p || '').replace(/\s+/g, ' ').trim().slice(0, 320);
+  return `https://image.pollinations.ai/prompt/${encodeURIComponent(s + ', vertical 9:16 portrait, cinematic lighting, photorealistic, 8k, no text, no watermark')}?width=720&height=1280&seed=${seed}&nologo=true`;
+}
+
+function norm(r, sess) {
+  if (!r || !r.judul_topik || !r.naskah_voiceover || !r.video_prompt) return null;
+  let cat = CATS.find(c => String(r.kategori).toLowerCase().includes(c.toLowerCase().split(' ')[0])) || (sess === 'siang' ? 'Fakta Unik' : 'Misteri');
+  if (sess === 'siang' && cat === 'Misteri') cat = 'Fakta Unik';
+  const seed = Math.floor(1e5 + Math.random() * 8e5);
+  const scenes = Array.isArray(r.scene_prompts) && r.scene_prompts.length >= 3
+    ? r.scene_prompts.slice(0, 3)
+    : [`${r.video_prompt}, extreme close up`, `${r.video_prompt}, medium cinematic shot`, `${r.video_prompt}, dramatic low angle climax`];
+
+  return {
+    kategori: cat,
+    jam_upload: String(r.jam_upload || (sess === 'siang' ? '12.00 WIB' : '20.00 WIB')),
+    judul_topik: String(r.judul_topik).trim(),
+    hook_3_detik: String(r.hook_3_detik || '').trim(),
+    naskah_voiceover: String(r.naskah_voiceover).trim(),
+    video_prompt: String(r.video_prompt).trim(),
+    scene_prompts: scenes,
+    sceneUrls: scenes.map((sp, idx) => pollUrl(sp, seed + idx)),
+    caption_reels: String(r.caption_reels || '').trim(),
+    hashtags: (Array.isArray(r.hashtags) ? r.hashtags : []).slice(0, 5).map(h => { h = String(h).replace(/\s+/g, ''); return h.startsWith('#') ? h : '#' + h; }),
+    session: sess,
+    seed
+  };
+}
+
+function busy(on) {
+  $('gen').disabled = on;
+  $('loading').classList.toggle('hidden', !on);
+  if (on) $('empty').classList.add('hidden');
+  else if (!st.items.length) $('empty').classList.remove('hidden');
+}
+
+async function generate() {
+  if ($('gen').disabled) return;
+  hideErr(); stopSpeak();
+  const key = ($('key').value || ls.get(K.key) || '').trim();
+  if (!key) {
+    showErr('GEMINI_API_KEY Belum Diisi', 'Masukkan GEMINI_API_KEY Anda di panel Pengaturan API, lalu klik Simpan.');
+    $('settings').classList.remove('hidden'); $('key').focus();
+    return;
+  }
+  ls.set(K.key, key); dot();
+  const sess = session(), n = st.qty, kw = $('kw').value.trim().replace(/["\n\r]/g, ' ');
+  st.cancelled = false; busy(true);
+  $('ldTitle').textContent = `Merakit ${n} Video Reels (${sess === 'siang' ? 'Sesi Siang' : 'Sesi Malam'})...`;
+  try {
+    const kept = [];
+    for (let round = 0; round < 2 && kept.length < n; round++) {
+      const known = [...getHist(), ...kept.map(k => k.judul_topik)].slice(0, 80);
+      const raw = await gemini(key, buildBody(n - kept.length, sess, known, kw), m => $('ldSub').textContent = m);
+      for (const r of raw) {
+        const it = norm(r, sess); if (!it) continue;
+        if ([...known, ...kept.map(k => k.judul_topik)].some(t => similar(t, it.judul_topik))) continue;
+        kept.push(it); if (kept.length >= n) break;
+      }
+    }
+    if (!kept.length) throw new Error('Ide yang dihasilkan mirip dengan riwayat. Silakan coba lagi.');
+    st.items = kept; save(); addHist(kept.map(k => k.judul_topik)); render();
+    toast(`Berhasil merakit ${kept.length} Video Reels!`, 'success');
+  } catch (e) {
+    if (e.message === 'CANCELLED') toast('Proses dibatalkan.', 'info');
+    else showErr('Gagal Merakit Video Reels', e.message);
+  } finally {
+    busy(false);
+  }
+}
+
+/* ---------- Engine Video Canvas 9:16 (3 Scene + Ken Burns + Subtitle + Rekam MP4/WebM) ---------- */
+function destroyPlayers() {
+  Object.values(st.players).forEach(p => p?.raf && cancelAnimationFrame(p.raf));
+  st.players = {};
+}
+function rBox(ctx, x, y, w, h, r) {
+  const rad = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + rad, y);
+  ctx.arcTo(x + w, y, x + w, y + h, rad);
+  ctx.arcTo(x + w, y + h, x, y + h, rad);
+  ctx.arcTo(x, y + h, x, y, rad);
+  ctx.arcTo(x, y, x + w, y, rad);
+  ctx.closePath();
+}
+function wrapTxt(ctx, text, maxW) {
+  const w = String(text || '').split(' '), lines = [];
+  let cur = w[0] || '';
+  for (let i = 1; i < w.length; i++) {
+    if (ctx.measureText(cur + ' ' + w[i]).width < maxW) cur += ' ' + w[i];
+    else { lines.push(cur); cur = w[i]; }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+function initVideoPlayer(i) {
+  const x = st.items[i], cv = $('cv' + i);
+  if (!x || !cv) return;
+  const ctx = cv.getContext('2d');
+  const isMalam = x.kategori === 'Misteri' || x.session === 'malam';
+  const wordsArr = x.naskah_voiceover.split(/\s+/).filter(Boolean);
+  const chunks = [];
+  for (let k = 0; k < wordsArr.length; k += 4) chunks.push(wordsArr.slice(k, k + 4).join(' '));
+
+  const imgs = [new Image(), new Image(), new Image()], ok = [false, false, false];
+  let loaded = 0;
+  const pts = Array.from({ length: 24 }, () => ({
+    x: Math.random() * 720, y: Math.random() * 1280, r: 1.5 + Math.random() * 3,
+    vy: -0.5 - Math.random() * 0.7, a: 0.25 + Math.random() * 0.5
+  }));
+
+  const p = { i, cv, ctx, imgs, ok, isMalam, chunks, pts, t0: performance.now(), raf: null };
+  st.players[i] = p;
+
+  (x.sceneUrls || []).forEach((u, idx) => {
+    const im = imgs[idx];
+    im.crossOrigin = 'anonymous';
+    im.onload = () => {
+      ok[idx] = true; loaded++;
+      const stEl = $('scSt' + i);
+      if (stEl) stEl.textContent = loaded >= 3 ? '3/3 Scene Aktif' : `Scene ${loaded}/3`;
+      if (loaded >= 1) $('ld' + i)?.classList.add('hidden');
+    };
+    im.onerror = () => { if (idx === 0) $('ld' + i)?.classList.add('hidden'); };
+    im.src = u;
+  });
+
+  const loop = now => {
+    drawFrame(p, now);
+    p.raf = requestAnimationFrame(loop);
+  };
+  p.raf = requestAnimationFrame(loop);
+}
+
+function drawSceneImg(ctx, im, isOk, W, H, prog, scIdx, isMalam) {
+  if (!isOk || !im.complete || !im.naturalWidth) {
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, isMalam ? '#1e1b4b' : '#0f766e');
+    g.addColorStop(1, '#06080d');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    return;
+  }
+  ctx.save();
+  const scale = scIdx === 1 ? (1.15 - prog * 0.12) : (1.02 + prog * 0.14);
+  const tx = scIdx === 0 ? -prog * 18 : (prog - 0.5) * 24;
+  ctx.translate(W / 2 + tx, H / 2);
+  ctx.scale(scale, scale);
+  ctx.drawImage(im, -W / 2, -H / 2, W, H);
+  ctx.restore();
+}
+
+function drawFrame(p, now) {
+  const { ctx, cv, imgs, ok, isMalam, chunks, pts, i } = p;
+  const x = st.items[i]; if (!x) return;
+  const W = cv.width, H = cv.height;
+  const el = ((now - p.t0) / 1000) % VID_SEC;
+  const totProg = el / VID_SEC;
+  const scDur = VID_SEC / 3;
+  const scIdx = Math.min(2, Math.floor(el / scDur));
+  const scProg = (el % scDur) / scDur;
+
+  ctx.clearRect(0, 0, W, H);
+  drawSceneImg(ctx, imgs[scIdx], ok[scIdx], W, H, scProg, scIdx, isMalam);
+
+  if (scProg > 0.85 && scIdx < 2) {
+    ctx.save();
+    ctx.globalAlpha = (scProg - 0.85) / 0.15;
+    drawSceneImg(ctx, imgs[scIdx + 1], ok[scIdx + 1], W, H, 0, scIdx + 1, isMalam);
+    ctx.restore();
+  }
+
+  // Partikel
+  ctx.save();
+  pts.forEach(pt => {
+    pt.y += pt.vy; if (pt.y < 0) pt.y = H;
+    ctx.beginPath(); ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+    ctx.fillStyle = isMalam ? `rgba(192,132,252,${pt.a})` : `rgba(56,189,248,${pt.a})`;
+    ctx.fill();
+  });
+  ctx.restore();
+
+  // Gradasi gelap bawah & atas
+  const gB = ctx.createLinearGradient(0, H * 0.5, 0, H);
+  gB.addColorStop(0, 'transparent'); gB.addColorStop(1, 'rgba(6,8,13,0.95)');
+  ctx.fillStyle = gB; ctx.fillRect(0, H * 0.5, W, H * 0.5);
+
+  // Header Badge di dalam Video
+  ctx.save();
+  ctx.fillStyle = 'rgba(15,23,42,0.8)';
+  rBox(ctx, 32, 36, 220, 42, 21); ctx.fill();
+  ctx.font = 'bold 18px sans-serif'; ctx.fillStyle = '#38bdf8';
+  ctx.fillText(`● ${x.kategori.toUpperCase()}`, 50, 63);
+
+  rBox(ctx, W - 180, 36, 148, 42, 21); ctx.fill();
+  ctx.fillStyle = '#e2e8f0'; ctx.textAlign = 'center';
+  ctx.fillText(`SCENE ${scIdx + 1}/3`, W - 106, 63);
+  ctx.restore();
+
+  // Hook 3 Detik Pertama
+  if (el <= 3.2) {
+    ctx.save();
+    ctx.font = '800 36px sans-serif';
+    const hLines = wrapTxt(ctx, x.hook_3_detik.toUpperCase(), W - 100);
+    const bh = hLines.length * 46 + 38;
+    ctx.fillStyle = 'rgba(245,158,11,0.95)';
+    rBox(ctx, 38, H * 0.18, W - 76, bh, 22); ctx.fill();
+    ctx.fillStyle = '#06080d'; ctx.textAlign = 'center';
+    hLines.forEach((ln, idx) => ctx.fillText(ln, W / 2, H * 0.18 + 48 + idx * 44));
+    ctx.restore();
+  }
+
+  // Subtitle Berjalan
+  const cIdx = Math.min(chunks.length - 1, Math.floor(totProg * chunks.length));
+  ctx.save();
+  ctx.font = '800 40px sans-serif'; ctx.textAlign = 'center';
+  const sLines = wrapTxt(ctx, chunks[cIdx] || '', W - 88);
+  sLines.forEach((ln, idx) => {
+    const y = H - 210 + idx * 50;
+    ctx.lineWidth = 9; ctx.strokeStyle = 'rgba(0,0,0,0.92)';
+    ctx.strokeText(ln, W / 2, y);
+    ctx.fillStyle = idx % 2 === 0 ? '#fff' : '#38bdf8';
+    ctx.fillText(ln, W / 2, y);
+  });
+  ctx.restore();
+
+  // Progress Bar Video
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.fillRect(36, H - 34, W - 72, 8);
+  ctx.fillStyle = '#38bdf8';
+  ctx.fillRect(36, H - 34, (W - 72) * totProg, 8);
+}
+
+/* ---------- Render Kartu UI ---------- */
+function render() {
+  destroyPlayers();
+  const it = st.items;
+  $('resHead').classList.toggle('hidden', !it.length);
+  $('empty').classList.toggle('hidden', !!it.length);
+  $('resTitle').textContent = `${it.length} Video Reels Siap Produksi`;
+  $('cards').innerHTML = it.map((x, i) => {
+    const wc = words(x.naskah_voiceover), ok = wc >= 25 && wc <= 35;
     return `<article class="pan space-y-4">
-    <div class="flex flex-wrap items-center justify-between gap-2">
-      <div class="flex flex-wrap gap-2 text-xs font-bold"><span class="px-2.5 py-1 rounded-full bg-indigo-500/15 text-indigo-300">#${i+1} ${esc(x.kategori)}</span><span class="px-2.5 py-1 rounded-full bg-slate-800 font-mono">⏰ ${esc(x.jam_upload)}</span><span class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-400">${x.session==='siang'?'☀️ Siang':'🌙 Malam'}</span></div>
-      <button class="btn b-gh" id="fb${i}" onclick="postFb(${i})" title="Memposting gambar (foto), bukan video Reels">📘 Posting Gambar ke FB Page</button>
-    </div>
-    <div class="grid lg:grid-cols-12 gap-5">
-      <div class="lg:col-span-4 flex flex-col items-center gap-2">
-        <div class="relative w-full max-w-[300px] rounded-2xl overflow-hidden border border-slate-800 bg-slate-950" style="aspect-ratio:9/16">
-          <div id="ld${i}" class="absolute inset-0 sh z-10 flex flex-col items-center justify-center text-xs text-slate-300 text-center p-3">Merender visual 9:16...</div>
-          <img id="im${i}" src="${esc(x.imageUrl)}" alt="${esc(x.judul_topik)}" class="w-full h-full object-cover" onload="imgOk(${i})" onerror="imgErr(${i})">
-          <div class="absolute inset-x-0 bottom-0 p-3 pt-10 bg-gradient-to-t from-black/90 to-transparent pointer-events-none"><b class="text-white text-sm">"${esc(x.hook_3_detik)}"</b></div>
-          <button class="absolute top-2 right-2 z-20 w-8 h-8 rounded-lg bg-black/60 text-white" title="Buat variasi gambar baru" aria-label="Gambar baru" onclick="regen(${i})">↻</button>
-        </div>
-        <button class="btn b-ind w-full max-w-[300px]" id="dl${i}" onclick="dlImg(${i})">⬇ Download Gambar</button>
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+      <div class="flex flex-wrap gap-2 text-xs font-bold">
+        <span class="px-2.5 py-1 rounded-full bg-cyan-500/15 text-cyan-300">#${i + 1} ${esc(x.kategori)}</span>
+        <span class="px-2.5 py-1 rounded-full bg-slate-800 font-mono">⏰ ${esc(x.jam_upload)}</span>
+        <span id="scSt${i}" class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-300 font-mono">Memuat 3 Scene...</span>
       </div>
+      <button class="btn b-gh" id="fb${i}" onclick="postFbVideo(${i})">📘 Upload Video ke FB Page</button>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-5 items-start">
+      <!-- Live 9:16 Video Canvas Player -->
+      <div class="lg:col-span-4 flex flex-col items-center gap-2.5">
+        <div class="relative w-full max-w-[290px] rounded-2xl overflow-hidden border-2 border-cyan-500/30 bg-slate-950 shadow-2xl" style="aspect-ratio:9/16">
+          <div id="ld${i}" class="absolute inset-0 sh z-10 flex flex-col items-center justify-center text-xs text-slate-300 text-center p-3">Menyiapkan 3 Scene Video 9:16...</div>
+          <canvas id="cv${i}" width="720" height="1280" class="w-full h-full object-cover block"></canvas>
+          <div class="absolute top-2.5 right-2.5 z-20 flex gap-1.5">
+            <button class="w-8 h-8 rounded-lg bg-black/65 hover:bg-cyan-600 text-white text-xs" title="Putar Ulang + Suara" onclick="replayVid(${i})">▶</button>
+            <button class="w-8 h-8 rounded-lg bg-black/65 hover:bg-slate-800 text-white text-xs" title="Variasi Scene Baru" onclick="regen(${i})">↻</button>
+          </div>
+        </div>
+        <button class="btn b-ind w-full max-w-[290px] py-2.5" id="dl${i}" onclick="dlVideo(${i})">🎬 Render & Download Video (9:16)</button>
+      </div>
+
+      <!-- Detail Naskah, Storyboard 3 Scene & Caption -->
       <div class="lg:col-span-8 space-y-3">
         <h3 class="text-xl font-extrabold text-white">${esc(x.judul_topik)}</h3>
-        <div class="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-3 flex justify-between gap-2">
-          <div><div class="text-[11px] font-bold uppercase text-amber-400">Hook 3 detik${hw>10?` (${hw} kata, target ≤10)`:''}</div><p class="font-bold text-amber-100">"${esc(x.hook_3_detik)}"</p></div>
-          <button class="btn b-gh h-fit" onclick="cp(${i},'hook')">Copy</button></div>
+
+        <div class="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-3 flex justify-between items-center gap-2">
+          <div>
+            <div class="text-[11px] font-bold uppercase text-amber-400">Hook 3 Detik Pertama</div>
+            <p class="font-bold text-amber-100">"${esc(x.hook_3_detik)}"</p>
+          </div>
+          <button class="btn b-gh" onclick="cp(${i},'hook')">Copy</button>
+        </div>
+
         <div class="pan !bg-slate-950 space-y-2">
-          <div class="flex flex-wrap items-center justify-between gap-2"><div><b class="text-xs uppercase text-emerald-400">Naskah Voiceover</b> <span class="text-[11px] ${ok?'text-slate-400':'text-rose-400 font-bold'}">${wc} kata${ok?'':' (target 25–35)'}</span></div>
-            <div class="flex gap-2"><button class="btn b-gh" id="sp${i}" onclick="speak(${i})">🔊 Dengarkan</button><button class="btn b-gh" onclick="cp(${i},'vo')">Copy</button></div></div>
-          <p class="bg-slate-900 p-3 rounded-xl leading-relaxed">${esc(x.naskah_voiceover)}</p></div>
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <b class="text-xs uppercase text-emerald-400">Naskah Voiceover & Subtitle</b>
+              <span class="text-[11px] ml-1 ${ok ? 'text-slate-400' : 'text-rose-400 font-bold'}">(${wc} kata)</span>
+            </div>
+            <div class="flex gap-2">
+              <button class="btn b-gh" id="sp${i}" onclick="speak(${i})">🔊 Tes Suara</button>
+              <button class="btn b-gh" onclick="cp(${i},'vo')">Copy Naskah</button>
+            </div>
+          </div>
+          <p class="bg-slate-900 p-3 rounded-xl text-sm leading-relaxed">${esc(x.naskah_voiceover)}</p>
+        </div>
+
         <div class="pan !bg-slate-950 space-y-2">
-          <div class="flex justify-between items-center gap-2"><b class="text-xs uppercase text-indigo-400">Video / Image Prompt (EN, 9:16)</b><button class="btn b-gh" onclick="cp(${i},'pr')">Copy Prompt</button></div>
-          <p class="bg-slate-900 p-3 rounded-xl text-xs font-mono text-slate-300 leading-relaxed">${esc(x.video_prompt)}</p></div>
+          <div class="flex justify-between items-center gap-2">
+            <b class="text-xs uppercase text-cyan-400">Storyboard 3 Scene & Master Prompt (9:16)</b>
+            <button class="btn b-gh" onclick="cp(${i},'pr')">Copy Prompt</button>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-2 text-[11px] font-mono">
+            ${(x.scene_prompts || []).map((sp, idx) => `<div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800"><b class="text-cyan-300 block mb-1">SCENE ${idx + 1}</b><p class="text-slate-300 line-clamp-3">${esc(sp)}</p></div>`).join('')}
+          </div>
+        </div>
+
         <div class="pan !bg-slate-950 space-y-2">
-          <div class="flex justify-between items-center gap-2"><b class="text-xs uppercase text-pink-400">Caption & 5 Hashtag</b><button class="btn b-gh" onclick="cp(${i},'cap')">Copy Caption</button></div>
-          <div class="bg-slate-900 p-3 rounded-xl space-y-2"><p class="text-sm">${esc(x.caption_reels)}</p><div class="flex flex-wrap gap-1.5">${x.hashtags.map(h=>`<span class="px-2 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-300 text-xs font-mono">${esc(h)}</span>`).join('')}</div></div></div>
+          <div class="flex justify-between items-center gap-2">
+            <b class="text-xs uppercase text-pink-400">Caption Reels & 5 Hashtag</b>
+            <button class="btn b-gh" onclick="cp(${i},'cap')">Copy Caption</button>
+          </div>
+          <div class="bg-slate-900 p-3 rounded-xl space-y-2">
+            <p class="text-sm">${esc(x.caption_reels)}</p>
+            <div class="flex flex-wrap gap-1.5">${x.hashtags.map(h => `<span class="px-2 py-0.5 rounded-lg bg-cyan-500/10 text-cyan-300 text-xs font-mono">${esc(h)}</span>`).join('')}</div>
+          </div>
+        </div>
       </div>
     </div></article>`;
   }).join('');
+
+  st.items.forEach((_, i) => initVideoPlayer(i));
 }
-function cp(i,t){
-  const x=st.items[i];if(!x)return;
-  const map={hook:[x.hook_3_detik,'Hook disalin!'],vo:[x.naskah_voiceover,'Naskah disalin!'],pr:[x.video_prompt,'Prompt disalin!'],cap:[`${x.caption_reels}\n\n${x.hashtags.join(' ')}`,'Caption + hashtag disalin!']};
+
+function replayVid(i) {
+  if (st.players[i]) st.players[i].t0 = performance.now();
+  speak(i, true);
+}
+
+function regen(i) {
+  const x = st.items[i]; if (!x) return;
+  x.seed = Math.floor(1e5 + Math.random() * 8e5);
+  x.sceneUrls = (x.scene_prompts || []).map((sp, idx) => pollUrl(sp, x.seed + idx));
+  save();
+  $('ld' + i)?.classList.remove('hidden');
+  if (st.players[i]?.raf) cancelAnimationFrame(st.players[i].raf);
+  initVideoPlayer(i);
+}
+
+/* ---------- Perekam File Video (.mp4 / .webm) ---------- */
+async function recordVideoBlob(i, onProg) {
+  const p = st.players[i], x = st.items[i];
+  if (!p || !x) throw new Error('Player video belum siap.');
+  p.t0 = performance.now();
+  const stream = p.cv.captureStream(30);
+  const mimes = ['video/mp4;codecs=avc1', 'video/webm;codecs=vp9', 'video/webm'];
+  const mime = mimes.find(m => MediaRecorder.isTypeSupported(m)) || '';
+
+  return new Promise((res, rej) => {
+    const chunks = [];
+    const rec = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 4000000 } : undefined);
+    rec.ondataavailable = e => e.data?.size && chunks.push(e.data);
+    rec.onerror = rej;
+    rec.onstop = () => {
+      const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+      res({ blob: new Blob(chunks, { type: mime || 'video/webm' }), ext });
+    };
+    rec.start(200);
+    speak(i, true);
+    let s = 0;
+    const iv = setInterval(() => {
+      s++;
+      onProg && onProg(`Merender ${Math.min(99, Math.round(s / VID_SEC * 100))}%...`);
+      if (s >= VID_SEC) { clearInterval(iv); if (rec.state !== 'inactive') rec.stop(); }
+    }, 1000);
+  });
+}
+
+async function dlVideo(i) {
+  const x = st.items[i]; if (!x) return;
+  const b = $('dl' + i), h = b.innerHTML; b.disabled = true;
+  try {
+    const { blob, ext } = await recordVideoBlob(i, txt => b.textContent = txt);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `el-otak-studio-${slug(x.judul_topik)}.${ext}`;
+    document.body.appendChild(a); a.click(); a.remove();
+    toast(`Video (.${ext}) berhasil diunduh!`, 'success');
+  } catch (e) {
+    toast('Gagal merender video: ' + e.message, 'error');
+  } finally {
+    b.disabled = false; b.innerHTML = h;
+  }
+}
+
+/* ---------- Copy, Suara & Upload Video FB ---------- */
+function cp(i, t) {
+  const x = st.items[i]; if (!x) return;
+  const map = {
+    hook: [x.hook_3_detik, 'Hook disalin!'],
+    vo: [x.naskah_voiceover, 'Naskah disalin!'],
+    pr: [x.video_prompt, 'Prompt disalin!'],
+    cap: [`${x.caption_reels}\n\n${x.hashtags.join(' ')}`, 'Caption disalin!']
+  };
   copyText(...map[t]);
 }
-async function copyText(t,msg){
-  try{await navigator.clipboard.writeText(t)}catch{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}
-  toast(msg,'success');
+async function copyText(t, msg) {
+  try { await navigator.clipboard.writeText(t); } catch {
+    const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove();
+  }
+  toast(msg, 'success');
 }
 
-/* ---------- Gambar ---------- */
-function imgOk(i){$('ld'+i)?.classList.add('hidden')}
-function imgErr(i){
-  const x=st.items[i],l=$('ld'+i);if(!x||!l)return;
-  l.classList.remove('hidden');
-  if(x.tries<2){x.tries++;l.textContent=`Gagal, mencoba ulang (${x.tries}/2)...`;setTimeout(()=>regen(i,true),1500);return}
-  l.innerHTML=`Gagal memuat gambar.<button class="btn b-ind mt-2" onclick="regen(${i})">Coba Lagi</button>`;
+function spBtn(i, on) {
+  const b = $('sp' + i); if (b) b.textContent = on ? '⏹ Stop' : '🔊 Tes Suara';
+  $('stopAll').classList.toggle('hidden', st.speak === null);
 }
-function regen(i,auto){
-  const x=st.items[i],l=$('ld'+i);if(!x||!l)return;
-  if(!auto)x.tries=0;
-  x.seed=Math.floor(1e5+Math.random()*9e5);x.imageUrl=pollUrl(x.video_prompt,x.seed);save();
-  l.classList.remove('hidden');if(!auto)l.textContent='Merender ulang...';
-  $('im'+i).src=x.imageUrl;
+function stopSpeak() {
+  st.tok++; if ('speechSynthesis' in window) speechSynthesis.cancel();
+  if (st.speak !== null) { const p = st.speak; st.speak = null; spBtn(p, false); }
+  else $('stopAll').classList.add('hidden');
 }
-async function dlImg(i){
-  const x=st.items[i];if(!x)return;const b=$('dl'+i),h=b.innerHTML;b.disabled=true;b.textContent='Mengunduh...';
-  try{
-    const r=await fetch(x.imageUrl);if(!r.ok)throw 0;
-    const bl=await r.blob(),ext=(bl.type.split('/')[1]||'jpg').replace('jpeg','jpg'),a=document.createElement('a');
-    a.href=URL.createObjectURL(bl);a.download=`reels-9x16-${slug(x.judul_topik)}-${x.seed}.${ext}`;document.body.appendChild(a);a.click();a.remove();
-    setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Gambar diunduh.','success');
-  }catch{window.open(x.imageUrl,'_blank');toast('Dibuka di tab baru (klik kanan > Simpan Gambar).','info')}
-  finally{b.disabled=false;b.innerHTML=h}
+function speak(i, force = false) {
+  if (!('speechSynthesis' in window)) return;
+  const same = st.speak === i; stopSpeak(); if (same && !force) return;
+  const x = st.items[i]; if (!x) return;
+  const u = new SpeechSynthesisUtterance(x.naskah_voiceover), t = st.tok, siang = x.session === 'siang';
+  u.lang = 'id-ID';
+  const v = speechSynthesis.getVoices().find(v => /^id[-_]ID/i.test(v.lang));
+  if (v) u.voice = v;
+  u.rate = siang ? 1.05 : 0.95; u.pitch = siang ? 1.02 : 0.92;
+  const done = () => { if (st.tok === t && st.speak === i) { st.speak = null; spBtn(i, false); } };
+  u.onend = done; u.onerror = done; st.speak = i; spBtn(i, true); speechSynthesis.speak(u);
 }
 
-/* ---------- Suara (Web Speech API) ---------- */
-function spBtn(i,on){const b=$('sp'+i);if(b)b.textContent=on?'⏹ Hentikan':'🔊 Dengarkan';$('stopAll').classList.toggle('hidden',st.speak===null)}
-function stopSpeak(){
-  st.tok++;if('speechSynthesis' in window)speechSynthesis.cancel();
-  if(st.speak!==null){const p=st.speak;st.speak=null;spBtn(p,false)}else $('stopAll').classList.add('hidden');
-}
-function speak(i){
-  if(!('speechSynthesis' in window))return toast('Browser tidak mendukung Web Speech API.','error');
-  const same=st.speak===i;stopSpeak();if(same)return;
-  const x=st.items[i];if(!x)return;
-  const u=new SpeechSynthesisUtterance(x.naskah_voiceover),t=st.tok,siang=x.session==='siang';
-  u.lang='id-ID';const v=speechSynthesis.getVoices().find(v=>/^id[-_]ID/i.test(v.lang));if(v)u.voice=v;
-  u.rate=siang?1.05:.94;u.pitch=siang?1.02:.92;
-  const done=()=>{if(st.tok===t&&st.speak===i){st.speak=null;spBtn(i,false)}};
-  u.onend=done;u.onerror=done;st.speak=i;spBtn(i,true);speechSynthesis.speak(u);
-}
-
-/* ---------- Facebook & ekspor ---------- */
-async function postFb(i){
-  const pid=(ls.get(K.pid)||'').trim(),tok=(ls.get(K.tok)||'').trim();
-  if(!pid||!tok){toast('Isi FB_PAGE_ID & FB_ACCESS_TOKEN di Pengaturan.','warning');$('settings').classList.remove('hidden');return}
-  const x=st.items[i];if(!x)return;
-  if(!confirm('Publikasikan GAMBAR ini ke Facebook Page sekarang? (Ini posting foto, bukan video Reels.)'))return;
-  const b=$('fb'+i),h=b.innerHTML;b.disabled=true;b.textContent='Mengunggah...';
-  try{
-    const p=new URLSearchParams({url:x.imageUrl,caption:`${x.hook_3_detik}\n\n${x.caption_reels}\n\n${x.hashtags.join(' ')}`,access_token:tok});
-    const r=await fetch(`https://graph.facebook.com/v19.0/${encodeURIComponent(pid)}/photos`,{method:'POST',body:p}),d=await r.json();
-    if(!r.ok||d.error)throw new Error(d?.error?.message||'Gagal mengunggah');
-    toast('Terpublikasi ke Facebook Page!','success');b.textContent='✔ Terpublikasi';
-  }catch(e){toast('Gagal upload FB: '+e.message,'error');b.disabled=false;b.innerHTML=h}
-}
-function exportJson(){
-  if(!st.items.length)return;
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(st.items,null,2)],{type:'application/json'}));
-  a.download=`reels-autopilot-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();toast('JSON diekspor.','info');
+async function postFbVideo(i) {
+  const pid = (ls.get(K.pid) || '').trim(), tok = (ls.get(K.tok) || '').trim();
+  if (!pid || !tok) {
+    toast('Isi FB_PAGE_ID & FB_ACCESS_TOKEN di Pengaturan API.', 'warning');
+    $('settings').classList.remove('hidden'); return;
+  }
+  const x = st.items[i]; if (!x) return;
+  const b = $('fb' + i), h = b.innerHTML; b.disabled = true;
+  try {
+    const { blob, ext } = await recordVideoBlob(i, txt => b.textContent = txt);
+    b.textContent = 'Mengunggah ke FB...';
+    const fd = new FormData();
+    fd.append('access_token', tok);
+    fd.append('title', x.judul_topik);
+    fd.append('description', `${x.hook_3_detik}\n\n${x.naskah_voiceover}\n\n${x.caption_reels}\n\n${x.hashtags.join(' ')}`);
+    fd.append('source', blob, `reels.${ext}`);
+    const r = await fetch(`https://graph-video.facebook.com/v19.0/${encodeURIComponent(pid)}/videos`, { method: 'POST', body: fd });
+    const d = await r.json();
+    if (!r.ok || d.error) throw new Error(d?.error?.message || 'Gagal upload video');
+    toast('Video berhasil diunggah ke FB Page!', 'success');
+    b.textContent = '✔ Terpublikasi';
+  } catch (e) {
+    toast('Gagal upload FB: ' + e.message, 'error');
+    b.disabled = false; b.innerHTML = h;
+  }
 }
 
-/* ---------- Utilitas UI ---------- */
-function showErr(t,m){$('errT').textContent=t;$('errM').textContent=m;$('err').classList.remove('hidden');$('err').scrollIntoView({behavior:'smooth',block:'center'})}
-function hideErr(){$('err').classList.add('hidden')}
-function toast(m,type='info'){
-  const c={success:'border-emerald-500/50',warning:'border-amber-500/50',error:'border-rose-500/50',info:'border-indigo-500/50'}[type],d=document.createElement('div');
-  d.className=`pointer-events-auto px-4 py-3 rounded-2xl border bg-slate-900 shadow-2xl text-xs font-semibold transition-opacity duration-300 ${c}`;d.textContent=m;
-  $('toasts').appendChild(d);setTimeout(()=>{d.style.opacity=0;setTimeout(()=>d.remove(),300)},3500);
+function exportJson() {
+  if (!st.items.length) return;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(st.items, null, 2)], { type: 'application/json' }));
+  a.download = `el-otak-studio-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
 }
 
-/* ---------- Init ---------- */
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('histModal').classList.contains('hidden'))toggleHist()});
-document.addEventListener('DOMContentLoaded',()=>{
-  $('key').value=ls.get(K.key)||'';$('model').value=ls.get(K.model)||'auto';$('pid').value=ls.get(K.pid)||'';$('tok').value=ls.get(K.tok)||'';
-  $('key').addEventListener('input',dot);dot();
-  if(!$('key').value.trim())$('settings').classList.remove('hidden');
-  setMode('auto');setQty(1);renderHist();tick();setInterval(tick,1000);
-  try{const a=JSON.parse(ls.get(K.last)||'[]');if(Array.isArray(a)&&a.length){st.items=a.map(x=>({tries:0,session:'siang',hashtags:[],...x}));render()}}catch{}
-  if('speechSynthesis' in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices()}
+function showErr(t, m) { $('errT').textContent = t; $('errM').textContent = m; $('err').classList.remove('hidden'); }
+function hideErr() { $('err').classList.add('hidden'); }
+function toast(m, type = 'info') {
+  const c = { success: 'border-emerald-500/50', warning: 'border-amber-500/50', error: 'border-rose-500/50', info: 'border-cyan-500/50' }[type];
+  const d = document.createElement('div');
+  d.className = `pointer-events-auto px-4 py-3 rounded-2xl border bg-slate-900 shadow-2xl text-xs font-semibold transition-opacity duration-300 ${c}`;
+  d.textContent = m;
+  $('toasts').appendChild(d);
+  setTimeout(() => { d.style.opacity = 0; setTimeout(() => d.remove(), 300); }, 3500);
+}
+
+/* ---------- Inisialisasi ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  // Bersihkan key localStorage model versi lama agar tidak pernah memanggil 2.0/2.5 lagi
+  ls.del('RAS_GEMINI_MODEL_PREF');
+  const validM = getValidModelPref();
+  $('key').value = ls.get(K.key) || '';
+  $('model').value = validM;
+  $('modelBadge').textContent = validM === 'auto' ? '3.8-flash ➔ 4-argon' : validM;
+  $('pid').value = ls.get(K.pid) || '';
+  $('tok').value = ls.get(K.tok) || '';
+  $('key').addEventListener('input', dot); dot();
+  if (!$('key').value.trim()) $('settings').classList.remove('hidden');
+  setMode('auto'); setQty(1); renderHist(); tick(); setInterval(tick, 1000);
+  try {
+    const a = JSON.parse(ls.get(K.last) || '[]');
+    if (Array.isArray(a) && a.length) { st.items = a; render(); }
+  } catch {}
+  if ('speechSynthesis' in window) {
+    speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+  }
 });
 </script>
 </body>
