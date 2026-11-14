@@ -1,246 +1,178 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>El Otak Studio — AI Video Reels Autopilot (v5.0 Pure 4-Argon & 3.8)</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='50%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23e879f9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%2306080d'/%3E%3Cpolygon points='50,8 88,28 88,72 50,92 12,72 12,28' fill='none' stroke='url(%23g)' stroke-width='5'/%3E%3Cpath d='M32 34 H58 M32 50 H52 M32 66 H58 M32 34 V66' stroke='%23fff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpolygon points='58,38 76,50 58,62' fill='url(%23g)'/%3E%3C/svg%3E">
+<title>Reels Autopilot Studio AI — Autonomous Video & Web Research</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <style>
-body{background:#06080d;background-image:radial-gradient(at 0 0,rgba(56,189,248,.12),transparent 50%),radial-gradient(at 100% 0,rgba(139,92,246,.12),transparent 50%);background-attachment:fixed;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.sh{background:linear-gradient(90deg,#141b29 25%,#1f293d 50%,#141b29 75%);background-size:200% 100%;animation:sh 1.6s infinite linear}
+body{background:#06080f;background-image:radial-gradient(at 0 0,rgba(79,70,229,.16),transparent 50%),radial-gradient(at 100% 0,rgba(236,72,153,.12),transparent 50%);background-attachment:fixed;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.sh{background:linear-gradient(90deg,#111827 25%,#1f2937 50%,#111827 75%);background-size:200% 100%;animation:sh 1.5s infinite linear}
 @keyframes sh{to{background-position:-200% 0}}
-.logo-glow{filter:drop-shadow(0 0 10px rgba(56,189,248,.4))}
 </style>
 <style type="text/tailwindcss">
-.inp{@apply w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-xl px-3 py-2 text-sm text-white outline-none transition}
+.inp{@apply w-full bg-slate-950 border border-slate-700 focus:border-indigo-500 rounded-xl px-3 py-2 text-sm text-white outline-none}
 .btn{@apply px-3.5 py-2 rounded-xl text-xs font-bold border transition disabled:opacity-50 cursor-pointer select-none}
-.b-ind{@apply bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 border-cyan-500/40 text-white shadow-lg shadow-indigo-600/20}
+.b-ind{@apply bg-indigo-600 hover:bg-indigo-500 border-indigo-500 text-white}
+.b-em{@apply bg-emerald-600 hover:bg-emerald-500 border-emerald-500 text-white}
 .b-gh{@apply bg-slate-800/90 hover:bg-slate-700 border-slate-700 text-slate-200}
-.pan{@apply bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl}
-.opt{@apply text-left p-3.5 rounded-2xl border-2 border-slate-800 bg-slate-950/60 transition hover:border-slate-600 cursor-pointer}
-.opt.on{@apply border-cyan-500 bg-cyan-500/10 shadow-lg shadow-cyan-500/10}
+.pan{@apply bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl}
+.opt{@apply text-left p-3 rounded-2xl border-2 border-slate-800 bg-slate-950/60 transition hover:border-slate-600 cursor-pointer}
+.opt.on{@apply border-indigo-500 bg-indigo-500/10}
 </style>
 </head>
-<body class="text-slate-100 antialiased min-h-screen flex flex-col">
+<body class="text-slate-100 antialiased min-h-screen">
 
-<!-- ================= HEADER ================= -->
 <header class="sticky top-0 z-40 backdrop-blur-xl bg-slate-950/85 border-b border-slate-800">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-    <div class="flex items-center gap-3 min-w-0">
-      <div class="w-11 h-11 shrink-0 logo-glow">
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-          <defs>
-            <linearGradient id="bgG" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#0f172a"/><stop offset="100%" stop-color="#1e1b4b"/>
-            </linearGradient>
-            <linearGradient id="neonG" x1="10" y1="10" x2="110" y2="110" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#38bdf8"/><stop offset="50%" stop-color="#818cf8"/><stop offset="100%" stop-color="#e879f9"/>
-            </linearGradient>
-          </defs>
-          <polygon points="60,6 108,32 108,88 60,114 12,88 12,32" fill="url(#bgG)" stroke="url(#neonG)" stroke-width="4"/>
-          <polygon points="60,16 98,37 98,83 60,104 22,83 22,37" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="5 4"/>
-          <path d="M35 39 H63 M35 60 H55 M35 81 H63 M35 39 V81" stroke="#f8fafc" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <polygon points="63,43 90,60 63,77" fill="url(#neonG)"/>
-          <circle cx="48" cy="60" r="3.5" fill="#38bdf8"/>
-        </svg>
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+    <div class="min-w-0">
+      <div class="flex items-center gap-2">
+        <h1 class="font-extrabold text-lg truncate">🎬 Reels Autopilot Studio <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">v3.6 Autonomous</span></h1>
       </div>
-      <div class="min-w-0">
-        <div class="flex items-center gap-2">
-          <h1 class="font-extrabold text-base sm:text-lg tracking-tight bg-gradient-to-r from-white via-cyan-100 to-indigo-300 bg-clip-text text-transparent truncate">EL OTAK STUDIO</h1>
-          <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">v5.0 Pure 4-Argon & 3.8</span>
-        </div>
-        <p class="text-[11px] text-slate-400 truncate">Engine: <span id="modelBadge" class="text-cyan-300 font-mono font-semibold">gemini-4-argon ➔ gemini-3.8-flash (low)</span></p>
-      </div>
+      <p class="text-[11px] text-slate-400 truncate">Model Aktif: <span id="modelBadge" class="text-emerald-300 font-mono">gemini-3.6-flash (Auto-Guard)</span> • Riset Web: <span id="webBadge" class="text-indigo-300 font-mono">ON (Google Search + Wiki/News)</span></p>
     </div>
-
-    <div class="flex items-center gap-2 flex-wrap">
-      <span class="hidden sm:block text-xs font-mono bg-slate-900 border border-slate-800 rounded-xl px-3 py-2">WIB <b id="clock" class="text-cyan-300">--:--:--</b></span>
-      <button class="btn b-gh" onclick="toggleHist()">Riwayat <span id="histCount" class="font-mono text-cyan-300">0/50</span></button>
-      <button class="btn b-gh flex items-center gap-1.5" onclick="toggleSettings()">
-        <span>Pengaturan API</span>
-        <span id="dot" class="inline-block w-2 h-2 rounded-full bg-rose-500"></span>
-      </button>
+    <div class="flex items-center gap-2">
+      <span class="hidden md:block text-xs font-mono bg-slate-900 border border-slate-800 rounded-xl px-3 py-2">WIB <b id="clock">--:--:--</b></span>
+      <button class="btn b-gh" onclick="toggleHist()">🕘 Riwayat <span id="histCount" class="font-mono text-indigo-300">0/50</span></button>
+      <button class="btn b-gh" onclick="$('settings').classList.toggle('hidden')">⚙ API <span id="dot" class="inline-block w-2 h-2 rounded-full bg-rose-500"></span></button>
     </div>
   </div>
 </header>
 
-<!-- ================= MAIN ================= -->
-<main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 space-y-6">
+<main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
 
-  <!-- PANEL PENGATURAN (MURNI GEMINI 4 ARGON & 3.8 FLASH) -->
-  <section id="settings" class="hidden pan space-y-4">
-    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+  <!-- PENGATURAN API & FILTER MODEL -->
+  <section id="settings" class="hidden pan space-y-4 border-indigo-500/40">
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
       <div>
-        <h2 class="font-bold text-sm text-white">Konfigurasi API & Jalur Cepat Anti-Antre (Murni Gemini 4 Argon & 3.8 Flash)</h2>
-        <p class="text-xs text-slate-400">Mendukung rotasi multi-API key (pisahkan dengan koma) & <code class="text-emerald-300">thinkingLevel: "low"</code> untuk memotong antrean server.</p>
+        <h2 class="font-bold text-sm text-white">⚙️ Konfigurasi API & Proteksi Model Aktif</h2>
+        <p class="text-xs text-slate-400">Model lawas/dikunci Google (1.5, 2.0, 2.5) <b>diblokir otomatis</b>. Hanya menggunakan Gemini 3.x terbaru yang aktif.</p>
       </div>
-      <button class="btn b-gh" onclick="toggleSettings(false)">Tutup ✕</button>
+      <button class="btn b-gh" onclick="syncActiveModels()">🔄 Cek Model Aktif dari Server Google</button>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
-      <label class="text-xs font-semibold space-y-1.5 block lg:col-span-2">
-        <span>GEMINI_API_KEY <span class="text-emerald-400">(Bisa 1 atau beberapa key dipisah koma)</span></span>
-        <input id="key" type="password" class="inp font-mono" placeholder="AIzaSy... (atau key1, key2)" autocomplete="off">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <label class="text-xs font-semibold space-y-1 block">GEMINI_API_KEY <span class="text-rose-400">*wajib</span>
+        <input id="key" type="password" class="inp font-mono" placeholder="AIza..." autocomplete="off">
       </label>
-
-      <label class="text-xs font-semibold space-y-1.5 block">
-        <span>Pilih Model AI <span class="text-emerald-400">(Murni Generasi Baru)</span></span>
+      <label class="text-xs font-semibold space-y-1 block">Pilih Model Gemini (Anti-Locked)
         <select id="model" class="inp font-mono">
-          <option value="auto">Otomatis (gemini-4-argon ➔ gemini-3.8-flash)</option>
-          <option value="gemini-4-argon">gemini-4-argon (Penalaran & Stabil)</option>
-          <option value="gemini-3.8-flash">gemini-3.8-flash (Kecepatan Tinggi)</option>
+          <option value="auto">⚡ AUTO (Pilih Gemini 3.x Terbaik)</option>
+          <option value="gemini-3.6-flash">gemini-3.6-flash (Rekomendasi Utama)</option>
+          <option value="gemini-3.5-flash">gemini-3.5-flash (Stabil & Cepat)</option>
+          <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Hemat Kuota)</option>
+          <option value="gemini-flash-latest">gemini-flash-latest (Alias Terbaru)</option>
         </select>
       </label>
-
-      <label class="text-xs font-semibold space-y-1.5 block">
-        <span>Thinking Level <span class="text-amber-300">(Anti-Timeout)</span></span>
-        <select id="thinkLvl" class="inp font-mono">
-          <option value="low">low (Bebas Antre • &lt;5 dtk)</option>
-          <option value="medium">medium (Seimbang)</option>
-        </select>
+      <label class="text-xs font-semibold space-y-1 block">FB_PAGE_ID (Opsional)
+        <input id="pid" class="inp font-mono" placeholder="100089..." autocomplete="off">
       </label>
-
-      <label class="text-xs font-semibold space-y-1.5 block">
-        <span>Engine Visual Scene 9:16</span>
-        <select id="visMode" class="inp font-mono">
-          <option value="hybrid">Hybrid (Kanvas Instan + AI Turbo)</option>
-          <option value="canvas">Kanvas Sinematik Prosedural (0 dtk)</option>
-        </select>
+      <label class="text-xs font-semibold space-y-1 block">FB_ACCESS_TOKEN (Opsional)
+        <input id="tok" type="password" class="inp font-mono" placeholder="EAAG..." autocomplete="off">
       </label>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-4 pt-1 border-t border-slate-800/80">
-      <label class="text-xs font-semibold space-y-1.5 block">
-        <span>FB_PAGE_ID <span class="text-slate-500">(opsional untuk auto-post)</span></span>
-        <input id="pid" class="inp font-mono" placeholder="10492819283..." autocomplete="off">
-      </label>
-
-      <label class="text-xs font-semibold space-y-1.5 block">
-        <span>FB_ACCESS_TOKEN <span class="text-slate-500">(opsional untuk auto-post)</span></span>
-        <input id="tok" type="password" class="inp font-mono" placeholder="EAAGm0PX..." autocomplete="off">
-      </label>
-    </div>
-
-    <div class="rounded-xl bg-cyan-950/30 border border-cyan-500/25 p-3 text-xs text-slate-300 space-y-1">
-      <b class="text-cyan-300 block">💡 Arsitektur Murni Gemini 4 Argon & 3.8 Flash:</b>
-      <p>1. Hanya menggunakan <code class="text-emerald-300">gemini-4-argon</code> dan <code class="text-emerald-300">gemini-3.8-flash</code> dengan adaptasi payload otomatis (<code class="text-emerald-300">thinkingLevel: "low"</code>) agar bebas dari antrean panjang.</p>
-      <p>2. Dilengkapi <b>Procedural Motion Canvas 9:16</b> dan <b>Synthesizer Musik Latar (BGM)</b> yang langsung terekam ke file video (`.mp4` / `.webm`) saat diunduh.</p>
-    </div>
-
-    <div class="flex flex-wrap justify-between items-center gap-2 pt-1">
-      <button class="btn b-gh" onclick="testApiConnection()" id="btnTestApi">⚡ Tes Koneksi API Key</button>
-      <div class="flex flex-wrap gap-2">
-        <button class="btn bg-rose-500/10 border-rose-500/30 text-rose-300" onclick="askResetCred()">Reset Kredensial</button>
+    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+      <div class="text-[11px] text-slate-400 font-mono" id="blockedInfo">🛡️ Blokir Aktif: gemini-1.x, gemini-2.0, gemini-2.5-flash/pro/lite</div>
+      <div class="flex gap-2">
+        <button class="btn bg-rose-500/10 border-rose-500/30 text-rose-300" onclick="resetCred()">Reset Kredensial</button>
         <button class="btn b-ind" onclick="saveSettings()">Simpan Pengaturan</button>
       </div>
     </div>
   </section>
 
-  <!-- KONTROL SESI & KUANTITAS VIDEO -->
+  <!-- PANEL KONTROL OTONOM -->
   <section class="pan grid lg:grid-cols-12 gap-5">
     <div class="lg:col-span-7 space-y-3">
-      <div class="flex items-center justify-between">
-        <h2 class="font-bold text-sm sm:text-base">Pilih Sesi Tayang Video Reels</h2>
-        <span id="autoTag" class="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Deteksi Jam Otomatis</span>
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h2 class="font-bold">1. Sesi & Karakter Konten <span id="autoTag" class="ml-2 text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300">deteksi jam WIB</span></h2>
+        <label class="flex items-center gap-2 text-xs bg-indigo-500/10 border border-indigo-500/30 px-3 py-1.5 rounded-xl cursor-pointer">
+          <input id="useWeb" type="checkbox" checked class="accent-indigo-500">
+          <span class="font-semibold text-indigo-200">🌐 Cari Ide & Fakta Otomatis di Internet</span>
+        </label>
       </div>
-
       <div class="grid sm:grid-cols-3 gap-3">
         <button class="opt" data-mode="auto" onclick="setMode('auto')">
-          <b class="text-sm text-white">⏱ Otomatis</b>
-          <p class="text-[11px] text-slate-400 mt-1">Ikuti jam WIB saat ini secara pintar.</p>
+          <b class="text-sm">⏱ Otomatis (WIB)</b>
+          <p class="text-[11px] text-slate-400 mt-1">Ikuti jam tayang saat ini secara cerdas.</p>
         </button>
         <button class="opt" data-mode="siang" onclick="setMode('siang')">
-          <b class="text-sm text-amber-300">☀️ Sesi Siang</b>
-          <p class="text-[11px] text-slate-400 mt-1">Fakta Unik & Tekno (11.30–13.30)</p>
+          <b class="text-sm">☀️ Sesi Siang</b>
+          <p class="text-[11px] text-slate-400 mt-1">Sains, Fakta Unik & Inovasi Tekno (11.30–13.30)</p>
         </button>
         <button class="opt" data-mode="malam" onclick="setMode('malam')">
-          <b class="text-sm text-purple-300">🌙 Sesi Malam</b>
-          <p class="text-[11px] text-slate-400 mt-1">Misteri & Sejarah (19.00–21.30)</p>
+          <b class="text-sm">🌙 Sesi Malam</b>
+          <p class="text-[11px] text-slate-400 mt-1">Misteri Nyata, Anomali & Sejarah (19.00–21.30)</p>
         </button>
       </div>
-
-      <div class="rounded-xl bg-slate-950 border border-slate-800 p-3 text-xs">
-        <b id="sumT" class="text-cyan-300"></b>
-        <p id="sumD" class="text-slate-400 mt-0.5"></p>
+      <div class="rounded-xl bg-slate-950 border border-slate-800 p-3 text-xs space-y-1">
+        <b id="sumT" class="text-indigo-300 block"></b>
+        <p id="sumD" class="text-slate-400"></p>
       </div>
     </div>
 
     <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
-      <div class="grid grid-cols-2 gap-3">
-        <button class="opt" data-qty="1" onclick="setQty(1)">
-          <b class="text-xs text-white">🎬 1 Video Reels</b>
-          <p class="text-[10px] text-slate-400 mt-0.5">Render Cepat (~3-6 dtk)</p>
-        </button>
-        <button class="opt" data-qty="5" onclick="setQty(5)">
-          <b class="text-xs text-white">🔥 5 Video Reels</b>
-          <p class="text-[10px] text-slate-400 mt-0.5">Batch Sekaligus Anti-Timeout</p>
-        </button>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <b class="text-sm">2. Jumlah & Mode Autopilot</b>
+          <span class="text-[11px] text-slate-400">Kosongkan kata kunci = 100% mikir sendiri</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2.5">
+          <button class="opt" data-qty="1" onclick="setQty(1)"><b class="text-xs">⚡ 1 Video</b></button>
+          <button class="opt" data-qty="3" onclick="setQty(3)"><b class="text-xs">🔥 3 Video</b></button>
+          <button class="opt" data-qty="5" onclick="setQty(5)"><b class="text-xs">📚 5 Video</b></button>
+        </div>
+        <input id="kw" class="inp" maxlength="140" placeholder="Kosongkan agar AI cari topik viral sendiri di internet...">
       </div>
 
-      <input id="kw" class="inp" maxlength="120" placeholder="Kata kunci / fokus topik (opsional, contoh: Misteri Piramida)">
-
-      <div class="grid grid-cols-1 sm:grid-cols-12 gap-2">
-        <button id="gen" onclick="generate(false)" class="sm:col-span-8 py-3.5 px-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:from-cyan-400 hover:via-indigo-500 hover:to-purple-500 font-extrabold text-sm text-white shadow-xl shadow-indigo-600/25 disabled:opacity-60 transition cursor-pointer">
-          Rakit 1 Video Reels Sekarang
-        </button>
-        <button id="genLocal" onclick="generate(true)" title="Rakit instan tanpa antrean API" class="sm:col-span-4 py-3.5 px-3 rounded-2xl bg-slate-800 hover:bg-emerald-600/30 border border-emerald-500/40 font-bold text-xs text-emerald-300 transition cursor-pointer">
-          ⚡ Instan (Tanpa Antre)
-        </button>
-      </div>
+      <button id="gen" onclick="generate()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-95 font-extrabold text-sm shadow-lg shadow-indigo-600/20 disabled:opacity-60">
+        🧠 Riset Internet & Buat Paket Video
+      </button>
     </div>
   </section>
 
-  <!-- ERROR ALERT -->
-  <div id="err" class="hidden rounded-2xl border border-rose-500/40 bg-rose-950/60 p-4 text-sm" role="alert">
+  <!-- PANEL ERROR -->
+  <div id="err" class="hidden rounded-2xl border border-rose-500/40 bg-rose-950/70 p-4 text-sm" role="alert">
     <div class="flex justify-between gap-3">
       <div>
         <b id="errT" class="text-white"></b>
-        <p id="errM" class="text-rose-200 mt-1 text-xs leading-relaxed"></p>
+        <p id="errM" class="text-rose-200 mt-1 whitespace-pre-line text-xs"></p>
       </div>
-      <button onclick="hideErr()" aria-label="Tutup" class="text-rose-300 hover:text-white">✕</button>
+      <button onclick="hideErr()" aria-label="Tutup">✕</button>
     </div>
-    <div class="flex flex-wrap gap-2 mt-3">
-      <button class="btn b-gh" onclick="generate(false)">↻ Coba Lagi via API</button>
-      <button class="btn bg-emerald-500/20 border-emerald-500/40 text-emerald-300" onclick="generate(true)">⚡ Pakai Mode Instan Sekarang</button>
+    <div class="flex gap-2 mt-3">
+      <button class="btn b-gh" onclick="generate()">↻ Coba Lagi</button>
+      <button class="btn b-gh" onclick="$('settings').classList.remove('hidden')">⚙ Buka Pengaturan API</button>
     </div>
   </div>
 
-  <!-- LOADING STATE -->
-  <section id="loading" class="hidden pan text-center max-w-xl mx-auto space-y-3 py-8">
-    <div class="w-12 h-12 mx-auto rounded-full border-4 border-cyan-400 border-t-transparent animate-spin"></div>
-    <b id="ldTitle" class="block text-base">El Otak Studio merakit storyboard video...</b>
-    <p id="ldSub" class="text-xs text-slate-400 font-mono">Menghubungi gemini-4-argon / gemini-3.8-flash...</p>
-    <div class="flex justify-center gap-2 pt-1">
-      <button class="btn b-gh" onclick="cancelGen()">Batalkan</button>
-      <button class="btn bg-emerald-500/20 border-emerald-500/40 text-emerald-300" onclick="switchToInstantNow()">⚡ Lewati Antrean (Rakit Instan)</button>
-    </div>
+  <!-- PANEL LOADING RISET -->
+  <section id="loading" class="hidden pan text-center max-w-xl mx-auto space-y-3 border-indigo-500/30">
+    <div class="w-12 h-12 mx-auto rounded-full border-4 border-indigo-500 border-t-transparent animate-spin"></div>
+    <b id="ldTitle" class="block text-base">Otak AI sedang mencari bahan di internet...</b>
+    <p id="ldSub" class="text-xs text-indigo-300 font-mono">Menghubungkan ke Wikipedia, berita global & Google Search...</p>
+    <div id="ldFeeds" class="text-[11px] text-slate-400 bg-slate-950 rounded-xl p-2.5 text-left font-mono max-h-28 overflow-y-auto hidden"></div>
+    <button class="btn b-gh" onclick="cancelGen()">Batalkan</button>
   </section>
 
-  <!-- OUTPUT SECTION -->
+  <!-- HASIL KONTEN & STUDIO VIDEO -->
   <section class="space-y-5">
-    <div id="empty" class="pan text-center py-10 max-w-2xl mx-auto space-y-3">
-      <div class="w-16 h-16 mx-auto logo-glow">
-        <svg viewBox="0 0 120 120" fill="none" class="w-full h-full">
-          <polygon points="60,8 106,33 106,87 60,112 14,87 14,33" fill="#0f172a" stroke="url(#neonG)" stroke-width="4"/>
-          <path d="M35 39 H63 M35 60 H55 M35 81 H63 M35 39 V81" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          <polygon points="63,43 90,60 63,77" fill="url(#neonG)"/>
-        </svg>
-      </div>
-      <h3 class="font-extrabold text-lg">El Otak Studio Siap Merender Video</h3>
-      <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
-        Ditenagai murni oleh <b>gemini-4-argon</b> & <b>gemini-3.8-flash</b> dengan <code class="text-emerald-300">thinkingLevel: "low"</code>, <b>Procedural Motion Canvas 9:16</b>, dan <b>Audio BGM Synthesizer</b>.
+    <div id="empty" class="pan text-center py-12 max-w-2xl mx-auto space-y-2">
+      <div class="text-4xl">🤖🌐🎞️</div>
+      <h3 class="font-bold text-base">Studio Video Otonom Siap Bekerja</h3>
+      <p class="text-xs text-slate-400 max-w-lg mx-auto leading-relaxed">
+        Klik tombol <b>Riset Internet & Buat Paket Video</b>. Aplikasi akan otomatis mengambil bahan fakta/berita dari internet, menggunakan <b>Google Search Grounding</b> pada Gemini 3.x, lalu merakit <b>Video Vertikal 9:16 lengkap dengan Subtitle Karaoke, Musik, dan Voiceover</b> yang bisa langsung diunduh!
       </p>
     </div>
 
     <div id="resHead" class="hidden flex flex-wrap justify-between items-center gap-3 border-b border-slate-800 pb-3">
       <div>
         <h2 id="resTitle" class="font-extrabold text-lg"></h2>
-        <p class="text-xs text-slate-400">Setiap video sudah memiliki visual bergerak 3 scene + musik latar yang ikut terekam saat diunduh.</p>
+        <p class="text-xs text-slate-400">Klik <b>▶ Preview Video + Suara</b> untuk menonton, atau <b>🎥 Render & Download Video (.webm)</b> untuk menyimpan file video.</p>
       </div>
       <div class="flex flex-wrap gap-2">
-        <button id="stopAll" class="hidden btn bg-rose-500/20 border-rose-500/30 text-rose-300" onclick="stopSpeak()">⏹ Hentikan Suara</button>
-        <button class="btn b-gh" onclick="exportJson()">Ekspor JSON</button>
+        <button id="stopAll" class="hidden btn bg-rose-500/20 border-rose-500/30 text-rose-300" onclick="stopAllMedia()">⏹ Hentikan Pemutaran</button>
+        <button class="btn b-gh" onclick="exportJson()">⬇ Ekspor Data JSON</button>
       </div>
     </div>
 
@@ -248,29 +180,17 @@ body{background:#06080d;background-image:radial-gradient(at 0 0,rgba(56,189,248,
   </section>
 </main>
 
-<!-- MODAL RIWAYAT -->
+<!-- MODAL RIWAYAT ANTI-DUPLIKAT -->
 <div id="histModal" class="hidden fixed inset-0 z-50 bg-black/75 items-center justify-center p-4" onclick="if(event.target===this)toggleHist()">
   <div class="pan max-w-xl w-full max-h-[85vh] flex flex-col space-y-3">
-    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-      <b>Riwayat Topik Anti-Duplikat (Maks 50)</b>
-      <button onclick="toggleHist()" aria-label="Tutup" class="text-slate-400 hover:text-white">✕</button>
+    <div class="flex justify-between items-center">
+      <b>🧠 Memori Topik Anti-Duplikat (Otomatis Dihindari AI)</b>
+      <button onclick="toggleHist()" aria-label="Tutup">✕</button>
     </div>
-    <div id="histList" class="flex-1 overflow-y-auto space-y-2 pr-1"></div>
-    <div class="flex justify-between items-center pt-2 border-t border-slate-800">
+    <div id="histList" class="flex-1 overflow-y-auto space-y-2"></div>
+    <div class="flex justify-between items-center">
       <span id="histFoot" class="text-xs font-mono text-slate-400"></span>
-      <button id="btnClearHist" class="btn bg-rose-500/10 border-rose-500/30 text-rose-300" onclick="clearHist()">Hapus Semua</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL KONFIRMASI IN-PAGE -->
-<div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black/75 items-center justify-center p-4">
-  <div class="pan max-w-md w-full space-y-4">
-    <h3 id="confTitle" class="font-bold text-base text-white">Konfirmasi</h3>
-    <p id="confMsg" class="text-xs text-slate-300 leading-relaxed"></p>
-    <div class="flex justify-end gap-2">
-      <button class="btn b-gh" onclick="closeConfirm()">Batal</button>
-      <button id="confOkBtn" class="btn bg-rose-500/20 border-rose-500/40 text-rose-300">Ya, Lanjutkan</button>
+      <button class="btn bg-rose-500/10 border-rose-500/30 text-rose-300" onclick="clearHist()">Hapus Semua Memori</button>
     </div>
   </div>
 </div>
@@ -278,1484 +198,1141 @@ body{background:#06080d;background-image:radial-gradient(at 0 0,rgba(56,189,248,
 <div id="toasts" class="fixed bottom-4 right-4 z-[60] flex flex-col gap-2 max-w-sm pointer-events-none" aria-live="polite"></div>
 
 <script>
-const $ = id => document.getElementById(id);
-const K = {
-  key: 'RAS_GEMINI_API_KEY',
-  model: 'RAS_GEMINI_MODEL_V5',
-  think: 'RAS_GEMINI_THINK_LVL_V5',
-  vis: 'RAS_VISUAL_MODE_V5',
-  pid: 'RAS_FB_PAGE_ID',
-  tok: 'RAS_FB_ACCESS_TOKEN',
-  hist: 'RAS_TOPIC_HISTORY_V1',
-  last: 'RAS_LAST_VIDEO_ITEMS_V5'
+const $=id=>document.getElementById(id);
+const K={
+  key:'RAS3_GEMINI_KEY',
+  model:'RAS3_GEMINI_MODEL',
+  pid:'RAS3_FB_PID',
+  tok:'RAS3_FB_TOK',
+  hist:'RAS3_TOPIC_HIST',
+  last:'RAS3_LAST_ITEMS',
+  deadModels:'RAS3_DEAD_MODELS'
 };
+const MAX_HIST=60;
 
-// MURNI HANYA GEMINI-4-ARGON & GEMINI-3.8-FLASH
-const ALLOWED_MODELS = ['gemini-4-argon', 'gemini-3.8-flash'];
-const MAX = 50, VID_SEC = 12, CATS = ['Fakta Unik', 'Teknologi', 'Misteri'];
+/* ============================================================================
+   1. PROTEKSI KETAT ANTI MODEL KEDALUWARSA / DIKUNCI GOOGLE
+   Semua model seri 1.0, 1.5, 2.0, dan 2.5 (termasuk 2.5-flash/pro/lite) DIBLOKIR
+   ============================================================================ */
+const ACTIVE_GEMINI_MODELS = [
+  'gemini-3.6-flash',
+  'gemini-3.5-flash',
+  'gemini-3.5-flash-lite',
+  'gemini-flash-latest'
+];
+const FORBIDDEN_MODEL_REGEX = /gemini-(1\.|2\.0|2\.5)|vision|embedding|aqa|tts|imagen|veo|learnlm|gemma|audio|robotics|computer-use/i;
 
-const st = {
-  mode: 'auto',
-  qty: 1,
-  items: [],
-  ctl: null,
-  cancelled: false,
-  forceInstant: false,
-  speak: null,
-  tok: 0,
-  keyIdx: 0,
-  players: {},
-  confirmCb: null
-};
-
-const ls = {
-  get: k => { try { return localStorage.getItem(k); } catch { return null; } },
-  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
-  del: k => { try { localStorage.removeItem(k); } catch {} }
-};
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const words = s => String(s || '').trim().split(/\s+/).filter(Boolean).length;
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'reels';
-const save = () => ls.set(K.last, JSON.stringify(st.items));
-
-/* ---------- Bank Storyboard Studio & Topik Dinamis ---------- */
-const INSTANT_BANK = {
-  siang: [
-    {
-      kategori: 'Teknologi',
-      jam_upload: '12.00 WIB',
-      judul_topik: 'Chip Fotonik Cahaya Pengganti Silikon',
-      hook_3_detik: 'KOMPUTER MASA DEPAN DIGERAKKAN CAHAYA!',
-      naskah_voiceover: 'Tahukah kamu, ilmuwan kini mengembangkan prosesor fotonik yang memakai tembakan laser mikro sebagai pengganti arus listrik. Hasilnya, kecepatan transfer data meningkat sepuluh kali lipat tanpa membuat mesin menjadi panas berlebihan.',
-      video_prompt: 'Futuristic optical photonic processor chip glowing with cyan and violet laser beams inside a dark high-tech laboratory, macro lens, vertical 9:16, 8k',
-      scene_prompts: [
-        'Extreme macro close-up of a translucent photonic microchip glowing with neon cyan laser circuits, vertical 9:16',
-        'Medium shot of light data pulses racing through microscopic crystal waveguides at lightspeed, cyberpunk aesthetic, vertical 9:16',
-        'Dramatic wide angle of a futuristic quantum supercomputer core radiating cool blue holographic energy, vertical 9:16'
-      ],
-      caption_reels: 'Bayangkan HP nggak pernah panas lagi walau dipakai main game berat seharian! Menurutmu kapan teknologi ini masuk ke smartphone kita?',
-      hashtags: ['#TeknologiMasaDepan', '#FaktaUnik', '#InovasiAI', '#KomputerKuantum', '#ReelsTekno']
-    },
-    {
-      kategori: 'Fakta Unik',
-      jam_upload: '12.30 WIB',
-      judul_topik: 'Hujan Berlian Asli di Planet Neptunus',
-      hook_3_detik: 'DI PLANET INI HUJANNYA BERLIAN ASLI!',
-      naskah_voiceover: 'Di kedalaman atmosfer Neptunus dan Uranus, tekanan ekstrem memisahkan atom karbon dari gas metana lalu memadatkannya menjadi kristal berlian murni. Berlian raksasa ini terus menghujani inti planet setiap detik.',
-      video_prompt: 'Sparkling crystalline diamonds falling like rain through deep blue and turquoise storm clouds inside giant planet Neptune, cinematic space visualization, vertical 9:16',
-      scene_prompts: [
-        'Close-up of brilliant cut raw diamonds glinting amidst electric blue lightning clouds in outer space, vertical 9:16',
-        'Medium shot of millions of glowing carbon crystals raining down through supersonic turquoise atmospheric winds, vertical 9:16',
-        'Epic cosmic view of planet Neptune glowing in deep sapphire blue surrounded by shimmering rings, vertical 9:16'
-      ],
-      caption_reels: 'Sayangnya jaraknya miliaran kilometer dan tekanannya bisa meremukkan pesawat ruang angkasa! Berani ke sana kalau ada roketnya?',
-      hashtags: ['#FaktaSemesta', '#Antariksa', '#PlanetNeptunus', '#FaktaUnikDunia', '#SainsPopuler']
-    },
-    {
-      kategori: 'Teknologi',
-      jam_upload: '13.00 WIB',
-      judul_topik: 'Kaca Penyimpan Data Abadi Lima Dimensi',
-      hook_3_detik: 'KEPING KACA KECIL PENYIMPAN DATA ABADI!',
-      naskah_voiceover: 'Kaca memori lima dimensi buatan peneliti optik mampu menyimpan tiga ratus enam puluh terabita data selama miliaran tahun. Kepingan kuarsa ini tahan terhadap suhu api seribu derajat tanpa kehilangan satu byte pun.',
-      video_prompt: 'Glowing 5D optical quartz glass disc held by robotic fingers with holographic binary data floating around it, cinematic lighting, vertical 9:16',
-      scene_prompts: [
-        'Extreme close-up of a transparent nanostructured quartz disc reflecting rainbow laser data patterns, vertical 9:16',
-        'Medium shot of femtosecond laser etching microscopic 5D data layers inside crystal glass, vertical 9:16',
-        'Dramatic climax shot of the glowing memory crystal surviving intense golden flames unscathed, vertical 9:16'
-      ],
-      caption_reels: 'Satu keping kaca seukuran koin bisa menyimpan seluruh sejarah umat manusia selamanya. Data apa yang paling ingin kamu abadikan?',
-      hashtags: ['#TeknologiCanggih', '#PenyimpananData', '#MasaDepan', '#FaktaSains', '#InfoTekno']
-    },
-    {
-      kategori: 'Fakta Unik',
-      jam_upload: '11.45 WIB',
-      judul_topik: 'Danau Pink Menyala di Tengah Gurun',
-      hook_3_detik: 'AIR DANAU INI BERWARNA PINK PERMEN KARET!',
-      naskah_voiceover: 'Danau Hillier di Australia memiliki air berwarna merah muda cerah yang tidak berubah meski diambil ke dalam botol. Warna ajaib ini dihasilkan oleh mikroalga penghasil pigmen beta karoten di air bersalinitas tinggi.',
-      video_prompt: 'Aerial view of bright bubblegum pink Lake Hillier bordered by white salt crust, lush green eucalyptus forest and deep blue ocean, vertical 9:16',
-      scene_prompts: [
-        'Close-up of vivid pink water waves washing over sparkling white salt crystals on the shore, vertical 9:16',
-        'Medium drone shot contrasting the neon pink lake against dark green forest trees, vertical 9:16',
-        'High altitude cinematic panorama showing the pink lake next to the crashing blue Southern Ocean, vertical 9:16'
-      ],
-      caption_reels: 'Bukan editan sama sekali, warnanya tetap pink walau dituang ke gelas bening! Tertarik melihatnya langsung?',
-      hashtags: ['#KeajaibanAlam', '#FaktaUnik', '#DanauPink', '#JelajahDunia', '#FenomenaAlam']
-    },
-    {
-      kategori: 'Teknologi',
-      jam_upload: '13.15 WIB',
-      judul_topik: 'Baterai Nuklir Berlian Tahan Ribuan Tahun',
-      hook_3_detik: 'BATERAI INI TAK PERLU DICAS SELAMANYA!',
-      naskah_voiceover: 'Para insinyur berhasil mengubah limbah karbon radioaktif menjadi baterai berlian buatan yang menghasilkan listrik mikro tanpa henti. Daya tahannya mencapai ribuan tahun sehingga sangat ideal untuk satelit dan alat pacu jantung.',
-      video_prompt: 'Glowing futuristic nano-diamond battery core encased in sleek titanium housing emitting soft cyan energy waves, macro shot, vertical 9:16',
-      scene_prompts: [
-        'Macro shot of a glowing crystalline diamond battery cell pulsing with clean blue energy on a circuit board, vertical 9:16',
-        'Medium shot of a deep space probe powered by a radiant diamond reactor drifting past stars, vertical 9:16',
-        'Dramatic low angle of futuristic city devices running infinitely on self-charging crystal cells, vertical 9:16'
-      ],
-      caption_reels: 'Selamat tinggal charger dan powerbank kalau teknologi ini sudah diproduksi massal! Setuju nggak?',
-      hashtags: ['#InovasiTeknologi', '#BateraiMasaDepan', '#EnergiBersih', '#FaktaTekno', '#SainsModern']
-    }
-  ],
-  malam: [
-    {
-      kategori: 'Misteri',
-      jam_upload: '20.00 WIB',
-      judul_topik: 'Sinyal Radio Misterius Wow dari Antariksa',
-      hook_3_detik: 'SINYAL ASING 72 DETIK DARI LUAR ANGKASA!',
-      naskah_voiceover: 'Pada malam lima belas Agustus seribu sembilan ratus tujuh puluh tujuh, teleskop Big Ear menangkap gelombang radio sempit berintensitas sangat kuat dari rasi Sagitarius. Sinyal selama tujuh puluh dua detik itu tak pernah muncul lagi.',
-      video_prompt: 'Giant radio telescope dish under a dark starry night sky with a mysterious glowing purple cosmic signal beam descending from Sagittarius constellation, vertical 9:16',
-      scene_prompts: [
-        'Extreme close-up of a vintage computer printout showing the code 6EQUJ5 circled in red ink with word Wow, dark moody lighting, vertical 9:16',
-        'Medium shot of massive radio telescope dishes rotating silently under a fog-covered midnight sky, vertical 9:16',
-        'Dramatic cosmic zoom into deep space nebula glowing with eerie violet radio waves, vertical 9:16'
-      ],
-      caption_reels: 'Sampai detik ini belum ada astronom yang bisa memastikan siapa pengirim kode 6EQUJ5 tersebut. Menurutmu fenomena alam atau pesan peradaban lain?',
-      hashtags: ['#MisteriAntariksa', '#SinyalWow', '#MisteriDunia', '#FaktaMerinding', '#SejarahMisterius']
-    },
-    {
-      kategori: 'Misteri',
-      jam_upload: '20.30 WIB',
-      judul_topik: 'Kota Bawah Tanah Derinkuyu Sedalam Delapanbelas Lantai',
-      hook_3_detik: 'KOTA BAWAH TANAH TEMPAT 20.000 ORANG BERSEMBUNYI!',
-      naskah_voiceover: 'Di bawah tanah Cappadocia Turki, tersembunyi labirin batu kuno Derinkuyu yang menembus kedalaman delapan puluh lima meter. Kota rahasia ini memiliki pintu batu bundar raksasa yang hanya bisa dikunci rapat dari sisi dalam.',
-      video_prompt: 'Ancient subterranean city of Derinkuyu with carved rock tunnels illuminated by flickering torches, mysterious shadows, cinematic dark atmosphere, vertical 9:16',
-      scene_prompts: [
-        'Close-up of a massive circular stone rolling door sealing a dark underground tunnel in Derinkuyu, torchlight glow, vertical 9:16',
-        'Medium shot looking down a deep vertical ventilation shaft descending eighteen levels into shadowy rock caverns, vertical 9:16',
-        'Dramatic wide shot of vast underground halls and ancient stone arches shrouded in eerie mist, vertical 9:16'
-      ],
-      caption_reels: 'Dari ancaman apa puluhan ribu manusia zaman dulu bersembunyi begitu dalam di perut bumi? Tulis teorimu di kolom komentar!',
-      hashtags: ['#MisteriSejarah', '#Derinkuyu', '#ArkeologiMisterius', '#KotaBawahTanah', '#CeritaMalam']
-    },
-    {
-      kategori: 'Misteri',
-      jam_upload: '21.00 WIB',
-      judul_topik: 'Kapal Mary Celeste Mengapung Tanpa Awak',
-      hook_3_detik: 'KAPAL MEWAH DITEMUKAN KOSONG DI TENGAH LAUT!',
-      naskah_voiceover: 'Tahun seribu delapan ratus tujuh puluh dua, kapal dagang Mary Celeste ditemukan terombang-ambing di Samudra Atlantik dalam kondisi layak berlayar. Makanan dan barang berharga masih utuh di meja, namun seluruh kru lenyap tanpa jejak.',
-      video_prompt: 'Ghost ship Mary Celeste drifting through thick eerie midnight ocean fog under pale moonlight, tattered sails, dark mystery vibe, vertical 9:16',
-      scene_prompts: [
-        'Close-up of an abandoned wooden ship helm spinning slowly in cold ocean mist at night, lantern swinging, vertical 9:16',
-        'Medium shot of a dimly lit captain cabin with untouched meals and open logbook on a wooden table, vertical 9:16',
-        'Dramatic low angle of the tall ghost ship silhouette emerging from dark stormy Atlantic waves, vertical 9:16'
-      ],
-      caption_reels: 'Tidak ada tanda perkelahian dan kapal sama sekali tidak bocor, tapi sepuluh orang di dalamnya hilang selamanya. Apa yang sebenarnya terjadi?',
-      hashtags: ['#MisteriLautan', '#MaryCeleste', '#KapalHantu', '#KisahMisteri', '#SejarahGelap']
-    },
-    {
-      kategori: 'Misteri',
-      jam_upload: '19.30 WIB',
-      judul_topik: 'Naskah Kuno Voynich yang Gagal Dipecahkan',
-      hook_3_detik: 'BUKU KUNO DENGAN BAHASA YANG TAK DIKENAL!',
-      naskah_voiceover: 'Manuskrip Voynich dari abad kelima belas berisi ratusan halaman tulisan tangan dengan alfabet asing dan ilustrasi tanaman yang tidak ada di Bumi. Bahkan kriptografer modern dan kecerdasan buatan belum mampu menerjemahkan maknanya.',
-      video_prompt: 'Ancient vellum pages of the Voynich Manuscript glowing with mysterious runes and bizarre botanical illustrations on a dark oak desk by candlelight, vertical 9:16',
-      scene_prompts: [
-        'Extreme close-up of strange looping calligraphic script and unknown astronomical diagrams on aged parchment, vertical 9:16',
-        'Medium shot of bizarre otherworldly plant drawings turning pages by themselves in a shadowy library, vertical 9:16',
-        'Dramatic overhead shot of the mysterious codex radiating faint arcane golden light in darkness, vertical 9:16'
-      ],
-      caption_reels: 'Sudah lebih dari 600 tahun diteliti para ahli sandi dunia namun tetap menjadi teka-teki terbesar. Menurutmu buku apa ini sebenarnya?',
-      hashtags: ['#ManuskripVoynich', '#TekaTekiSejarah', '#MisteriDunia', '#KodeRahasia', '#FaktaMalam']
-    },
-    {
-      kategori: 'Misteri',
-      jam_upload: '21.15 WIB',
-      judul_topik: 'Misteri Hilangnya Tiga Penjaga Mercusuar Eilean Mor',
-      hook_3_detik: 'TIGA PENJAGA MERCUSUAR LENYAP DI PULAU TERPENCIL!',
-      naskah_voiceover: 'Desember seribu sembilan ratus, kapal bantuan tiba di pulau batu Flannan Isles dan mendapati mercusuar gelap gulita. Jam dinding berhenti berdetak, pintu terkunci rapat dari luar, dan ketiga penjaganya raib ditelan malam.',
-      video_prompt: 'Lonely stone lighthouse standing on jagged black cliffs battered by giant midnight ocean waves and lightning storm, dark cinematic mystery, vertical 9:16',
-      scene_prompts: [
-        'Close-up of a stopped vintage brass wall clock and a single yellow oilskin coat left hanging inside a cold lighthouse room, vertical 9:16',
-        'Medium shot of steep stone steps leading down to violent foaming dark ocean waves in heavy rain, vertical 9:16',
-        'Dramatic wide shot of the dark unlit lighthouse tower silhouetted against purple lightning over the sea, vertical 9:16'
-      ],
-      caption_reels: 'Catatan terakhir di buku jurnal hanya menyebutkan badai hebat padahal cuaca di sekitar pulau tercatat tenang. Merinding banget!',
-      hashtags: ['#MisteriMercusuar', '#FlannanIsles', '#KisahNyata', '#MisteriMalam', '#FaktaSejarah']
-    }
-  ]
-};
-
-const DYNAMIC_TOPICS = {
-  siang: [
-    ['Teknologi', 'Satelit Surya Pancar Listrik dari Orbit', 'LISTRIK DIKIRIM TANPA KABEL DARI LUAR ANGKASA!', 'Ilmuwan kini menguji satelit panel surya raksasa di orbit Bumi yang menangkap cahaya matahari dua puluh empat jam penuh, lalu memancarkan gelombangnya ke stasiun penerima di darat.', 'Giant solar power satellite in Earth orbit beaming glowing cyan microwave energy to a futuristic ground receiver, vertical 9:16'],
-    ['Fakta Unik', 'Ubur-Ubur Abadi yang Bisa Kembali Muda', 'HEWAN LAUT INI BISA HIDUP SELAMANYA!', 'Turritopsis dohrnii adalah spesies ubur-ubur mikroskopis yang mampu memutar balik siklus biologisnya kembali menjadi polip muda setiap kali mengalami cedera atau penuaan di dasar laut.', 'Bioluminescent immortal jellyfish Turritopsis dohrnii glowing with neon cyan and magenta light in deep dark ocean water, macro 9:16'],
-    ['Teknologi', 'Lensa Kontak Pintar dengan Layar Augmented Reality', 'LAYAR KOMPUTER CANGGIH DI DALAM BOLA MATA!', 'Prototipe lensa kontak bionik terbaru berhasil menyematkan proyektor mikro berukuran seperseribu milimeter yang menampilkan navigasi dan terjemahan langsung tepat di depan retina mata manusia.', 'Extreme close-up of a human eye wearing a glowing futuristic smart AR contact lens with holographic HUD interface, vertical 9:16'],
-    ['Fakta Unik', 'Hutan Batu Raksasa Tajam di Madagaskar', 'HUTAN INI TERBUAT DARI TEBING BATU SETAJAM PISAU!', 'Tsingy de Bemaraha di Madagaskar adalah labirin puncak batu kapur setinggi puluhan meter yang terkikis hujan asam selama jutaan tahun hingga meruncing tajam bagaikan ribuan pedang.', 'Dramatic aerial view of razor sharp limestone pinnacles in Tsingy de Bemaraha Madagascar under bright sunlight, vertical 9:16'],
-    ['Teknologi', 'Robot Mikro Pembersih Pembuluh Darah Manusia', 'ROBOT SEUKURAN SEL DARAH PENYELAMAT NYAWA!', 'Peneliti medis menciptakan nanobot magnetik yang dapat berenang menyusuri pembuluh darah untuk menghancurkan sumbatan kolesterol dan mengantarkan obat tepat ke sel yang sakit tanpa operasi.', 'Microscopic futuristic medical nanobots swimming alongside red blood cells inside a glowing artery, 3d render 8k, vertical 9:16']
-  ],
-  malam: [
-    ['Misteri', 'Fenomena Cahaya Hessdalen yang Melayang di Norwegia', 'BOLA CAHAYA MISTERIUS MELAYANG DI LEMBAH!', 'Sejak dekade seribu sembilan ratus tiga puluhan, penduduk lembah Hessdalen Norwegia kerap menyaksikan bola plasma bercahaya putih dan kuning yang melayang diam lalu melesat melebihi kecepatan suara.', 'Mysterious glowing plasma orbs floating above snowy pine forest in Hessdalen valley Norway at midnight, eerie atmosphere, vertical 9:16'],
-    ['Misteri', 'Batu Berjalan Sendiri di Lembah Kematian Racetrack Playa', 'BATU SEBERAT RATUSAN KILOGRAM BERJALAN SENDIRI!', 'Di dasar danau kering Racetrack Playa Kalifornia, bongkahan batu besar meninggalkan jejak lintasan panjang di tanah lumpur keras tanpa ada seorang pun yang pernah menyentuhnya.', 'Heavy desert boulder leaving a long carved trail across cracked dry mud flat under a purple starry night sky, vertical 9:16'],
-    ['Misteri', 'Struktur Monolit Bawah Laut Yonaguni di Jepang', 'PIRAMIDA KUNO TENGGELAM DI DASAR LAUT JEPANG!', 'Penyelam di lepas pantai Yonaguni menemukan struktur batu bertingkat raksasa menyerupai piramida lengkap dengan tangga simetris yang diperkirakan berusia lebih dari sepuluh ribu tahun.', 'Submerged ancient stepped stone pyramid monument of Yonaguni deep underwater with sunbeams piercing dark blue sea, vertical 9:16'],
-    ['Misteri', 'Hutan Bengkok Misterius Gryfino di Polandia', 'RATUSAN POHON PINUS TUMBUH MELENGKUNG SEMPURNA!', 'Sekitar empat ratus pohon pinus di hutan Gryfino Polandia tumbuh membengkok sembilan puluh derajat tepat di pangkal batang dan semuanya mengarah seragam ke arah utara.', 'Eerie crooked pine forest in Gryfino Poland shrouded in thick midnight fog with purple moonlight filtering through trees, vertical 9:16'],
-    ['Misteri', 'Bola Batu Raksasa Sempurna di Hutan Kosta Rika', 'RATUSAN BOLA BATU SEMPURNA PENINGGALAN KUNO!', 'Lebih dari tiga ratus bola batu granit dengan tingkat kebulatan nyaris sempurna ditemukan tersebar di delta Diquis Kosta Rika, dan cara pembuatannya masih membingungkan arkeolog.', 'Ancient giant carved stone spheres half buried in dark misty jungle of Costa Rica illuminated by mysterious moonlight, vertical 9:16']
-  ]
-};
-
-/* ---------- Modal Konfirmasi In-Page ---------- */
-function openConfirm(title, msg, onYes) {
-  $('confTitle').textContent = title;
-  $('confMsg').textContent = msg;
-  st.confirmCb = onYes;
-  $('confOkBtn').onclick = () => {
-    const cb = st.confirmCb;
-    closeConfirm();
-    if (cb) cb();
-  };
-  const m = $('confirmModal');
-  m.classList.remove('hidden');
-  m.classList.add('flex');
+function getDeadModels(){
+  try{return JSON.parse(localStorage.getItem(K.deadModels)||'[]')}catch{return[]}
 }
-function closeConfirm() {
-  st.confirmCb = null;
-  const m = $('confirmModal');
-  m.classList.add('hidden');
-  m.classList.remove('flex');
+function markModelDead(m){
+  if(!m)return;
+  const dead=new Set(getDeadModels());
+  dead.add(m);
+  try{localStorage.setItem(K.deadModels,JSON.stringify([...dead]))}catch{}
+}
+function isModelSafe(m){
+  if(!m||typeof m!=='string')return false;
+  const clean=m.replace(/^models\//,'').trim();
+  if(FORBIDDEN_MODEL_REGEX.test(clean))return false;
+  if(getDeadModels().includes(clean))return false;
+  return clean.startsWith('gemini-');
 }
 
-/* ---------- Waktu & Sesi WIB ---------- */
-function wib() {
-  const p = {};
-  new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
-    .formatToParts(new Date()).forEach(x => p[x.type] = x.value);
-  return { h: (+p.hour) % 24, m: +p.minute, t: `${p.hour}:${p.minute}:${p.second}` };
+const st={
+  mode:'auto',
+  qty:1,
+  items:[],
+  ctl:null,
+  cancelled:false,
+  activeCard:null,
+  animFrame:null,
+  audioCtx:null,
+  recordingIdx:null
+};
+
+const ls={
+  get:k=>{try{return localStorage.getItem(k)}catch{return null}},
+  set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},
+  del:k=>{try{localStorage.removeItem(k)}catch{}}
+};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const words=s=>String(s||'').trim().split(/\s+/).filter(Boolean).length;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const saveItems=()=>ls.set(K.last,JSON.stringify(st.items));
+
+/* ============================================================================
+   2. DETEKSI JAM TAYANG WIB & PENGATURAN
+   ============================================================================ */
+function wib(){
+  const p={};
+  new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})
+    .formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
+  return{h:(+p.hour)%24,m:+p.minute,t:`${p.hour}:${p.minute}:${p.second}`};
 }
-function session() {
-  if (st.mode !== 'auto') return st.mode;
-  const w = wib();
-  return w.h * 60 + w.m <= 810 ? 'siang' : 'malam';
+function session(){
+  if(st.mode!=='auto')return st.mode;
+  const w=wib(),mins=w.h*60+w.m;
+  return (mins>=360 && mins<=930)?'siang':'malam';
 }
-function renderSession() {
-  const siang = session() === 'siang';
-  $('sumT').textContent = siang ? '☀️ Sesi Istirahat Siang (11.30–13.30 WIB)' : '🌙 Sesi Santai Malam (19.00–21.30 WIB)';
-  $('sumD').textContent = siang
-    ? 'Fokus: Fakta Unik & Teknologi • Visual Kanvas Cyber/Cerah + Musik Latar Synth Dinamis.'
-    : 'Fokus: Misteri & Sejarah • Visual Kanvas Atmosfer Gelap Dramatis + Musik Latar Ambient Misteri.';
-  $('autoTag').classList.toggle('hidden', st.mode !== 'auto');
+function renderSession(){
+  const siang=session()==='siang';
+  $('sumT').textContent=siang
+    ?'☀️ Mode Aktif: Sesi Siang (Sains, Fakta Unik & Inovasi Teknologi)'
+    :'🌙 Mode Aktif: Sesi Malam (Misteri Nyata, Anomali Sejarah & Fenomena Aneh)';
+  $('sumD').textContent=siang
+    ?'AI akan mencari terobosan sains/teknologi & fakta dunia nyata di internet • Visual cerah futuristik • Musik synth enerjik.'
+    ?'AI akan menggali arsip misteri dunia, insiden sejarah nyata & fenomena belum terpecahkan • Visual gelap sinematik • Musik ambient merinding.';
+  $('autoTag').classList.toggle('hidden',st.mode!=='auto');
 }
-function setMode(m) {
-  st.mode = m;
-  document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+function setMode(m){
+  st.mode=m;
+  document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));
   renderSession();
 }
-function setQty(q) {
-  st.qty = q;
-  document.querySelectorAll('[data-qty]').forEach(b => b.classList.toggle('on', +b.dataset.qty === q));
-  $('gen').textContent = `Rakit ${q} Video Reels Sekarang`;
+function setQty(q){
+  st.qty=q;
+  document.querySelectorAll('[data-qty]').forEach(b=>b.classList.toggle('on',+b.dataset.qty===q));
+  $('gen').textContent=`🧠 Riset Internet & Buat ${q} Paket Video`;
 }
 let lastS;
-function tick() {
-  $('clock').textContent = wib().t;
-  const s = session();
-  if (s !== lastS) { lastS = s; renderSession(); }
+function tick(){
+  $('clock').textContent=wib().t;
+  const s=session();
+  if(s!==lastS){lastS=s;renderSession()}
 }
 
-/* ---------- Pengaturan (Murni 4 Argon & 3.8 Flash + Low Thinking) ---------- */
-function toggleSettings(force) {
-  const el = $('settings');
-  if (typeof force === 'boolean') el.classList.toggle('hidden', !force);
-  else el.classList.toggle('hidden');
+function dot(){
+  const ok=($('key').value||'').trim().length>10;
+  $('dot').className='inline-block w-2 h-2 rounded-full '+(ok?'bg-emerald-400':'bg-rose-500 animate-pulse');
 }
-function getValidModelPref() {
-  const saved = ls.get(K.model);
-  if (saved === 'auto' || ALLOWED_MODELS.includes(saved)) return saved;
-  ls.set(K.model, 'auto');
-  return 'auto';
-}
-function getThinkLvl() {
-  const saved = ls.get(K.think) || ($('thinkLvl')?.value) || 'low';
-  return ['low', 'medium'].includes(saved) ? saved : 'low';
-}
-function getVisMode() {
-  const saved = ls.get(K.vis) || ($('visMode')?.value) || 'hybrid';
-  return ['hybrid', 'canvas'].includes(saved) ? saved : 'hybrid';
-}
-function parseApiKeys(raw) {
-  return String(raw || '')
-    .split(/[\s,;|\n]+/)
-    .map(k => k.trim())
-    .filter(k => k.length > 10);
-}
-function updateHeaderBadge(activeModel) {
-  const m = activeModel || getValidModelPref();
-  const lvl = getThinkLvl();
-  $('modelBadge').textContent = m === 'auto'
-    ? `gemini-4-argon ➔ gemini-3.8-flash (${lvl})`
-    : `${m} (${lvl})`;
-}
-function dot() {
-  const keys = parseApiKeys($('key').value || ls.get(K.key));
-  $('dot').className = 'inline-block w-2 h-2 rounded-full ' + (keys.length ? 'bg-emerald-400' : 'bg-rose-500 animate-pulse');
-}
-function saveSettings() {
-  const k = $('key').value.trim();
-  const m = $('model').value;
-  const validM = (m === 'auto' || ALLOWED_MODELS.includes(m)) ? m : 'auto';
-  const lvl = $('thinkLvl').value === 'medium' ? 'medium' : 'low';
-  const vis = $('visMode').value === 'canvas' ? 'canvas' : 'hybrid';
-  ls.set(K.key, k);
-  ls.set(K.model, validM);
-  ls.set(K.think, lvl);
-  ls.set(K.vis, vis);
-  ls.set(K.pid, $('pid').value.trim());
-  ls.set(K.tok, $('tok').value.trim());
-  updateHeaderBadge(validM);
+function saveSettings(){
+  const k=$('key').value.trim();
+  let m=$('model').value.trim()||'auto';
+  if(m!=='auto'&&!isModelSafe(m)){
+    m='auto';
+    $('model').value='auto';
+    toast('Model lama/dikunci ditolak otomatis. Dialihkan ke AUTO (Gemini 3.x).','warning');
+  }
+  ls.set(K.key,k);ls.set(K.model,m);ls.set(K.pid,$('pid').value.trim());ls.set(K.tok,$('tok').value.trim());
   dot();
-  if (parseApiKeys(k).length) {
-    hideErr();
-    toggleSettings(false);
-    toast(`Pengaturan disimpan (${parseApiKeys(k).length} API Key siap, thinking: ${lvl}).`, 'success');
-  } else {
-    toast('Tersimpan. Anda juga bisa memakai tombol ⚡ Instan tanpa API Key.', 'warning');
+  if(k){hideErr();$('settings').classList.add('hidden');toast('Pengaturan disimpan!','success')}
+  else toast('Tersimpan, tetapi GEMINI_API_KEY masih kosong.','warning');
+}
+function resetCred(){
+  if(!confirm('Hapus API Key, Token FB, dan daftar cache model dari browser ini?'))return;
+  [K.key,K.pid,K.tok,K.deadModels].forEach(ls.del);
+  ['key','pid','tok'].forEach(i=>$(i).value='');
+  dot();toast('Kredensial & cache direset.','info');
+}
+
+/* Sinkronisasi daftar model aktif langsung dari Google API (Filter ketat Gemini 3+) */
+async function syncActiveModels(){
+  const key=($('key').value||ls.get(K.key)||'').trim();
+  if(!key)return toast('Masukkan GEMINI_API_KEY terlebih dahulu.','warning');
+  toast('Memindai model aktif dari server Google...','info');
+  try{
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models?pageSize=100`,{headers:{'x-goog-api-key':key}});
+    if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    const d=await r.json();
+    ls.del(K.deadModels);
+    const valid=(d.models||[])
+      .filter(m=>(m.supportedGenerationMethods||[]).includes('generateContent'))
+      .map(m=>m.name.replace(/^models\//,''))
+      .filter(name=>isModelSafe(name));
+    const merged=[...new Set([...ACTIVE_GEMINI_MODELS,...valid])];
+    const sel=$('model');
+    sel.innerHTML=`<option value="auto">⚡ AUTO (Pilih Gemini 3.x Terbaik)</option>`+
+      merged.map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join('');
+    toast(`Ditemukan ${merged.length} model Gemini generasi baru (semua model 1.x/2.0/2.5 telah dibuang).`,'success');
+  }catch(e){
+    toast('Gagal memindai model: '+e.message,'error');
   }
 }
-function askResetCred() {
-  openConfirm(
-    'Reset Kredensial API?',
-    'Tindakan ini akan menghapus GEMINI_API_KEY serta kredensial Facebook Page dari penyimpanan browser Anda.',
-    () => {
-      [K.key, K.pid, K.tok].forEach(ls.del);
-      ['key', 'pid', 'tok'].forEach(i => $(i).value = '');
-      dot();
-      toast('Kredensial berhasil dihapus.', 'info');
-    }
-  );
+
+/* ============================================================================
+   3. RIWAYAT TOPIK ANTI-DUPLIKAT
+   ============================================================================ */
+function getHist(){try{const a=JSON.parse(ls.get(K.hist)||'[]');return Array.isArray(a)?a:[]}catch{return[]}}
+function addHist(arr){
+  let h=getHist();
+  arr.forEach(x=>{
+    x=(x||'').trim();
+    if(x&&!h.some(y=>y.toLowerCase()===x.toLowerCase()))h.unshift(x);
+  });
+  ls.set(K.hist,JSON.stringify(h.slice(0,MAX_HIST)));
+  renderHist();
+}
+function delHist(i){const h=getHist();h.splice(i,1);ls.set(K.hist,JSON.stringify(h));renderHist()}
+function clearHist(){if(confirm('Hapus seluruh riwayat topik?')){ls.del(K.hist);renderHist()}}
+function toggleHist(){const m=$('histModal');m.classList.toggle('hidden');m.classList.toggle('flex')}
+function renderHist(){
+  const h=getHist();
+  $('histCount').textContent=`${h.length}/${MAX_HIST}`;
+  $('histFoot').textContent=`${h.length} / ${MAX_HIST} topik tersimpan`;
+  $('histList').innerHTML=h.length
+    ?h.map((t,i)=>`<div class="flex justify-between gap-3 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs"><span class="truncate"><b class="text-indigo-400 font-mono">#${i+1}</b> ${esc(t)}</span><button class="text-slate-500 hover:text-rose-400" onclick="delHist(${i})">✕</button></div>`).join('')
+    :'<p class="text-center text-xs text-slate-500 py-8">Belum ada riwayat topik.</p>';
+}
+function similar(a,b){
+  a=String(a||'').toLowerCase().trim();b=String(b||'').toLowerCase().trim();
+  if(!a||!b)return false;
+  if(a===b)return true;
+  const A=new Set(a.split(/\W+/).filter(w=>w.length>2)),B=new Set(b.split(/\W+/).filter(w=>w.length>2));
+  if(!A.size||!B.size)return false;
+  let n=0;A.forEach(w=>B.has(w)&&n++);
+  return n/(A.size+B.size-n)>=0.58;
 }
 
-/* ---------- Tes Koneksi Cepat (Murni gemini-4-argon & gemini-3.8-flash) ---------- */
-async function testApiConnection() {
-  const keys = parseApiKeys($('key').value || ls.get(K.key));
-  if (!keys.length) {
-    toast('Masukkan GEMINI_API_KEY terlebih dahulu.', 'warning');
+/* ============================================================================
+   4. OTAK RISET INTERNET OTONOM (WIKIPEDIA + SEJARAH HARI INI + TECH NEWS)
+   Berjalan otomatis di browser untuk menyuplai bahan fakta nyata ke Gemini
+   ============================================================================ */
+async function harvestInternetSparks(sess, logFn){
+  const sparks=[];
+  const now=new Date();
+  const mm=String(now.getMonth()+1).padStart(2,'0'), dd=String(now.getDate()).padStart(2,'0');
+
+  const tasks=[
+    // 1. Wikipedia Bahasa Indonesia - Artikel Acak Nyata
+    (async()=>{
+      try{
+        for(let i=0;i<3;i++){
+          const r=await fetch('https://id.wikipedia.org/api/rest_v1/page/random/summary');
+          if(r.ok){
+            const d=await r.json();
+            if(d.title&&d.extract&&d.extract.length>60){
+              sparks.push(`[Wikipedia ID - ${d.title}]: ${d.extract.slice(0,220)}`);
+            }
+          }
+        }
+      }catch{}
+    })(),
+    // 2. Peristiwa Sejarah & Misteri Hari Ini (Wikipedia On This Day)
+    (async()=>{
+      try{
+        const r=await fetch(`https://en.wikipedia.org/api/rest_v1/feed/onthisday/selected/${mm}/${dd}`);
+        if(r.ok){
+          const d=await r.json();
+          const ev=(d.selected||[]).slice(0,6);
+          ev.forEach(e=>{
+            if(e.text)sparks.push(`[Sejarah Tanggal ${dd}/${mm}/${e.year}]: ${e.text.slice(0,200)}`);
+          });
+        }
+      }catch{}
+    })(),
+    // 3. Tren Sains & Teknologi Global Hari Ini (HackerNews Algolia Frontpage)
+    (async()=>{
+      if(sess!=='siang')return;
+      try{
+        const r=await fetch('https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=6');
+        if(r.ok){
+          const d=await r.json();
+          (d.hits||[]).forEach(h=>{
+            if(h.title)sparks.push(`[Tren Tekno Global]: ${h.title} (${h.url||'news'})`);
+          });
+        }
+      }catch{}
+    })()
+  ];
+
+  await Promise.race([Promise.allSettled(tasks), sleep(4200)]);
+  if(sparks.length&&logFn){
+    logFn(`✔ Berhasil menarik ${sparks.length} bahan mentah dari internet:\n`+sparks.slice(0,4).map(s=>'• '+s.slice(0,95)+'...').join('\n'));
+  }
+  return sparks;
+}
+
+/* ============================================================================
+   5. MESIN GEMINI 3.x + GOOGLE SEARCH GROUNDING + PARSER JSON TANGGUH
+   ============================================================================ */
+function extractJsonArray(rawText){
+  const cleaned=String(rawText||'').replace(/^```(?:json)?\s*|\s*```$/gim,'').trim();
+  try{
+    const parsed=JSON.parse(cleaned);
+    if(Array.isArray(parsed))return parsed;
+    if(parsed&&Array.isArray(parsed.items))return parsed.items;
+  }catch{}
+  const start=cleaned.indexOf('['), end=cleaned.lastIndexOf(']');
+  if(start!==-1&&end>start){
+    const sub=cleaned.slice(start,end+1);
+    return JSON.parse(sub);
+  }
+  throw new Error('Format JSON dari AI tidak terbaca.');
+}
+
+async function callGeminiAutonomous(key, promptText, useWebSearch, statusFn){
+  const pref=ls.get(K.model)||'auto';
+  const candidates=(pref==='auto'?ACTIVE_GEMINI_MODELS:[pref,...ACTIVE_GEMINI_MODELS])
+    .filter(isModelSafe);
+  const models=[...new Set(candidates.length?candidates:ACTIVE_GEMINI_MODELS)];
+
+  let lastErr=null;
+
+  for(const model of models){
+    // Mode 1: Coba dengan Google Search Grounding (jika diaktifkan)
+    // Mode 2: Fallback ke Structured JSON murni jika Grounding ditolak endpoint
+    const modes = useWebSearch ? ['search_grounding', 'pure_json'] : ['pure_json'];
+
+    for(const mode of modes){
+      if(st.cancelled)throw new Error('CANCELLED');
+      statusFn(`Menghubungi ${model} (${mode==='search_grounding'?'Riset Google Search Live':'Mode Cepat'})...`);
+
+      const body = {
+        contents: [{ role: 'user', parts: [{ text: promptText }] }],
+        generationConfig: { temperature: 0.85 }
+      };
+
+      if(mode==='search_grounding'){
+        body.tools = [{ google_search: {} }];
+      } else {
+        body.generationConfig.responseMimeType = 'application/json';
+      }
+
+      const ctl=st.ctl=new AbortController();
+      const timer=setTimeout(()=>ctl.abort(), 50000);
+
+      try{
+        const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json','x-goog-api-key':key},
+          body:JSON.stringify(body),
+          signal:ctl.signal
+        });
+
+        if(!r.ok){
+          const errObj=await r.json().catch(()=>({}));
+          const msg=errObj?.error?.message||`HTTP ${r.status}`;
+
+          if(r.status===401||r.status===403||/api key not valid|invalid api key/i.test(msg)){
+            throw Object.assign(new Error('API Key tidak valid atau belum aktif: '+msg),{fatal:true});
+          }
+          // Jika model dikunci / deprecated / 404 oleh Google -> langsung masukkan ke daftar blokir!
+          if(r.status===404||/not found|no longer available|deprecated|limited to existing/i.test(msg)){
+            markModelDead(model);
+            lastErr=new Error(`Model ${model} dikunci/dipensiunkan Google, beralih ke model lain...`);
+            break; // Pindah ke model berikutnya
+          }
+          // Jika tool google_search tidak didukung model tertentu, lanjut ke mode pure_json
+          if(r.status===400 && mode==='search_grounding'){
+            lastErr=new Error(msg);
+            continue;
+          }
+          if([429,500,503].includes(r.status)){
+            lastErr=new Error(`Server sibuk (${r.status}): ${msg}`);
+            await sleep(1800);
+            continue;
+          }
+          lastErr=new Error(msg);
+          continue;
+        }
+
+        const data=await r.json();
+        const cand=data?.candidates?.[0];
+        const txt=(cand?.content?.parts||[]).map(p=>p.text||'').join('');
+        if(!txt){lastErr=new Error('Respons AI kosong.');continue}
+
+        const arr=extractJsonArray(txt);
+        if(!Array.isArray(arr)||!arr.length){lastErr=new Error('AI tidak mengembalikan daftar konten.');continue}
+
+        // Ambil metadata sumber internet dari Google Search Grounding jika ada
+        const gm=cand?.groundingMetadata;
+        const queries=gm?.webSearchQueries||[];
+        const sources=(gm?.groundingChunks||[])
+          .map(c=>c.web?{title:c.web.title||'Sumber Web',uri:c.web.uri}:null)
+          .filter(Boolean);
+
+        $('modelBadge').textContent=`${model} (${mode==='search_grounding'?'🌐 Live Search':'⚡ Fast'})`;
+        return { items: arr, queries, sources, model };
+      }catch(e){
+        if(e.fatal)throw e;
+        if(e.name==='AbortError'){
+          if(st.cancelled)throw new Error('CANCELLED');
+          lastErr=new Error('Waktu tunggu habis (Timeout).');
+        }else{
+          lastErr=e;
+        }
+      }finally{
+        clearTimeout(timer);
+      }
+    }
+  }
+  throw lastErr||new Error('Semua model gagal dihubungi. Periksa koneksi atau API Key Anda.');
+}
+
+function cancelGen(){st.cancelled=true;st.ctl?.abort()}
+
+function buildAutonomousPrompt(n, sess, known, kw, sparks, useWeb){
+  const todayStr = new Date().toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const sessGuide = sess==='siang'
+    ? `SESI SIANG (11.30-13.30 WIB): Fokus pada "Fakta Unik" atau "Teknologi" terbaru (sains ekstrem, penemuan AI/antariksa/medis terbaru, fenomena alam langka, rekayasa canggih). Gaya bicara energik, cerdas, bikin takjub. Visual terang, kontras tinggi, futuristik.`
+    : `SESI MALAM (19.00-21.30 WIB): Fokus pada "Misteri" (anomali sejarah nyata, eksperimen rahasia, teka-teki arkeologi, sinyal luar angkasa, kasus hilang misterius yang faktual). Gaya bicara merinding, atmosferik, bikin penasaran. Visual gelap dramatis, chiaroscuro, berkabut.`;
+
+  return `Anda adalah Produser Riset & Sutradara Facebook Reels Otonom. Hari ini: ${todayStr}.
+Tugas Anda: Riset dan buat tepat ${n} paket konten video vertikal 9:16 yang 100% faktual, segar, dan belum pernah dibahas di daftar terlarang.
+
+${sessGuide}
+${useWeb ? 'WAJIB: Gunakan kemampuan pencarian internet / Google Search Anda untuk mencari fakta nyata terbaru, berita sains/teknologi terkini, atau kejadian unik nyata di dunia sebagai bahan utama.' : ''}
+${sparks.length ? `\nREFERENSI BAHAN INTERNET REAL-TIME HARI INI (boleh dikembangkan atau cari topik lain yang lebih menarik melalui Google Search):\n${sparks.slice(0,8).join('\n')}\n` : ''}
+${known.length ? `\nDAFTAR TOPIK TERLARANG (JANGAN PERNAH SAMA ATAU MIRIP DENGAN INI):\n[${known.join(' | ')}]\n` : ''}
+${kw ? `\nINSTRUKSI / FOKUS KHUSUS DARI USER: "${kw}"\n` : '\nUSER TIDAK MEMBERI KATA KUNCI: Berpikirlah mandiri! Pilih sendiri ide paling mind-blowing & viral hari ini!'}
+
+KEMBALIKAN HANYA JSON ARRAY MURNI (tanpa teks pembuka/penutup) dengan tepat ${n} objek. Setiap objek WAJIB memiliki properti berikut:
+[
+  {
+    "kategori": "Fakta Unik" atau "Teknologi" atau "Misteri",
+    "jam_upload": "12.00 WIB" (sesuaikan sesi),
+    "judul_topik": "Judul topik 4-8 kata yang memancing rasa ingin tahu",
+    "fakta_sumber": "Sebutkan singkat sumber fakta/peristiwa nyata/tahun/tempat yang menjadi dasar konten ini",
+    "hook_3_detik": "Kalimat pembuka maksimal 10 kata yang menghentikan scroll",
+    "naskah_voiceover": "Naskah narasi Bahasa Indonesia natural WAJIB antara 25 sampai 35 kata, padat, jelas, tanpa emoji",
+    "video_prompt": "Detailed English visual prompt for 9:16 vertical background, subject, environment, dramatic lighting, camera angle, photorealistic, 8k, no text",
+    "scene_keywords": ["keyword1", "keyword2", "keyword3"],
+    "warna_tema": "#6366f1" (kode warna hex yang cocok dengan mood cerita),
+    "caption_reels": "1-2 kalimat memancing komentar penonton Indonesia (tanpa hashtag)",
+    "hashtags": ["#hashtag1", "#hashtag2", "#hashtag3", "#hashtag4", "#hashtag5"]
+  }
+]`;
+}
+
+function pollUrl(prompt, seed){
+  const s=String(prompt||'').replace(/\s+/g,' ').trim().slice(0,340);
+  return `https://image.pollinations.ai/prompt/${encodeURIComponent(s+', vertical 9:16 portrait, cinematic lighting, photorealistic, no text, no watermark')}?width=720&height=1280&seed=${seed}&nologo=true`;
+}
+
+function normalizeItem(r, sess, meta){
+  if(!r||!r.judul_topik||!r.naskah_voiceover)return null;
+  const seed=Math.floor(100000+Math.random()*900000);
+  const vPrompt=String(r.video_prompt||r.judul_topik).trim();
+  return{
+    kategori:String(r.kategori||(sess==='siang'?'Teknologi':'Misteri')).trim(),
+    jam_upload:String(r.jam_upload||(sess==='siang'?'12.15 WIB':'20.15 WIB')).trim(),
+    judul_topik:String(r.judul_topik).trim(),
+    fakta_sumber:String(r.fakta_sumber||'Riset Web & Ensiklopedia Otonom').trim(),
+    hook_3_detik:String(r.hook_3_detik||'Fakta yang jarang diketahui!').trim(),
+    naskah_voiceover:String(r.naskah_voiceover).trim(),
+    video_prompt:vPrompt,
+    scene_keywords:Array.isArray(r.scene_keywords)?r.scene_keywords.slice(0,4):['cinematic','discovery'],
+    warna_tema:/^#[0-9a-f]{6}$/i.test(r.warna_tema)?r.warna_tema:(sess==='siang'?'#38bdf8':'#a855f7'),
+    caption_reels:String(r.caption_reels||'Bagaimana menurut kalian? Tulis di kolom komentar!').trim(),
+    hashtags:(Array.isArray(r.hashtags)?r.hashtags:['#faktaunik','#reelsindonesia','#edukasi','#viral','#pengetahuan']).slice(0,5).map(h=>{
+      h=String(h).replace(/\s+/g,'');return h.startsWith('#')?h:'#'+h;
+    }),
+    session:sess,
+    seed,
+    imageUrl:pollUrl(vPrompt, seed),
+    imgLoaded:false,
+    videoBlobUrl:null,
+    webQueries:meta?.queries||[],
+    webSources:meta?.sources||[],
+    modelUsed:meta?.model||'gemini-3.x'
+  };
+}
+
+/* ============================================================================
+   6. PROSES GENERATE UTAMA (RISET INTERNET -> GEMINI -> CANVAS VIDEO READY)
+   ============================================================================ */
+function busy(on){
+  $('gen').disabled=on;
+  $('loading').classList.toggle('hidden',!on);
+  if(on)$('empty').classList.add('hidden');
+  else if(!st.items.length)$('empty').classList.remove('hidden');
+}
+
+async function generate(){
+  if($('gen').disabled)return;
+  hideErr();
+  stopAllMedia();
+
+  const key=($('key').value||ls.get(K.key)||'').trim();
+  if(!key){
+    showErr('API Key Gemini Belum Diisi','Masukkan GEMINI_API_KEY Anda di panel Pengaturan API di atas, lalu klik Simpan.');
+    $('settings').classList.remove('hidden');
     $('key').focus();
     return;
   }
-  const btn = $('btnTestApi'), orig = btn.textContent;
-  btn.disabled = true;
-  btn.textContent = '⏳ Menguji 4-Argon & 3.8-Flash...';
-  try {
-    const t0 = performance.now();
-    const pref = getValidModelPref();
-    const models = pref === 'auto' ? [...ALLOWED_MODELS] : [pref, ...ALLOWED_MODELS.filter(m => m !== pref)];
-    const lvl = $('thinkLvl').value || 'low';
-    let successModel = null, lastErr = '';
+  ls.set(K.key,key);dot();
 
-    for (const model of models) {
-      const payloads = [
-        {
-          contents: [{ parts: [{ text: 'Balas tepat satu kata: SIAP' }] }],
-          generationConfig: { thinkingConfig: { thinkingLevel: lvl }, maxOutputTokens: 32 }
-        },
-        {
-          contents: [{ parts: [{ text: 'Balas tepat satu kata: SIAP' }] }],
-          generationConfig: { maxOutputTokens: 32 }
-        }
-      ];
-      for (const body of payloads) {
-        const ctl = new AbortController();
-        const to = setTimeout(() => ctl.abort(), 10000);
-        try {
-          const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(keys[0])}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-            signal: ctl.signal
-          });
-          if (r.ok) {
-            successModel = model;
-            break;
-          } else {
-            const e = await r.json().catch(() => ({}));
-            lastErr = `${model}: ${e?.error?.message || 'HTTP ' + r.status}`;
-            if (r.status === 401 || r.status === 403) break;
-          }
-        } catch (err) {
-          lastErr = `${model}: ${err.name === 'AbortError' ? 'Timeout 10 dtk' : err.message}`;
-        } finally {
-          clearTimeout(to);
-        }
-      }
-      if (successModel) break;
-    }
+  const sess=session(), n=st.qty, kw=$('kw').value.trim().replace(/["\n\r]/g,' ');
+  const useWeb=$('useWeb').checked;
 
-    const ms = Math.round(performance.now() - t0);
-    if (!successModel) throw new Error(lastErr || 'Kedua model sedang padat');
-    updateHeaderBadge(successModel);
-    toast(`Koneksi ${successModel} aktif & merespons dalam ${ms} ms!`, 'success');
-  } catch (e) {
-    toast(`Info API: ${e.message}. Engine Studio Lokal siap mem-backup otomatis!`, 'warning');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = orig;
-  }
-}
-
-/* ---------- Riwayat Topik ---------- */
-function getHist() {
-  try { const a = JSON.parse(ls.get(K.hist) || '[]'); return Array.isArray(a) ? a : []; } catch { return []; }
-}
-function addHist(t) {
-  let h = getHist();
-  t.forEach(x => {
-    x = (x || '').trim();
-    if (x && !h.some(y => y.toLowerCase() === x.toLowerCase())) h.unshift(x);
-  });
-  ls.set(K.hist, JSON.stringify(h.slice(0, MAX)));
-  renderHist();
-}
-function delHist(i) {
-  const h = getHist(); h.splice(i, 1); ls.set(K.hist, JSON.stringify(h)); renderHist();
-}
-function clearHist() {
-  openConfirm(
-    'Hapus Semua Riwayat Topik?',
-    'Seluruh daftar 50 topik anti-duplikat yang tersimpan akan dikosongkan.',
-    () => {
-      ls.del(K.hist);
-      renderHist();
-      toast('Riwayat topik dikosongkan.', 'info');
-    }
-  );
-}
-function toggleHist() {
-  const m = $('histModal'); m.classList.toggle('hidden'); m.classList.toggle('flex');
-}
-function renderHist() {
-  const h = getHist();
-  $('histCount').textContent = `${h.length}/${MAX}`;
-  $('histFoot').textContent = `${h.length} / ${MAX} topik`;
-  $('histList').innerHTML = h.length
-    ? h.map((t, i) => `<div class="flex justify-between gap-3 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs"><span class="truncate"><b class="text-cyan-400 font-mono">#${i + 1}</b> ${esc(t)}</span><button class="text-slate-500 hover:text-rose-400" onclick="delHist(${i})">✕</button></div>`).join('')
-    : '<p class="text-center text-xs text-slate-500 py-8">Belum ada riwayat topik.</p>';
-}
-function similar(a, b) {
-  a = a.toLowerCase().trim(); b = b.toLowerCase().trim();
-  if (a === b) return true;
-  const A = new Set(a.split(/\W+/).filter(w => w.length > 2)), B = new Set(b.split(/\W+/).filter(w => w.length > 2));
-  if (!A.size || !B.size) return false;
-  let n = 0; A.forEach(w => B.has(w) && n++);
-  return n / (A.size + B.size - n) >= 0.72;
-}
-
-/* ---------- Ekstraktor JSON Tangguh (Bebas Gangguan Thought Part) ---------- */
-function extractJsonArray(respData) {
-  const parts = respData?.candidates?.[0]?.content?.parts || [];
-  const cleanParts = parts.filter(p => !p.thought && typeof p.text === 'string').map(p => p.text);
-  const rawTxt = (cleanParts.length ? cleanParts : parts.map(p => p.text || '')).join('\n').trim();
-  if (!rawTxt) return null;
-
-  const stripped = rawTxt.replace(/^```(?:json)?\s*|\s*```$/gi, '').trim();
-  try {
-    const parsed = JSON.parse(stripped);
-    if (Array.isArray(parsed)) return parsed;
-    if (parsed && Array.isArray(parsed.items)) return parsed.items;
-    if (parsed && typeof parsed === 'object') return [parsed];
-  } catch {}
-
-  const firstBracket = stripped.indexOf('[');
-  const lastBracket = stripped.lastIndexOf(']');
-  if (firstBracket !== -1 && lastBracket > firstBracket) {
-    try {
-      const sub = JSON.parse(stripped.slice(firstBracket, lastBracket + 1));
-      if (Array.isArray(sub)) return sub;
-    } catch {}
-  }
-  return null;
-}
-
-/* ---------- Pemanggilan Gemini Cepat (Murni gemini-4-argon & gemini-3.8-flash) ---------- */
-async function gemini(keys, body, status) {
-  const pref = getValidModelPref();
-  const models = pref === 'auto'
-    ? ['gemini-4-argon', 'gemini-3.8-flash']
-    : [pref, ...ALLOWED_MODELS.filter(m => m !== pref)];
-  const lvl = getThinkLvl();
-
-  let last;
-  for (const model of models) {
-    for (let kStep = 0; kStep < keys.length; kStep++) {
-      if (st.cancelled || st.forceInstant) throw new Error('CANCELLED');
-      const key = keys[(st.keyIdx + kStep) % keys.length];
-      const keyLabel = keys.length > 1 ? ` [Key #${((st.keyIdx + kStep) % keys.length) + 1}]` : '';
-
-      const variants = [
-        body,
-        (() => {
-          const b2 = JSON.parse(JSON.stringify(body));
-          if (b2.generationConfig) delete b2.generationConfig.thinkingConfig;
-          return b2;
-        })()
-      ];
-
-      for (let vIdx = 0; vIdx < variants.length; vIdx++) {
-        if (st.cancelled || st.forceInstant) throw new Error('CANCELLED');
-        status(`Menghubungi ${model} (${vIdx === 0 ? 'thinking: ' + lvl : 'mode standar'})${keyLabel}...`);
-        const ctl = st.ctl = new AbortController();
-        const to = setTimeout(() => ctl.abort(), 14000);
-        try {
-          const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(variants[vIdx]),
-            signal: ctl.signal
-          });
-          if (!r.ok) {
-            const e = await r.json().catch(() => ({}));
-            const msg = e?.error?.message || `HTTP ${r.status}`;
-            if (r.status === 401 || r.status === 403 || /api key not valid|invalid api key/i.test(msg)) {
-              last = new Error(`API Key tidak valid (${msg})`);
-              break;
-            }
-            if (r.status === 400 && vIdx === 0) {
-              continue;
-            }
-            last = new Error(`${model} (${r.status}): ${msg}`);
-            break;
-          }
-          const d = await r.json();
-          const arr = extractJsonArray(d);
-          if (!Array.isArray(arr) || !arr.length) {
-            last = new Error(`Respons ${model} belum berformat JSON Array.`);
-            continue;
-          }
-          st.keyIdx = (st.keyIdx + kStep) % keys.length;
-          updateHeaderBadge(model);
-          return arr;
-        } catch (e) {
-          if (e.name === 'AbortError') {
-            if (st.cancelled || st.forceInstant) throw new Error('CANCELLED');
-            last = new Error(`Waktu tunggu ${model} habis (14 dtk), beralih jalur...`);
-          } else {
-            last = e;
-          }
-          break;
-        } finally {
-          clearTimeout(to);
-        }
-      }
-    }
-  }
-  throw last || new Error('Antrean server gemini-4-argon & gemini-3.8-flash sedang penuh.');
-}
-
-function cancelGen() { st.cancelled = true; st.ctl?.abort(); }
-function switchToInstantNow() { st.forceInstant = true; st.ctl?.abort(); }
-
-function buildBody(n, sess, known, kw) {
-  const lvl = getThinkLvl();
-  const rules = sess === 'siang'
-    ? 'SESI SIANG (11.30-13.30 WIB): kategori wajib "Fakta Unik" atau "Teknologi". jam_upload 11.30-13.30 WIB. Naskah segar, cepat. Visual terang sinematik.'
-    : 'SESI MALAM (19.00-21.30 WIB): fokus "Misteri" (sejarah/dunia/antariksa), boleh selingan Fakta/Tekno misterius. jam_upload 19.00-21.30 WIB. Naskah merinding & bikin penasaran. Visual gelap dramatis.';
-  const recentKnown = known.slice(0, 25);
-  const prompt = `Anda sutradara Video Facebook Reels di El Otak Studio. Buat tepat ${n} paket storyboard video orisinal dalam JSON Array.
-${rules}
-${recentKnown.length ? `Hindari topik ini: [${recentKnown.join(' | ')}]` : 'Pilih topik viral & jarang diketahui.'}
-${kw ? `Fokus topik wajib berkaitan dengan: "${kw}"` : ''}
-Aturan tiap objek:
-- kategori: "Fakta Unik", "Teknologi", atau "Misteri"
-- jam_upload: contoh "12.00 WIB" atau "20.00 WIB"
-- judul_topik: 4-7 kata unik memikat
-- hook_3_detik: kalimat pancingan di layar maks 8 kata huruf kapital
-- naskah_voiceover: bahasa Indonesia natural WAJIB 25-35 kata
-- video_prompt: master video prompt bahasa Inggris singkat padat (vertical 9:16, cinematic)
-- scene_prompts: array berisi TEPAT 3 prompt visual bahasa Inggris singkat (Scene 1 close-up hook, Scene 2 medium shot inti, Scene 3 dramatic climax)
-- caption_reels: 1-2 kalimat memancing komentar tanpa hashtag
-- hashtags: array 5 hashtag populer diawali #`;
-  const S = { type: 'STRING' };
-  return {
-    contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: {
-      thinkingConfig: { thinkingLevel: lvl },
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: 'ARRAY',
-        items: {
-          type: 'OBJECT',
-          properties: {
-            kategori: S, jam_upload: S, judul_topik: S, hook_3_detik: S,
-            naskah_voiceover: S, video_prompt: S,
-            scene_prompts: { type: 'ARRAY', items: S },
-            caption_reels: S, hashtags: { type: 'ARRAY', items: S }
-          },
-          required: ['kategori', 'jam_upload', 'judul_topik', 'hook_3_detik', 'naskah_voiceover', 'video_prompt', 'scene_prompts', 'caption_reels', 'hashtags']
-        }
-      }
-    }
-  };
-}
-
-function pollUrl(p, seed) {
-  const s = String(p || '').replace(/\s+/g, ' ').trim().slice(0, 220);
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(s + ', vertical 9:16, cinematic, no text')}?width=540&height=960&seed=${seed}&model=turbo&enhance=false&nologo=true`;
-}
-
-function norm(r, sess) {
-  if (!r || !r.judul_topik || !r.naskah_voiceover) return null;
-  let cat = CATS.find(c => String(r.kategori || '').toLowerCase().includes(c.toLowerCase().split(' ')[0])) || (sess === 'siang' ? 'Fakta Unik' : 'Misteri');
-  if (sess === 'siang' && cat === 'Misteri') cat = 'Fakta Unik';
-  const seed = Number.isFinite(+r.seed) ? +r.seed : Math.floor(1e5 + Math.random() * 8e5);
-  const baseVp = String(r.video_prompt || r.judul_topik).trim();
-  const scenes = Array.isArray(r.scene_prompts) && r.scene_prompts.length >= 3
-    ? r.scene_prompts.slice(0, 3).map(s => String(s || baseVp))
-    : [`${baseVp}, extreme close up`, `${baseVp}, medium cinematic shot`, `${baseVp}, dramatic low angle climax`];
-
-  return {
-    kategori: cat,
-    jam_upload: String(r.jam_upload || (sess === 'siang' ? '12.00 WIB' : '20.00 WIB')),
-    judul_topik: String(r.judul_topik).trim(),
-    hook_3_detik: String(r.hook_3_detik || r.judul_topik).trim(),
-    naskah_voiceover: String(r.naskah_voiceover).trim(),
-    video_prompt: baseVp,
-    scene_prompts: scenes,
-    sceneUrls: scenes.map((sp, idx) => pollUrl(sp, seed + idx)),
-    caption_reels: String(r.caption_reels || 'Bagaimana menurutmu? Tulis di kolom komentar!').trim(),
-    hashtags: (Array.isArray(r.hashtags) && r.hashtags.length ? r.hashtags : ['#FaktaUnik', '#ReelsIndonesia', '#ElOtakStudio', '#ViralReels', '#Edukasi']).slice(0, 5).map(h => { h = String(h).replace(/\s+/g, ''); return h.startsWith('#') ? h : '#' + h; }),
-    session: sess,
-    seed
-  };
-}
-
-function buildInstantItems(n, sess, kw, known) {
-  const basePool = [...(INSTANT_BANK[sess] || INSTANT_BANK.siang)];
-  const extraPool = (DYNAMIC_TOPICS[sess] || DYNAMIC_TOPICS.siang).map((d, idx) => ({
-    kategori: d[0],
-    jam_upload: sess === 'siang' ? `12.${10 + idx * 10} WIB` : `20.${10 + idx * 10} WIB`,
-    judul_topik: d[1],
-    hook_3_detik: d[2],
-    naskah_voiceover: d[3],
-    video_prompt: d[4],
-    scene_prompts: [
-      `${d[4]}, extreme close-up hook shot`,
-      `${d[4]}, medium dynamic tracking shot`,
-      `${d[4]}, dramatic wide angle climax shot`
-    ],
-    caption_reels: `Fakta tentang ${d[1]} ini masih sering bikin kagum sekaligus penasaran! Bagaimana pendapatmu?`,
-    hashtags: ['#ElOtakStudio', '#ReelsIndonesia', '#' + d[0].replace(/\s+/g, ''), '#ViralReels', '#Pengetahuan']
-  }));
-
-  const pool = [...basePool, ...extraPool];
-  const out = [];
-  const cleanKw = (kw || '').trim();
-
-  if (cleanKw) {
-    const isSiang = sess === 'siang';
-    const angles = [
-      ['Rahasia Tersembunyi di Balik', 'FAKTA TERSEMBUNYI', 'extreme macro close-up'],
-      ['Fakta Mengejutkan Tentang', 'JARANG ADA YANG TAHU', 'dramatic low angle shot'],
-      ['Sisi Lain yang Belum Terungkap dari', 'MISTERI & FAKTA BARU', 'cinematic wide aerial shot'],
-      ['Teknologi dan Sejarah Unik', 'TEROBOSAN LUAR BIASA', 'futuristic holographic lighting'],
-      ['Teori Paling Menarik Seputar', 'BIKIN MERINDING & TAKJUB', 'moody atmospheric spotlight']
-    ];
-    for (let idx = 0; idx < n; idx++) {
-      const ang = angles[idx % angles.length];
-      const customItem = norm({
-        kategori: isSiang ? (idx % 2 === 0 ? 'Fakta Unik' : 'Teknologi') : 'Misteri',
-        jam_upload: isSiang ? `12.${15 + idx * 10} WIB` : `20.${15 + idx * 10} WIB`,
-        judul_topik: `${ang[0]} ${cleanKw}${n > 1 ? ' #' + (idx + 1) : ''}`,
-        hook_3_detik: `${ang[1]}: ${cleanKw.toUpperCase()}!`,
-        naskah_voiceover: isSiang
-          ? `Pernahkah kamu memperhatikan sisi unik dari ${cleanKw}? Sejumlah riset modern mengungkap bahwa mekanisme dan detail di balik fenomena ini memiliki dampak besar yang jarang disadari banyak orang.`
-          : `Di balik pembahasan populer mengenai ${cleanKw}, tersimpan rangkaian catatan sejarah dan teka-teki menarik yang membuat para peneliti terus mencari jawaban pastinya hingga saat ini.`,
-        video_prompt: `Cinematic vertical 9:16 visualization of ${cleanKw}, ${ang[2]}, ultra detailed, 8k photorealistic`,
-        scene_prompts: [
-          `Extreme close-up shot revealing hidden details of ${cleanKw}, dramatic lighting, vertical 9:16`,
-          `Medium cinematic camera panning across ${cleanKw} with atmospheric depth and glowing particles, vertical 9:16`,
-          `Epic climax low-angle shot of ${cleanKw} under intense cinematic lighting, 8k, vertical 9:16`
-        ],
-        caption_reels: `Siapa yang baru tahu fakta seputar ${cleanKw} ini? Tulis pendapatmu di kolom komentar ya!`,
-        hashtags: ['#' + (cleanKw.replace(/[^a-zA-Z0-9]/g, '').slice(0, 18) || 'TopikViral'), '#ElOtakStudio', '#FaktaUnik', '#MisteriDunia', '#ReelsViral']
-      }, sess);
-      if (customItem) out.push(customItem);
-    }
-    return out;
-  }
-
-  const unused = pool.filter(p => !known.some(k => similar(k, p.judul_topik)));
-  const candidates = [...unused, ...pool];
-  for (const raw of candidates) {
-    if (out.length >= n) break;
-    if (out.some(o => o.judul_topik === raw.judul_topik)) continue;
-    const it = norm(raw, sess);
-    if (it) out.push(it);
-  }
-  return out.slice(0, n);
-}
-
-function busy(on) {
-  $('gen').disabled = on;
-  $('genLocal').disabled = on;
-  $('loading').classList.toggle('hidden', !on);
-  if (on) $('empty').classList.add('hidden');
-  else if (!st.items.length) $('empty').classList.remove('hidden');
-}
-
-async function generate(useInstant = false) {
-  if ($('gen').disabled) return;
-  hideErr(); stopSpeak();
-  const sess = session(), n = st.qty, kw = $('kw').value.trim().replace(/["\n\r]/g, ' ');
-  const known = getHist();
-
-  if (useInstant) {
-    const instantItems = buildInstantItems(n, sess, kw, known);
-    st.items = instantItems;
-    save();
-    addHist(instantItems.map(k => k.judul_topik));
-    render();
-    toast(`⚡ ${instantItems.length} Video Reels dirakit instan tanpa antrean!`, 'success');
-    return;
-  }
-
-  const rawKeyStr = ($('key').value || ls.get(K.key) || '').trim();
-  const keys = parseApiKeys(rawKeyStr);
-  if (!keys.length) {
-    const instantItems = buildInstantItems(n, sess, kw, known);
-    st.items = instantItems;
-    save();
-    addHist(instantItems.map(k => k.judul_topik));
-    render();
-    toast('API Key belum diisi — merakit otomatis dengan Engine Studio Instan!', 'info');
-    return;
-  }
-  ls.set(K.key, rawKeyStr); dot();
-
-  st.cancelled = false;
-  st.forceInstant = false;
+  st.cancelled=false;
   busy(true);
-  $('ldTitle').textContent = `Merakit ${n} Video Reels (${sess === 'siang' ? 'Sesi Siang' : 'Sesi Malam'})...`;
-  try {
-    const raw = await gemini(keys, buildBody(n, sess, known, kw), m => $('ldSub').textContent = m);
-    const kept = [];
-    for (const r of raw) {
-      const it = norm(r, sess);
-      if (!it) continue;
-      kept.push(it);
-      if (kept.length >= n) break;
+  $('ldFeeds').classList.add('hidden');
+  $('ldFeeds').textContent='';
+  $('ldTitle').textContent=`Otak Otonom sedang mencari ide & fakta (${sess==='siang'?'Sesi Siang':'Sesi Malam'})...`;
+
+  try{
+    let sparks=[];
+    if(useWeb){
+      $('ldSub').textContent='Mengambil umpan fakta dari Wikipedia, Sejarah Hari Ini & Tren Berita...';
+      sparks=await harvestInternetSparks(sess, txt=>{
+        $('ldFeeds').classList.remove('hidden');
+        $('ldFeeds').textContent=txt;
+      });
     }
-    if (kept.length < n) {
-      const extras = buildInstantItems(n - kept.length, sess, kw, [...known, ...kept.map(k => k.judul_topik)]);
-      kept.push(...extras);
+
+    const kept=[];
+    for(let round=0; round<2 && kept.length<n; round++){
+      const known=[...getHist(), ...kept.map(k=>k.judul_topik)].slice(0,60);
+      const prompt=buildAutonomousPrompt(n-kept.length, sess, known, kw, sparks, useWeb);
+      const res=await callGeminiAutonomous(key, prompt, useWeb, msg=>$('ldSub').textContent=msg);
+
+      for(const raw of res.items){
+        const item=normalizeItem(raw, sess, res);
+        if(!item)continue;
+        if([...known, ...kept.map(k=>k.judul_topik)].some(t=>similar(t, item.judul_topik)))continue;
+        kept.push(item);
+        if(kept.length>=n)break;
+      }
     }
-    st.items = kept;
-    save();
-    addHist(kept.map(k => k.judul_topik));
-    render();
-    toast(`Berhasil merakit ${kept.length} Video Reels via AI!`, 'success');
-  } catch (e) {
-    if (st.forceInstant) {
-      const instantItems = buildInstantItems(n, sess, kw, known);
-      st.items = instantItems;
-      save();
-      addHist(instantItems.map(k => k.judul_topik));
-      render();
-      toast(`⚡ Dialihkan ke Mode Instan: ${instantItems.length} Video siap!`, 'success');
-    } else if (e.message === 'CANCELLED') {
-      toast('Proses dibatalkan.', 'info');
-    } else {
-      const fallbackItems = buildInstantItems(n, sess, kw, known);
-      st.items = fallbackItems;
-      save();
-      addHist(fallbackItems.map(k => k.judul_topik));
-      render();
-      toast('Antrean API sedang padat — otomatis merakit dengan Engine Studio Instan!', 'warning');
-    }
-  } finally {
+
+    if(!kept.length)throw new Error('Semua ide terlalu mirip dengan riwayat. Silakan klik Generate lagi.');
+    st.items=kept;
+    saveItems();
+    addHist(kept.map(k=>k.judul_topik));
+    renderCards();
+    toast(`Berhasil merakit ${kept.length} paket video otonom!`,'success');
+  }catch(e){
+    if(e.message==='CANCELLED')toast('Riset & pembuatan konten dibatalkan.','info');
+    else showErr('Gagal Merakit Konten', e.message);
+  }finally{
     busy(false);
   }
 }
 
-/* ---------- Engine Video Canvas 9:16 (Procedural Cyber/Mystery + AI Image + Audio BGM) ---------- */
-function destroyPlayers() {
-  Object.values(st.players).forEach(p => {
-    if (p?.raf) cancelAnimationFrame(p.raf);
-    p?.blobUrls?.forEach(u => { try { URL.revokeObjectURL(u); } catch {} });
-  });
-  st.players = {};
+/* ============================================================================
+   7. ENGINE STUDIO VIDEO 9:16 (HTML5 CANVAS + SUBTITLE KARAOKE + WEB AUDIO)
+   Menggambar latar belakang (Gambar AI + Procedural Cinema Fallback),
+   animasi Ken Burns, partikel, Hook 3 detik, dan Subtitle Karaoke per kata!
+   ============================================================================ */
+const bgImages={}; // Cache objek Image per indeks kartu
+
+function loadCardImage(idx){
+  const item=st.items[idx];
+  if(!item)return;
+  const img=new Image();
+  img.crossOrigin='anonymous';
+  img.onload=()=>{
+    bgImages[idx]=img;
+    item.imgLoaded=true;
+    drawVideoFrame(idx, 0, -1);
+  };
+  img.onerror=()=>{
+    // Jika server gambar eksternal lambat/gagal, Canvas tetap menggambar visual sinematik prosedural!
+    item.imgLoaded=false;
+    drawVideoFrame(idx, 0, -1);
+  };
+  img.src=item.imageUrl;
 }
-function rBox(ctx, x, y, w, h, r) {
-  const rad = Math.min(r, w / 2, h / 2);
-  ctx.beginPath();
-  ctx.moveTo(x + rad, y);
-  ctx.arcTo(x + w, y, x + w, y + h, rad);
-  ctx.arcTo(x + w, y + h, x, y + h, rad);
-  ctx.arcTo(x, y + h, x, y, rad);
-  ctx.arcTo(x, y, x + w, y, rad);
-  ctx.closePath();
-}
-function wrapTxt(ctx, text, maxW) {
-  const w = String(text || '').split(' '), lines = [];
-  let cur = w[0] || '';
-  for (let i = 1; i < w.length; i++) {
-    if (ctx.measureText(cur + ' ' + w[i]).width < maxW) cur += ' ' + w[i];
-    else { lines.push(cur); cur = w[i]; }
+
+function wrapLines(ctx, text, maxW){
+  const w=String(text||'').split(/\s+/);
+  const lines=[];
+  let cur='';
+  for(const word of w){
+    const test=cur?cur+' '+word:word;
+    if(ctx.measureText(test).width>maxW && cur){
+      lines.push(cur);
+      cur=word;
+    }else cur=test;
   }
-  if (cur) lines.push(cur);
+  if(cur)lines.push(cur);
   return lines;
 }
 
-async function loadSceneImageSafe(url, delayMs, p, idx, i) {
-  await sleep(delayMs);
-  if (st.players[i] !== p) return;
-  const ctl = new AbortController();
-  const to = setTimeout(() => ctl.abort(), 14000);
-  try {
-    const r = await fetch(url, { signal: ctl.signal, mode: 'cors' });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const b = await r.blob();
-    const objUrl = URL.createObjectURL(b);
-    p.blobUrls.push(objUrl);
-    const im = p.imgs[idx];
-    im.onload = () => {
-      p.ok[idx] = true;
-      p.loadedCount++;
-      const stEl = $('scSt' + i);
-      if (stEl) stEl.textContent = `✔ Visual Sinematik + ${p.loadedCount}/3 AI Layer`;
-    };
-    im.src = objUrl;
-  } catch {
-    // Kanvas Prosedural sudah aktif 100%
-  } finally {
-    clearTimeout(to);
-  }
-}
-
-function initVideoPlayer(i) {
-  const x = st.items[i], cv = $('cv' + i);
-  if (!x || !cv) return;
-  const ctx = cv.getContext('2d');
-  const isMalam = x.kategori === 'Misteri' || x.session === 'malam';
-  const wordsArr = String(x.naskah_voiceover || '').split(/\s+/).filter(Boolean);
-  const chunks = [];
-  for (let k = 0; k < wordsArr.length; k += 4) chunks.push(wordsArr.slice(k, k + 4).join(' '));
-
-  const imgs = [new Image(), new Image(), new Image()], ok = [false, false, false];
-  const pts = Array.from({ length: 34 }, (_, idx) => ({
-    x: (idx * 73) % 720,
-    y: (idx * 139) % 1280,
-    r: 1.5 + (idx % 4) * 1.1,
-    vy: -0.6 - (idx % 5) * 0.25,
-    vx: ((idx % 3) - 1) * 0.3,
-    a: 0.25 + (idx % 4) * 0.15
-  }));
-
-  const p = { i, cv, ctx, imgs, ok, loadedCount: 0, blobUrls: [], isMalam, chunks, pts, t0: performance.now(), raf: null };
-  st.players[i] = p;
-
-  $('ld' + i)?.classList.add('hidden');
-  const stEl = $('scSt' + i);
-  if (stEl) stEl.textContent = '✔ 3/3 Scene Sinematik Siap';
-
-  if (getVisMode() === 'hybrid') {
-    (x.sceneUrls || []).forEach((u, idx) => {
-      loadSceneImageSafe(u, idx * 900 + i * 400, p, idx, i);
-    });
-  }
-
-  const loop = now => {
-    drawFrame(p, now);
-    p.raf = requestAnimationFrame(loop);
-  };
-  p.raf = requestAnimationFrame(loop);
-}
-
-/* ---------- Ilustrator Kanvas Sinematik Prosedural (Anti-Error Indeks Negatif) ---------- */
-function drawProceduralScene(ctx, W, H, prog, scIdx, isMalam, seed, nowSec) {
-  ctx.save();
-  const safeProg = Number.isFinite(prog) ? Math.max(0, Math.min(1, prog)) : 0;
-  const safeScIdx = ((Math.floor(Number(scIdx) || 0) % 3) + 3) % 3;
-  const safeSeed = Number.isFinite(seed) ? seed : 123456;
-  const safeNow = Number.isFinite(nowSec) ? Math.max(0, nowSec) : 0;
-
-  const palettes = isMalam
-    ? [
-        ['#090d16', '#1e1b4b', '#4c1d95', '#c084fc'],
-        ['#060913', '#172554', '#311042', '#38bdf8'],
-        ['#14081c', '#3b0764', '#701a75', '#f472b6']
-      ]
-    : [
-        ['#04131d', '#0f4c5c', '#0284c7', '#38bdf8'],
-        ['#071026', '#1e3a8a', '#4f46e5', '#818cf8'],
-        ['#061c19', '#065f46', '#0d9488', '#34d399']
-      ];
-  const pal = palettes[safeScIdx] || palettes[0];
-
-  const g = ctx.createLinearGradient(0, 0, W * (0.3 + safeProg * 0.4), H);
-  g.addColorStop(0, pal[0]);
-  g.addColorStop(0.55, pal[1]);
-  g.addColorStop(1, pal[2]);
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, W, H);
-
-  const zoom = safeScIdx === 1 ? (1.14 - safeProg * 0.1) : (1.02 + safeProg * 0.14);
-  const panX = safeScIdx === 0 ? (safeProg - 0.5) * -32 : (safeProg - 0.5) * 28;
-  ctx.translate(W / 2 + panX, H / 2);
-  ctx.scale(zoom, zoom);
-  ctx.translate(-W / 2, -H / 2);
-
-  const orbX = W * (safeScIdx === 0 ? 0.5 : safeScIdx === 1 ? 0.62 : 0.38);
-  const orbY = H * (safeScIdx === 2 ? 0.34 : 0.40);
-  const orbR = safeScIdx === 0 ? 220 : safeScIdx === 1 ? 180 : 250;
-  const rg = ctx.createRadialGradient(orbX, orbY, 10, orbX, orbY, orbR * 1.6);
-  rg.addColorStop(0, pal[3] + 'cc');
-  rg.addColorStop(0.35, pal[2] + '88');
-  rg.addColorStop(1, 'transparent');
-  ctx.fillStyle = rg;
-  ctx.beginPath();
-  ctx.arc(orbX, orbY, orbR * 1.6, 0, Math.PI * 2);
-  ctx.fill();
+/* Menggambar 1 frame penuh ukuran 720x1280 (9:16 HD) ke Canvas */
+function drawVideoFrame(idx, progress=0, activeWordIdx=-1){
+  const cv=$('cv'+idx);
+  const item=st.items[idx];
+  if(!cv||!item)return;
+  const ctx=cv.getContext('2d');
+  const W=720, H=1280;
+  const t=performance.now()*0.001;
 
   ctx.save();
-  ctx.translate(orbX, orbY);
-  ctx.rotate(safeNow * (safeScIdx % 2 === 0 ? 0.35 : -0.45));
-  ctx.strokeStyle = pal[3] + '55';
-  ctx.lineWidth = 2.5;
-  ctx.setLineDash([18, 12]);
-  ctx.beginPath();
-  ctx.arc(0, 0, orbR * 0.72, 0, Math.PI * 2);
-  ctx.stroke();
+  ctx.clearRect(0,0,W,H);
 
-  ctx.rotate(-safeNow * 0.7);
-  ctx.setLineDash([8, 16]);
-  ctx.lineWidth = 1.8;
-  ctx.beginPath();
-  ctx.arc(0, 0, orbR * 0.95, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.restore();
+  // 1. GAMBAR LATAR BELAKANG (AI Image dengan Ken Burns Zoom/Pan ATAU Procedural Cinema Art)
+  const img=bgImages[idx];
+  if(img && img.complete && img.naturalWidth>0){
+    const scale = 1.04 + 0.14 * Math.sin(progress * Math.PI);
+    const panX = Math.cos(progress * Math.PI * 2) * 22;
+    const panY = Math.sin(progress * Math.PI * 2) * 28;
+    const dw = W * scale, dh = H * scale;
+    const dx = (W - dw)/2 + panX, dy = (H - dh)/2 + panY;
+    try{ ctx.drawImage(img, dx, dy, dw, dh); }catch{}
+  } else {
+    // Procedural High-Tech / Mystery Cinema Background (100% bebas gagal/CORS)
+    const grad=ctx.createLinearGradient(0,0,W,H);
+    if(item.session==='siang'){
+      grad.addColorStop(0,'#09152b');
+      grad.addColorStop(0.5,'#112240');
+      grad.addColorStop(1,'#0a0f1d');
+    }else{
+      grad.addColorStop(0,'#05050a');
+      grad.addColorStop(0.5,'#160b24');
+      grad.addColorStop(1,'#04060c');
+    }
+    ctx.fillStyle=grad;
+    ctx.fillRect(0,0,W,H);
 
-  const horizonY = H * 0.64;
-  ctx.fillStyle = '#050811dd';
-  ctx.beginPath();
-  ctx.moveTo(0, H);
-  ctx.lineTo(0, horizonY);
-  const peaks = 9;
-  for (let k = 0; k <= peaks; k++) {
-    const px = (W / peaks) * k;
-    const hVar = Math.sin(k * 1.7 + safeSeed * 0.01 + safeScIdx * 2.1) * 65 + (k === 4 && safeScIdx === 0 ? -110 : 0);
-    ctx.lineTo(px, horizonY + hVar);
-  }
-  ctx.lineTo(W, H);
-  ctx.closePath();
-  ctx.fill();
+    // Cahaya Nebula / Cyber Grid Dinamis
+    const rad=ctx.createRadialGradient(
+      W*0.5+Math.sin(t)*90, H*0.38+Math.cos(t*0.7)*70, 30,
+      W*0.5, H*0.42, 520
+    );
+    rad.addColorStop(0, (item.warna_tema||'#6366f1')+'66');
+    rad.addColorStop(1, 'transparent');
+    ctx.fillStyle=rad;
+    ctx.fillRect(0,0,W,H);
 
-  ctx.save();
-  ctx.strokeStyle = pal[3] + '33';
-  ctx.lineWidth = 1.5;
-  for (let gx = -6; gx <= 6; gx++) {
-    ctx.beginPath();
-    ctx.moveTo(W / 2 + gx * 28, horizonY);
-    ctx.lineTo(W / 2 + gx * 190, H);
-    ctx.stroke();
-  }
-  const offset = (safeNow * 60) % 40;
-  for (let gy = 0; gy < 8; gy++) {
-    const yPos = horizonY + Math.pow((gy + offset / 40) / 8, 1.8) * (H - horizonY);
-    if (yPos > horizonY && yPos < H) {
+    // Cincin Geometri Sinematik
+    ctx.strokeStyle=(item.warna_tema||'#6366f1')+'33';
+    ctx.lineWidth=2;
+    for(let r=120;r<=420;r+=100){
       ctx.beginPath();
-      ctx.moveTo(0, yPos);
-      ctx.lineTo(W, yPos);
+      ctx.arc(W/2, H*0.4, r + Math.sin(t+r)*12, 0, Math.PI*2);
       ctx.stroke();
     }
   }
-  ctx.restore();
 
-  const beam = ctx.createLinearGradient(orbX, 0, orbX, horizonY + 100);
-  beam.addColorStop(0, pal[3] + '30');
-  beam.addColorStop(1, 'transparent');
-  ctx.fillStyle = beam;
+  // 2. PARTIKEL ATMOSFERIK SINEMATIK
+  ctx.fillStyle = item.session==='siang' ? 'rgba(147,197,253,0.35)' : 'rgba(216,180,254,0.3)';
+  for(let p=0;p<28;p++){
+    const px = ((p*137.5 + (item.seed%97)*13 + t*24*(p%3+1)) % W);
+    const py = H - ((p*293.1 + t*38*(p%4+1)) % H);
+    const sz = (p%3)+1.5;
+    ctx.beginPath();
+    ctx.arc(px, py, sz, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // 3. OVERLAY VIGNETTE GELAP ATAS & BAWAH AGAR TEKS TAJAM
+  const vig=ctx.createLinearGradient(0,0,0,H);
+  vig.addColorStop(0,'rgba(0,0,0,0.72)');
+  vig.addColorStop(0.25,'rgba(0,0,0,0.18)');
+  vig.addColorStop(0.58,'rgba(0,0,0,0.35)');
+  vig.addColorStop(1,'rgba(0,0,0,0.92)');
+  ctx.fillStyle=vig;
+  ctx.fillRect(0,0,W,H);
+
+  // 4. BADGE KATEGORI DI ATAS
+  ctx.fillStyle=item.warna_tema||'#6366f1';
   ctx.beginPath();
-  ctx.moveTo(orbX - 90, 0);
-  ctx.lineTo(orbX + 90, 0);
-  ctx.lineTo(orbX + 260, horizonY + 100);
-  ctx.lineTo(orbX - 260, horizonY + 100);
-  ctx.closePath();
+  ctx.roundRect(48, 56, 240, 44, 22);
+  ctx.fill();
+  ctx.fillStyle='#ffffff';
+  ctx.font='800 20px system-ui, sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText(item.kategori.toUpperCase(), 168, 85);
+
+  // 5. KOTAK HOOK 3 DETIK (Tampil menonjol di 30% awal video atau saat diam)
+  if(progress < 0.32 || activeWordIdx < 0){
+    ctx.fillStyle='rgba(10, 14, 26, 0.82)';
+    ctx.strokeStyle=item.warna_tema||'#f59e0b';
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.roundRect(44, 130, W-88, 155, 24);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle='#fbbf24';
+    ctx.font='800 30px system-ui, sans-serif';
+    ctx.textAlign='center';
+    const hookLines=wrapLines(ctx, `"${item.hook_3_detik}"`, W-130).slice(0,3);
+    hookLines.forEach((ln, idxLn)=>{
+      ctx.fillText(ln, W/2, 182 + idxLn*38);
+    });
+  }
+
+  // 6. SUBTITLE KARAOKE DINAMIS (HORMOZI STYLE) DI BAGIAN TENGAH-BAWAH
+  const voWords = item.naskah_voiceover.split(/\s+/).filter(Boolean);
+  const chunkSize = 5;
+  const currentWord = activeWordIdx >= 0 ? activeWordIdx : 0;
+  const chunkIndex = Math.floor(currentWord / chunkSize);
+  const chunkWords = voWords.slice(chunkIndex * chunkSize, (chunkIndex + 1) * chunkSize);
+
+  // Gambar kotak transparan di belakang subtitle
+  ctx.fillStyle='rgba(5, 8, 18, 0.78)';
+  ctx.beginPath();
+  ctx.roundRect(40, H-390, W-80, 195, 28);
   ctx.fill();
 
-  ctx.restore();
-}
+  ctx.font='900 40px system-ui, sans-serif';
+  ctx.textAlign='center';
+  const yStart = H - 315;
+  // Susun baris dari chunkWords
+  let line1 = chunkWords.slice(0,3).join(' ');
+  let line2 = chunkWords.slice(3,5).join(' ');
 
-function drawSceneImg(ctx, im, isOk, W, H, prog, scIdx, isMalam, seed, nowSec) {
-  const safeProg = Number.isFinite(prog) ? Math.max(0, Math.min(1, prog)) : 0;
-  const safeScIdx = ((Math.floor(Number(scIdx) || 0) % 3) + 3) % 3;
-  drawProceduralScene(ctx, W, H, safeProg, safeScIdx, isMalam, seed, nowSec);
-  if (!isOk || !im || !im.complete || !im.naturalWidth) return;
+  [line1, line2].filter(Boolean).forEach((lineStr, lIdx)=>{
+    const wArr = lineStr.split(' ');
+    const totalW = ctx.measureText(lineStr).width;
+    let xCursor = (W - totalW)/2;
+    const yPos = yStart + lIdx * 58;
 
-  ctx.save();
-  const scale = safeScIdx === 1 ? (1.15 - safeProg * 0.12) : (1.02 + safeProg * 0.14);
-  const tx = safeScIdx === 0 ? -safeProg * 18 : (safeProg - 0.5) * 24;
-  ctx.translate(W / 2 + tx, H / 2);
-  ctx.scale(scale, scale);
-  ctx.drawImage(im, -W / 2, -H / 2, W, H);
-  ctx.restore();
-}
+    wArr.forEach((wText, wSubIdx)=>{
+      const globalWIdx = chunkIndex * chunkSize + (lIdx===0 ? wSubIdx : 3 + wSubIdx);
+      const isSpoken = activeWordIdx === globalWIdx;
+      const wWidth = ctx.measureText(wText + ' ').width;
 
-function drawFrame(p, now) {
-  const { ctx, cv, imgs, ok, isMalam, chunks, pts, i } = p;
-  const x = st.items[i]; if (!x) return;
-  const W = cv.width, H = cv.height;
-  const safeNowMs = Number.isFinite(now) ? now : performance.now();
-  const baseT0 = Number.isFinite(p.t0) ? p.t0 : safeNowMs;
-  const nowSec = Math.max(0, (safeNowMs - baseT0) / 1000);
-  const el = ((nowSec % VID_SEC) + VID_SEC) % VID_SEC;
-  const totProg = Math.max(0, Math.min(1, el / VID_SEC));
-  const scDur = VID_SEC / 3;
-  const scIdx = Math.max(0, Math.min(2, Math.floor(el / scDur)));
-  const scProg = Math.max(0, Math.min(1, (el % scDur) / scDur));
-
-  ctx.clearRect(0, 0, W, H);
-  drawSceneImg(ctx, imgs[scIdx], ok[scIdx], W, H, scProg, scIdx, isMalam, x.seed, nowSec);
-
-  if (scProg > 0.84 && scIdx < 2) {
-    ctx.save();
-    ctx.globalAlpha = (scProg - 0.84) / 0.16;
-    drawSceneImg(ctx, imgs[scIdx + 1], ok[scIdx + 1], W, H, 0, scIdx + 1, isMalam, x.seed, nowSec);
-    ctx.restore();
-  }
-
-  ctx.save();
-  pts.forEach(pt => {
-    pt.y += pt.vy;
-    pt.x += pt.vx;
-    if (pt.y < 0) pt.y = H;
-    if (pt.x < 0) pt.x = W;
-    if (pt.x > W) pt.x = 0;
-    ctx.beginPath(); ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
-    ctx.fillStyle = isMalam ? `rgba(192,132,252,${pt.a})` : `rgba(56,189,248,${pt.a})`;
-    ctx.fill();
+      if(isSpoken){
+        ctx.fillStyle = item.warna_tema || '#6366f1';
+        ctx.beginPath();
+        ctx.roundRect(xCursor - 6, yPos - 38, wWidth, 50, 12);
+        ctx.fill();
+        ctx.fillStyle = '#fde047';
+      } else if(activeWordIdx > globalWIdx){
+        ctx.fillStyle = '#e2e8f0';
+      } else {
+        ctx.fillStyle = '#ffffff';
+      }
+      ctx.textAlign='left';
+      ctx.fillText(wText, xCursor, yPos);
+      xCursor += wWidth;
+    });
   });
+
+  // 7. JUDUL TOPIK & SUMBER FAKTA DI FOOTER VIDEO
+  ctx.textAlign='center';
+  ctx.fillStyle='#94a3b8';
+  ctx.font='600 20px system-ui, sans-serif';
+  const srcShort = item.fakta_sumber.length>52 ? item.fakta_sumber.slice(0,52)+'...' : item.fakta_sumber;
+  ctx.fillText(`📌 Sumber: ${srcShort}`, W/2, H-125);
+
+  // 8. PROGRESS BAR VIDEO DI BAGIAN BAWAH
+  ctx.fillStyle='rgba(255,255,255,0.18)';
+  ctx.fillRect(48, H-78, W-96, 12);
+  ctx.fillStyle=item.warna_tema||'#6366f1';
+  ctx.fillRect(48, H-78, (W-96)*Math.max(0.03, Math.min(1, progress)), 12);
+
   ctx.restore();
-
-  const gT = ctx.createLinearGradient(0, 0, 0, H * 0.22);
-  gT.addColorStop(0, 'rgba(6,8,13,0.75)'); gT.addColorStop(1, 'transparent');
-  ctx.fillStyle = gT; ctx.fillRect(0, 0, W, H * 0.22);
-
-  const gB = ctx.createLinearGradient(0, H * 0.48, 0, H);
-  gB.addColorStop(0, 'transparent'); gB.addColorStop(1, 'rgba(6,8,13,0.96)');
-  ctx.fillStyle = gB; ctx.fillRect(0, H * 0.48, W, H * 0.52);
-
-  ctx.save();
-  ctx.fillStyle = 'rgba(15,23,42,0.85)';
-  rBox(ctx, 32, 36, 235, 44, 22); ctx.fill();
-  ctx.font = 'bold 18px sans-serif'; ctx.fillStyle = isMalam ? '#c084fc' : '#38bdf8';
-  ctx.fillText(`● ${x.kategori.toUpperCase()}`, 52, 64);
-
-  rBox(ctx, W - 184, 36, 152, 44, 22); ctx.fill();
-  ctx.fillStyle = '#e2e8f0'; ctx.textAlign = 'center';
-  ctx.fillText(`SCENE ${scIdx + 1}/3`, W - 108, 64);
-  ctx.restore();
-
-  ctx.save();
-  ctx.font = 'bold 22px sans-serif';
-  ctx.fillStyle = 'rgba(226,232,240,0.9)';
-  ctx.textAlign = 'center';
-  const tLines = wrapTxt(ctx, x.judul_topik, W - 96).slice(0, 2);
-  tLines.forEach((ln, idx) => ctx.fillText(ln, W / 2, 118 + idx * 28));
-  ctx.restore();
-
-  if (el <= 3.3) {
-    ctx.save();
-    ctx.font = '800 35px sans-serif';
-    const hLines = wrapTxt(ctx, x.hook_3_detik.toUpperCase(), W - 104);
-    const bh = hLines.length * 46 + 38;
-    ctx.fillStyle = 'rgba(245,158,11,0.95)';
-    rBox(ctx, 38, H * 0.20, W - 76, bh, 22); ctx.fill();
-    ctx.fillStyle = '#06080d'; ctx.textAlign = 'center';
-    hLines.forEach((ln, idx) => ctx.fillText(ln, W / 2, H * 0.20 + 48 + idx * 44));
-    ctx.restore();
-  }
-
-  ctx.save();
-  const bars = 22, barW = 8, gap = 6;
-  const totalBarW = bars * barW + (bars - 1) * gap;
-  const startX = (W - totalBarW) / 2;
-  for (let b = 0; b < bars; b++) {
-    const bh = 8 + Math.abs(Math.sin(nowSec * 7 + b * 0.55)) * 28;
-    ctx.fillStyle = isMalam ? 'rgba(192,132,252,0.75)' : 'rgba(56,189,248,0.75)';
-    rBox(ctx, startX + b * (barW + gap), H - 285 - bh / 2, barW, bh, 4);
-    ctx.fill();
-  }
-  ctx.restore();
-
-  const safeChunks = Array.isArray(chunks) && chunks.length ? chunks : [''];
-  const cIdx = Math.max(0, Math.min(safeChunks.length - 1, Math.floor(totProg * safeChunks.length)));
-  ctx.save();
-  ctx.font = '800 40px sans-serif'; ctx.textAlign = 'center';
-  const sLines = wrapTxt(ctx, safeChunks[cIdx] || '', W - 88);
-  sLines.forEach((ln, idx) => {
-    const y = H - 205 + idx * 50;
-    ctx.lineWidth = 9; ctx.strokeStyle = 'rgba(0,0,0,0.92)';
-    ctx.strokeText(ln, W / 2, y);
-    ctx.fillStyle = idx % 2 === 0 ? '#ffffff' : (isMalam ? '#e879f9' : '#38bdf8');
-    ctx.fillText(ln, W / 2, y);
-  });
-  ctx.restore();
-
-  ctx.save();
-  ctx.font = 'bold 15px monospace';
-  ctx.fillStyle = 'rgba(148,163,184,0.7)';
-  ctx.textAlign = 'center';
-  ctx.fillText('EL OTAK STUDIO • REELS 9:16', W / 2, H - 52);
-  ctx.restore();
-
-  ctx.fillStyle = 'rgba(255,255,255,0.2)';
-  ctx.fillRect(36, H - 32, W - 72, 8);
-  ctx.fillStyle = isMalam ? '#c084fc' : '#38bdf8';
-  ctx.fillRect(36, H - 32, (W - 72) * totProg, 8);
 }
 
-/* ---------- Render Kartu UI ---------- */
-function render() {
-  destroyPlayers();
-  const it = st.items;
-  $('resHead').classList.toggle('hidden', !it.length);
-  $('empty').classList.toggle('hidden', !!it.length);
-  $('resTitle').textContent = `${it.length} Video Reels Siap Produksi & Unduh`;
-  $('cards').innerHTML = it.map((x, i) => {
-    const wc = words(x.naskah_voiceover), ok = wc >= 22 && wc <= 40;
-    return `<article class="pan space-y-4">
-    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
-      <div class="flex flex-wrap gap-2 text-xs font-bold">
-        <span class="px-2.5 py-1 rounded-full bg-cyan-500/15 text-cyan-300">#${i + 1} ${esc(x.kategori)}</span>
-        <span class="px-2.5 py-1 rounded-full bg-slate-800 font-mono">⏰ ${esc(x.jam_upload)}</span>
-        <span id="scSt${i}" class="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 font-mono">✔ 3/3 Scene Sinematik Siap</span>
+/* ============================================================================
+   8. SYNTHESIZER MUSIK LATAR OTOMATIS (WEB AUDIO API)
+   Menghasilkan musik latar sinematik bebas hak cipta yang ikut terekam ke Video!
+   ============================================================================ */
+function createBackgroundMusicTrack(sess){
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AudioCtx();
+  const dest = ctx.createMediaStreamDestination();
+  const master = ctx.createGain();
+  master.gain.value = 0.16;
+  master.connect(dest);
+  master.connect(ctx.destination);
+
+  const notes = sess==='siang'
+    ? [261.63, 329.63, 392.00, 523.25] // C Major (Cerah/Tekno)
+    : [146.83, 174.61, 220.00, 233.08]; // D Minor Dark (Misteri)
+
+  const oscs = notes.map((freq, i)=>{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = sess==='siang' ? 'triangle' : 'sine';
+    osc.frequency.value = freq * (i%2===0 ? 0.5 : 1);
+    gain.gain.value = 0.18 / notes.length;
+    osc.connect(gain);
+    gain.connect(master);
+    osc.start();
+    return osc;
+  });
+
+  // Pulse ritmik lembut
+  const lfo = ctx.createOscillator();
+  const lfoGain = ctx.createGain();
+  lfo.frequency.value = sess==='siang' ? 2.2 : 0.8;
+  lfoGain.gain.value = 0.06;
+  lfo.connect(lfoGain);
+  lfoGain.connect(master.gain);
+  lfo.start();
+
+  return {
+    stream: dest.stream,
+    stop: ()=>{
+      try{oscs.forEach(o=>o.stop());lfo.stop();ctx.close()}catch{}
+    }
+  };
+}
+
+/* ============================================================================
+   9. PREVIEW VIDEO INTERAKTIF & RENDER FILE VIDEO (.WEBM / .MP4)
+   ============================================================================ */
+function stopAllMedia(){
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  if(st.animFrame){ cancelAnimationFrame(st.animFrame); st.animFrame=null; }
+  if(st.audioCtx){ st.audioCtx.stop(); st.audioCtx=null; }
+  if(st.activeCard!==null){
+    const prev=st.activeCard;
+    st.activeCard=null;
+    const btn=$('playBtn'+prev);
+    if(btn)btn.innerHTML='▶ Preview Video + Suara';
+    drawVideoFrame(prev, 0, -1);
+  }
+  $('stopAll').classList.add('hidden');
+}
+
+function previewVideo(idx){
+  if(st.activeCard===idx){
+    stopAllMedia();
+    return;
+  }
+  stopAllMedia();
+  const item=st.items[idx];
+  if(!item)return;
+
+  st.activeCard=idx;
+  $('stopAll').classList.remove('hidden');
+  const btn=$('playBtn'+idx);
+  if(btn)btn.innerHTML='⏹ Hentikan Preview';
+
+  const voWords=item.naskah_voiceover.split(/\s+/).filter(Boolean);
+  const durationMs = Math.max(9000, voWords.length * 360);
+  const startTime = performance.now();
+
+  // Nyalakan musik latar Web Audio
+  try{ st.audioCtx = createBackgroundMusicTrack(item.session); }catch{}
+
+  // Nyalakan Voiceover Bahasa Indonesia
+  if('speechSynthesis' in window){
+    const u=new SpeechSynthesisUtterance(`${item.hook_3_detik}. ${item.naskah_voiceover}`);
+    u.lang='id-ID';
+    const v=speechSynthesis.getVoices().find(v=>/^id[-_]ID/i.test(v.lang));
+    if(v)u.voice=v;
+    u.rate = item.session==='siang' ? 1.05 : 0.94;
+    u.pitch = item.session==='siang' ? 1.02 : 0.90;
+    speechSynthesis.speak(u);
+  }
+
+  function step(now){
+    if(st.activeCard!==idx)return;
+    const elapsed = now - startTime;
+    const prog = Math.min(1, elapsed / durationMs);
+    const wordIdx = Math.min(voWords.length-1, Math.floor(prog * voWords.length));
+    drawVideoFrame(idx, prog, wordIdx);
+    if(prog < 1){
+      st.animFrame = requestAnimationFrame(step);
+    }else{
+      stopAllMedia();
+    }
+  }
+  st.animFrame = requestAnimationFrame(step);
+}
+
+/* Merender Canvas 9:16 + Musik menjadi File Video (.webm/.mp4) & Download otomatis */
+async function renderAndDownloadVideo(idx){
+  if(st.recordingIdx!==null)return toast('Tunggu proses render video saat ini selesai.','warning');
+  stopAllMedia();
+
+  const item=st.items[idx];
+  const cv=$('cv'+idx);
+  const btn=$('recBtn'+idx);
+  if(!item||!cv||!btn)return;
+
+  if(typeof MediaRecorder==='undefined'){
+    return toast('Browser Anda tidak mendukung perekaman video MediaRecorder.','error');
+  }
+
+  st.recordingIdx=idx;
+  const origHtml=btn.innerHTML;
+  btn.disabled=true;
+
+  try{
+    const canvasStream = cv.captureStream(30);
+    let music=null;
+    try{
+      music = createBackgroundMusicTrack(item.session);
+      music.stream.getAudioTracks().forEach(t=>canvasStream.addTrack(t));
+    }catch{}
+
+    // Putar voiceover selama perekaman agar pengguna bisa mendengar narasi
+    if('speechSynthesis' in window){
+      const u=new SpeechSynthesisUtterance(`${item.hook_3_detik}. ${item.naskah_voiceover}`);
+      u.lang='id-ID';
+      const v=speechSynthesis.getVoices().find(v=>/^id[-_]ID/i.test(v.lang));
+      if(v)u.voice=v;
+      u.rate = item.session==='siang' ? 1.05 : 0.94;
+      speechSynthesis.speak(u);
+    }
+
+    const mimeTypes=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'];
+    const mime = mimeTypes.find(m=>MediaRecorder.isTypeSupported(m)) || '';
+    const recorder = new MediaRecorder(canvasStream, mime ? {mimeType:mime, videoBitsPerSecond:4500000} : undefined);
+    const chunks=[];
+    recorder.ondataavailable = e=>{ if(e.data && e.data.size>0) chunks.push(e.data); };
+
+    const voWords=item.naskah_voiceover.split(/\s+/).filter(Boolean);
+    const durationMs = Math.max(9500, voWords.length * 360);
+
+    const donePromise = new Promise((resolve, reject)=>{
+      recorder.onstop = ()=>resolve();
+      recorder.onerror = e=>reject(e);
+    });
+
+    recorder.start(100);
+    const start=performance.now();
+
+    while(true){
+      const elapsed = performance.now() - start;
+      const prog = Math.min(1, elapsed / durationMs);
+      const wIdx = Math.min(voWords.length-1, Math.floor(prog * voWords.length));
+      drawVideoFrame(idx, prog, wIdx);
+      btn.textContent = `⏳ Merender Video (${Math.round(prog*100)}%)...`;
+      if(prog>=1)break;
+      await sleep(33);
+    }
+
+    recorder.stop();
+    await donePromise;
+    if(music)music.stop();
+    if('speechSynthesis' in window)speechSynthesis.cancel();
+
+    const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+    const blob = new Blob(chunks, {type: mime || 'video/webm'});
+    item.videoBlob = blob;
+    item.videoBlobUrl = URL.createObjectURL(blob);
+
+    const a=document.createElement('a');
+    a.href=item.videoBlobUrl;
+    a.download=`reels-video-${slug(item.judul_topik)}-${item.seed}.${ext}`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    toast('🎉 Video 9:16 selesai dirender dan diunduh!','success');
+  }catch(e){
+    toast('Gagal merender video: '+e.message,'error');
+  }finally{
+    st.recordingIdx=null;
+    btn.disabled=false;
+    btn.innerHTML=origHtml;
+    drawVideoFrame(idx, 0, -1);
+  }
+}
+
+/* ============================================================================
+   10. RENDER KARTU KONTEN & BUKTI RISET INTERNET
+   ============================================================================ */
+function renderCards(){
+  const it=st.items;
+  $('resHead').classList.toggle('hidden',!it.length);
+  $('empty').classList.toggle('hidden',!!it.length);
+  $('resTitle').textContent=`${it.length} Paket Video Reels Siap Produksi`;
+
+  $('cards').innerHTML=it.map((x,i)=>{
+    const wc=words(x.naskah_voiceover), ok=wc>=25&&wc<=35;
+    const hasSources = (x.webSources&&x.webSources.length) || (x.webQueries&&x.webQueries.length);
+
+    return `<article class="pan space-y-4 border-slate-800 hover:border-slate-700 transition">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+          <span class="px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">#${i+1} ${esc(x.kategori)}</span>
+          <span class="px-2.5 py-1 rounded-full bg-slate-800 font-mono">⏰ ${esc(x.jam_upload)}</span>
+          <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-300 font-mono text-[11px]">🤖 ${esc(x.modelUsed)}</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button class="btn b-gh" onclick="regenVisual(${i})">🎨 Ganti Visual AI</button>
+          <button class="btn b-gh" id="fb${i}" onclick="postFb(${i})">📘 Upload ke FB Page</button>
+        </div>
       </div>
-      <button class="btn b-gh" id="fb${i}" onclick="postFbVideo(${i})">📘 Upload Video ke FB Page</button>
-    </div>
 
-    <div class="grid lg:grid-cols-12 gap-5 items-start">
-      <div class="lg:col-span-4 flex flex-col items-center gap-2.5">
-        <div class="relative w-full max-w-[290px] rounded-2xl overflow-hidden border-2 border-cyan-500/30 bg-slate-950 shadow-2xl" style="aspect-ratio:9/16">
-          <div id="ld${i}" class="hidden absolute inset-0 sh z-10 flex flex-col items-center justify-center text-xs text-slate-300 text-center p-3">Menyiapkan 3 Scene Video 9:16...</div>
-          <canvas id="cv${i}" width="720" height="1280" class="w-full h-full object-cover block"></canvas>
-          <div class="absolute top-2.5 right-2.5 z-20 flex gap-1.5">
-            <button class="w-8 h-8 rounded-lg bg-black/65 hover:bg-cyan-600 text-white text-xs" title="Putar Ulang + Suara" onclick="replayVid(${i})">▶</button>
-            <button class="w-8 h-8 rounded-lg bg-black/65 hover:bg-slate-800 text-white text-xs" title="Variasi Scene Baru" onclick="regen(${i})">↻</button>
+      <div class="grid lg:grid-cols-12 gap-6">
+        <!-- KOLOM KIRI: LAYAR VIDEO CANVAS 9:16 INTERAKTIF -->
+        <div class="lg:col-span-4 flex flex-col items-center gap-2.5">
+          <div class="relative w-full max-w-[300px] rounded-2xl overflow-hidden border-2 border-slate-800 bg-slate-950 shadow-2xl" style="aspect-ratio:9/16">
+            <canvas id="cv${i}" width="720" height="1280" class="w-full h-full object-cover cursor-pointer" onclick="previewVideo(${i})" title="Klik untuk Preview Video & Suara"></canvas>
+          </div>
+          <div class="w-full max-w-[300px] grid grid-cols-1 gap-2">
+            <button id="playBtn${i}" class="btn b-em w-full py-2.5 text-xs" onclick="previewVideo(${i})">▶ Preview Video + Suara</button>
+            <button id="recBtn${i}" class="btn b-ind w-full py-2.5 text-xs" onclick="renderAndDownloadVideo(${i})">🎥 Render & Download Video (.webm)</button>
           </div>
         </div>
-        <button class="btn b-ind w-full max-w-[290px] py-2.5" id="dl${i}" onclick="dlVideo(${i})">🎬 Render & Download Video + Audio (9:16)</button>
-      </div>
 
-      <div class="lg:col-span-8 space-y-3">
-        <h3 class="text-xl font-extrabold text-white">${esc(x.judul_topik)}</h3>
-
-        <div class="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-3 flex justify-between items-center gap-2">
+        <!-- KOLOM KANAN: NASKAH, RISET INTERNET & PROMPT -->
+        <div class="lg:col-span-8 space-y-3">
           <div>
-            <div class="text-[11px] font-bold uppercase text-amber-400">Hook 3 Detik Pertama</div>
-            <p class="font-bold text-amber-100">"${esc(x.hook_3_detik)}"</p>
+            <h3 class="text-xl font-extrabold text-white">${esc(x.judul_topik)}</h3>
+            <p class="text-xs text-emerald-300 mt-1 font-medium">📌 Fakta Dasar / Sumber: ${esc(x.fakta_sumber)}</p>
           </div>
-          <button class="btn b-gh" onclick="cp(${i},'hook')">Copy</button>
-        </div>
 
-        <div class="pan !bg-slate-950 space-y-2">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <b class="text-xs uppercase text-emerald-400">Naskah Voiceover & Subtitle</b>
-              <span class="text-[11px] ml-1 ${ok ? 'text-slate-400' : 'text-amber-300 font-bold'}">(${wc} kata)</span>
+          <!-- BUKTI RISET INTERNET (GOOGLE SEARCH GROUNDING) -->
+          <div class="rounded-xl bg-indigo-950/30 border border-indigo-500/30 p-3 text-xs space-y-1.5">
+            <div class="flex items-center justify-between">
+              <b class="text-indigo-300 uppercase text-[11px]">🌐 Jejak Riset Internet Otonom</b>
+              <span class="text-[11px] text-slate-400">${hasSources?'Terverifikasi Google Search':'Riset Basis Pengetahuan & Wiki'}</span>
             </div>
-            <div class="flex gap-2">
-              <button class="btn b-gh" id="sp${i}" onclick="speak(${i})">🔊 Tes Suara</button>
+            ${x.webQueries?.length ? `<div class="text-[11px] text-slate-300">🔍 Kueri Google: ${x.webQueries.map(q=>`<code class="bg-slate-900 px-1.5 py-0.5 rounded mr-1 text-indigo-200">${esc(q)}</code>`).join('')}</div>`:''}
+            ${x.webSources?.length ? `<div class="flex flex-wrap gap-1.5 pt-1">${x.webSources.slice(0,4).map(s=>`<a href="${esc(s.uri)}" target="_blank" rel="noopener" class="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-indigo-300 border border-slate-700 truncate max-w-[240px]">🔗 ${esc(s.title)}</a>`).join('')}</div>`:''}
+          </div>
+
+          <!-- HOOK 3 DETIK -->
+          <div class="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-3 flex justify-between items-center gap-2">
+            <div>
+              <div class="text-[11px] font-bold uppercase text-amber-400">⚡ Hook 3 Detik Pertama</div>
+              <p class="font-bold text-amber-100 text-sm mt-0.5">"${esc(x.hook_3_detik)}"</p>
+            </div>
+            <button class="btn b-gh" onclick="cp(${i},'hook')">Copy</button>
+          </div>
+
+          <!-- NASKAH VOICEOVER -->
+          <div class="pan !bg-slate-950 space-y-2">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <b class="text-xs uppercase text-emerald-400">🎙️ Naskah Voiceover</b>
+                <span class="text-[11px] ml-2 ${ok?'text-slate-400':'text-amber-400 font-bold'}">(${wc} kata)</span>
+              </div>
               <button class="btn b-gh" onclick="cp(${i},'vo')">Copy Naskah</button>
             </div>
+            <p class="bg-slate-900 p-3 rounded-xl leading-relaxed text-sm text-slate-100">${esc(x.naskah_voiceover)}</p>
           </div>
-          <p class="bg-slate-900 p-3 rounded-xl text-sm leading-relaxed">${esc(x.naskah_voiceover)}</p>
-        </div>
 
-        <div class="pan !bg-slate-950 space-y-2">
-          <div class="flex justify-between items-center gap-2">
-            <b class="text-xs uppercase text-cyan-400">Storyboard 3 Scene & Master Prompt (9:16)</b>
-            <button class="btn b-gh" onclick="cp(${i},'pr')">Copy Prompt</button>
+          <!-- VIDEO PROMPT -->
+          <div class="pan !bg-slate-950 space-y-2">
+            <div class="flex justify-between items-center gap-2">
+              <b class="text-xs uppercase text-indigo-400">🎬 AI Video / Image Prompt (9:16)</b>
+              <button class="btn b-gh" onclick="cp(${i},'pr')">Copy Prompt</button>
+            </div>
+            <p class="bg-slate-900 p-3 rounded-xl text-xs font-mono text-slate-300 leading-relaxed">${esc(x.video_prompt)}</p>
           </div>
-          <div class="grid sm:grid-cols-3 gap-2 text-[11px] font-mono">
-            ${(x.scene_prompts || []).map((sp, idx) => `<div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800"><b class="text-cyan-300 block mb-1">SCENE ${idx + 1}</b><p class="text-slate-300 line-clamp-3">${esc(sp)}</p></div>`).join('')}
-          </div>
-        </div>
 
-        <div class="pan !bg-slate-950 space-y-2">
-          <div class="flex justify-between items-center gap-2">
-            <b class="text-xs uppercase text-pink-400">Caption Reels & 5 Hashtag</b>
-            <button class="btn b-gh" onclick="cp(${i},'cap')">Copy Caption</button>
-          </div>
-          <div class="bg-slate-900 p-3 rounded-xl space-y-2">
-            <p class="text-sm">${esc(x.caption_reels)}</p>
-            <div class="flex flex-wrap gap-1.5">${x.hashtags.map(h => `<span class="px-2 py-0.5 rounded-lg bg-cyan-500/10 text-cyan-300 text-xs font-mono">${esc(h)}</span>`).join('')}</div>
+          <!-- CAPTION & HASHTAGS -->
+          <div class="pan !bg-slate-950 space-y-2">
+            <div class="flex justify-between items-center gap-2">
+              <b class="text-xs uppercase text-pink-400">💬 Caption & Hashtag Viral</b>
+              <button class="btn b-gh" onclick="cp(${i},'cap')">Copy Caption</button>
+            </div>
+            <div class="bg-slate-900 p-3 rounded-xl space-y-2">
+              <p class="text-sm">${esc(x.caption_reels)}</p>
+              <div class="flex flex-wrap gap-1.5">
+                ${x.hashtags.map(h=>`<span class="px-2 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-300 text-xs font-mono">${esc(h)}</span>`).join('')}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div></article>`;
+    </article>`;
   }).join('');
 
-  st.items.forEach((_, i) => initVideoPlayer(i));
-}
-
-function replayVid(i) {
-  if (st.players[i]) st.players[i].t0 = performance.now();
-  speak(i, true);
-}
-
-function regen(i) {
-  const x = st.items[i]; if (!x) return;
-  x.seed = Math.floor(1e5 + Math.random() * 8e5);
-  x.sceneUrls = (x.scene_prompts || []).map((sp, idx) => pollUrl(sp, x.seed + idx));
-  save();
-  if (st.players[i]?.raf) cancelAnimationFrame(st.players[i].raf);
-  initVideoPlayer(i);
-  toast('Variasi visual scene diperbarui!', 'info');
-}
-
-/* ---------- Web Audio Synthesizer untuk Track Audio di Dalam File Video ---------- */
-function createSynthAudioTrack(isMalam, durationSec) {
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return null;
-    const actx = new AudioCtx();
-    const dest = actx.createMediaStreamDestination();
-    const master = actx.createGain();
-    master.gain.setValueAtTime(0.18, actx.currentTime);
-    master.connect(dest);
-    const monitor = actx.createGain();
-    monitor.gain.setValueAtTime(0.06, actx.currentTime);
-    master.connect(monitor);
-    monitor.connect(actx.destination);
-
-    const now = actx.currentTime;
-    const freqs = isMalam ? [110, 164.81, 220, 261.63] : [130.81, 196.0, 246.94, 329.63];
-    const oscs = freqs.map((f, idx) => {
-      const osc = actx.createOscillator();
-      const g = actx.createGain();
-      osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
-      osc.frequency.setValueAtTime(f, now);
-      g.gain.setValueAtTime(0.01, now);
-      g.gain.linearRampToValueAtTime(0.22 / freqs.length, now + 0.8);
-      g.gain.setValueAtTime(0.22 / freqs.length, now + durationSec - 1.0);
-      g.gain.linearRampToValueAtTime(0.001, now + durationSec);
-      osc.connect(g);
-      g.connect(master);
-      osc.start(now);
-      osc.stop(now + durationSec);
-      return osc;
-    });
-
-    [0.05, 4.0, 8.0].forEach(tOffset => {
-      const subOsc = actx.createOscillator();
-      const subGain = actx.createGain();
-      subOsc.type = 'sine';
-      subOsc.frequency.setValueAtTime(isMalam ? 140 : 220, now + tOffset);
-      subOsc.frequency.exponentialRampToValueAtTime(48, now + tOffset + 0.65);
-      subGain.gain.setValueAtTime(0.35, now + tOffset);
-      subGain.gain.exponentialRampToValueAtTime(0.001, now + tOffset + 0.7);
-      subOsc.connect(subGain);
-      subGain.connect(master);
-      subOsc.start(now + tOffset);
-      subOsc.stop(now + tOffset + 0.75);
-    });
-
-    return {
-      track: dest.stream.getAudioTracks()[0],
-      stop: () => {
-        try { oscs.forEach(o => o.stop()); } catch {}
-        try { actx.close(); } catch {}
-      }
-    };
-  } catch {
-    return null;
-  }
-}
-
-/* ---------- Perekam File Video + Audio (.mp4 / .webm) ---------- */
-async function recordVideoBlob(i, onProg) {
-  const p = st.players[i], x = st.items[i];
-  if (!p || !x) throw new Error('Player video belum siap.');
-  p.t0 = performance.now();
-
-  const cvStream = p.cv.captureStream(30);
-  const synth = createSynthAudioTrack(p.isMalam, VID_SEC);
-  const combinedTracks = [...cvStream.getVideoTracks()];
-  if (synth?.track) combinedTracks.push(synth.track);
-  const stream = new MediaStream(combinedTracks);
-
-  const mimes = [
-    'video/mp4;codecs=avc1,mp4a.40.2',
-    'video/mp4;codecs=avc1',
-    'video/mp4',
-    'video/webm;codecs=vp9,opus',
-    'video/webm;codecs=vp8,opus',
-    'video/webm'
-  ];
-  const mime = mimes.find(m => {
-    try { return MediaRecorder.isTypeSupported(m); } catch { return false; }
-  }) || '';
-
-  return new Promise((res, rej) => {
-    const chunks = [];
-    let rec;
-    try {
-      rec = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 3500000 } : undefined);
-    } catch {
-      rec = new MediaRecorder(cvStream);
-    }
-    rec.ondataavailable = e => e.data?.size && chunks.push(e.data);
-    rec.onerror = err => {
-      synth?.stop();
-      rej(err?.error || new Error('Gagal merekam stream video.'));
-    };
-    rec.onstop = () => {
-      synth?.stop();
-      const actualMime = rec.mimeType || mime || 'video/webm';
-      const ext = actualMime.includes('mp4') ? 'mp4' : 'webm';
-      res({ blob: new Blob(chunks, { type: actualMime }), ext });
-    };
-    rec.start(200);
-    speak(i, true);
-    let s = 0;
-    const iv = setInterval(() => {
-      s++;
-      onProg && onProg(`Merender Video+Audio ${Math.min(99, Math.round(s / VID_SEC * 100))}%...`);
-      if (s >= VID_SEC) {
-        clearInterval(iv);
-        if (rec.state !== 'inactive') rec.stop();
-      }
-    }, 1000);
+  // Render kanvas awal dan muat gambar latar belakang untuk setiap kartu
+  it.forEach((_, idx)=>{
+    drawVideoFrame(idx, 0, -1);
+    loadCardImage(idx);
   });
 }
 
-async function dlVideo(i) {
-  const x = st.items[i]; if (!x) return;
-  const b = $('dl' + i), h = b.innerHTML; b.disabled = true;
-  try {
-    const { blob, ext } = await recordVideoBlob(i, txt => b.textContent = txt);
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `el-otak-studio-${slug(x.judul_topik)}.${ext}`;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 15000);
-    toast(`Video + Musik Latar (.${ext}) berhasil diunduh!`, 'success');
-  } catch (e) {
-    toast('Gagal merender video: ' + e.message, 'error');
-  } finally {
-    b.disabled = false; b.innerHTML = h;
-  }
+function regenVisual(i){
+  const x=st.items[i];if(!x)return;
+  x.seed=Math.floor(100000+Math.random()*900000);
+  x.imageUrl=pollUrl(x.video_prompt, x.seed);
+  saveItems();
+  toast('Membuat variasi visual baru...','info');
+  drawVideoFrame(i, 0, -1);
+  loadCardImage(i);
 }
 
-/* ---------- Copy, Suara & Upload Video FB ---------- */
-function cp(i, t) {
-  const x = st.items[i]; if (!x) return;
-  const map = {
-    hook: [x.hook_3_detik, 'Hook disalin!'],
-    vo: [x.naskah_voiceover, 'Naskah disalin!'],
-    pr: [x.video_prompt, 'Prompt disalin!'],
-    cap: [`${x.caption_reels}\n\n${x.hashtags.join(' ')}`, 'Caption disalin!']
+function cp(i,t){
+  const x=st.items[i];if(!x)return;
+  const map={
+    hook:[x.hook_3_detik,'Hook disalin!'],
+    vo:[x.naskah_voiceover,'Naskah disalin!'],
+    pr:[x.video_prompt,'Prompt disalin!'],
+    cap:[`${x.caption_reels}\n\n${x.hashtags.join(' ')}`,'Caption + hashtag disalin!']
   };
-  copyText(...map[t]);
-}
-async function copyText(t, msg) {
-  try { await navigator.clipboard.writeText(t); } catch {
-    const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove();
-  }
-  toast(msg, 'success');
+  navigator.clipboard?.writeText(map[t][0]);
+  toast(map[t][1],'success');
 }
 
-function spBtn(i, on) {
-  const b = $('sp' + i); if (b) b.textContent = on ? '⏹ Stop' : '🔊 Tes Suara';
-  $('stopAll').classList.toggle('hidden', st.speak === null);
-}
-function stopSpeak() {
-  st.tok++; if ('speechSynthesis' in window) speechSynthesis.cancel();
-  if (st.speak !== null) { const p = st.speak; st.speak = null; spBtn(p, false); }
-  else $('stopAll').classList.add('hidden');
-}
-function speak(i, force = false) {
-  if (!('speechSynthesis' in window)) return;
-  const same = st.speak === i; stopSpeak(); if (same && !force) return;
-  const x = st.items[i]; if (!x) return;
-  const u = new SpeechSynthesisUtterance(x.naskah_voiceover), t = st.tok, siang = x.session === 'siang';
-  u.lang = 'id-ID';
-  const v = speechSynthesis.getVoices().find(v => /^id[-_]ID/i.test(v.lang));
-  if (v) u.voice = v;
-  u.rate = siang ? 1.05 : 0.95; u.pitch = siang ? 1.02 : 0.92;
-  const done = () => { if (st.tok === t && st.speak === i) { st.speak = null; spBtn(i, false); } };
-  u.onend = done; u.onerror = done; st.speak = i; spBtn(i, true); speechSynthesis.speak(u);
-}
-
-async function postFbVideo(i) {
-  const pid = (ls.get(K.pid) || '').trim(), tok = (ls.get(K.tok) || '').trim();
-  if (!pid || !tok) {
-    toast('Isi FB_PAGE_ID & FB_ACCESS_TOKEN di Pengaturan API.', 'warning');
-    toggleSettings(true); return;
+/* Upload ke Facebook Page */
+async function postFb(i){
+  const pid=(ls.get(K.pid)||'').trim(), tok=(ls.get(K.tok)||'').trim();
+  if(!pid||!tok){
+    toast('Isi FB_PAGE_ID & FB_ACCESS_TOKEN di Pengaturan API terlebih dahulu.','warning');
+    $('settings').classList.remove('hidden');
+    return;
   }
-  const x = st.items[i]; if (!x) return;
-  const b = $('fb' + i), h = b.innerHTML; b.disabled = true;
-  try {
-    const { blob, ext } = await recordVideoBlob(i, txt => b.textContent = txt);
-    b.textContent = 'Mengunggah ke FB...';
-    const fd = new FormData();
-    fd.append('access_token', tok);
-    fd.append('title', x.judul_topik);
-    fd.append('description', `${x.hook_3_detik}\n\n${x.naskah_voiceover}\n\n${x.caption_reels}\n\n${x.hashtags.join(' ')}`);
-    fd.append('source', blob, `reels.${ext}`);
-    const r = await fetch(`https://graph-video.facebook.com/v19.0/${encodeURIComponent(pid)}/videos`, { method: 'POST', body: fd });
-    const d = await r.json();
-    if (!r.ok || d.error) throw new Error(d?.error?.message || 'Gagal upload video');
-    toast('Video berhasil diunggah ke FB Page!', 'success');
-    b.textContent = '✔ Terpublikasi';
-  } catch (e) {
-    toast('Gagal upload FB: ' + e.message, 'error');
-    b.disabled = false; b.innerHTML = h;
+  const x=st.items[i];if(!x)return;
+  if(!confirm('Publikasikan konten ini ke Facebook Page Anda sekarang?'))return;
+  const b=$('fb'+i), orig=b.innerHTML;
+  b.disabled=true;b.textContent='Mengunggah...';
+  try{
+    const p=new URLSearchParams({
+      url:x.imageUrl,
+      caption:`${x.hook_3_detik}\n\n${x.naskah_voiceover}\n\n📌 Sumber: ${x.fakta_sumber}\n\n${x.caption_reels}\n\n${x.hashtags.join(' ')}`,
+      access_token:tok
+    });
+    const r=await fetch(`https://graph.facebook.com/v21.0/${encodeURIComponent(pid)}/photos`,{method:'POST',body:p});
+    const d=await r.json();
+    if(!r.ok||d.error)throw new Error(d?.error?.message||'Gagal mengunggah ke Facebook');
+    toast('Berhasil dipublikasikan ke Facebook Page!','success');
+    b.textContent='✔ Terpublikasi';
+  }catch(e){
+    toast('Gagal upload FB: '+e.message,'error');
+    b.disabled=false;b.innerHTML=orig;
   }
 }
 
-function exportJson() {
-  if (!st.items.length) return;
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([JSON.stringify(st.items, null, 2)], { type: 'application/json' }));
-  a.download = `el-otak-studio-${new Date().toISOString().slice(0, 10)}.json`;
-  document.body.appendChild(a); a.click(); a.remove();
+function exportJson(){
+  if(!st.items.length)return;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(st.items,null,2)],{type:'application/json'}));
+  a.download=`reels-autopilot-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);a.click();a.remove();
+  toast('Data JSON diekspor.','info');
 }
 
-function showErr(t, m) { $('errT').textContent = t; $('errM').textContent = m; $('err').classList.remove('hidden'); }
-function hideErr() { $('err').classList.add('hidden'); }
-function toast(m, type = 'info') {
-  const c = { success: 'border-emerald-500/50', warning: 'border-amber-500/50', error: 'border-rose-500/50', info: 'border-cyan-500/50' }[type];
-  const d = document.createElement('div');
-  d.className = `pointer-events-auto px-4 py-3 rounded-2xl border bg-slate-900 shadow-2xl text-xs font-semibold transition-opacity duration-300 ${c}`;
-  d.textContent = m;
+function showErr(t,m){
+  $('errT').textContent=t;
+  $('errM').textContent=m;
+  $('err').classList.remove('hidden');
+  $('err').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function hideErr(){$('err').classList.add('hidden')}
+function toast(m,type='info'){
+  const c={success:'border-emerald-500/50',warning:'border-amber-500/50',error:'border-rose-500/50',info:'border-indigo-500/50'}[type];
+  const d=document.createElement('div');
+  d.className=`pointer-events-auto px-4 py-3 rounded-2xl border bg-slate-900 shadow-2xl text-xs font-semibold transition-opacity duration-300 ${c}`;
+  d.textContent=m;
   $('toasts').appendChild(d);
-  setTimeout(() => { d.style.opacity = 0; setTimeout(() => d.remove(), 300); }, 3500);
+  setTimeout(()=>{d.style.opacity=0;setTimeout(()=>d.remove(),300)},3600);
 }
 
-/* ---------- Inisialisasi ---------- */
-document.addEventListener('DOMContentLoaded', () => {
-  ls.del('RAS_GEMINI_MODEL_PREF');
-  const validM = getValidModelPref();
-  const lvl = getThinkLvl();
-  const vis = getVisMode();
-  $('key').value = ls.get(K.key) || '';
-  $('model').value = validM;
-  $('thinkLvl').value = lvl;
-  $('visMode').value = vis;
-  updateHeaderBadge(validM);
-  $('pid').value = ls.get(K.pid) || '';
-  $('tok').value = ls.get(K.tok) || '';
-  $('key').addEventListener('input', dot); dot();
-
-  setMode('auto'); setQty(1); renderHist(); tick(); setInterval(tick, 1000);
-  try {
-    const a = JSON.parse(ls.get(K.last) || '[]');
-    const cleanSaved = Array.isArray(a) ? a.map(item => norm(item, item?.session || session())).filter(Boolean) : [];
-    if (cleanSaved.length) {
-      st.items = cleanSaved;
-      render();
-    } else {
-      st.items = buildInstantItems(1, session(), '', getHist());
-      render();
-    }
-  } catch {
-    st.items = buildInstantItems(1, session(), '', getHist());
-    render();
+/* ============================================================================
+   11. INISIALISASI APLIKASI & PEMBERSIHAN MODEL LAMA DARI LOCALSTORAGE
+   ============================================================================ */
+document.addEventListener('DOMContentLoaded',()=>{
+  // Bersihkan preferensi model lama jika user pernah menyimpan gemini-2.5 atau 1.5
+  const savedModel = ls.get(K.model)||'auto';
+  if(savedModel!=='auto' && !isModelSafe(savedModel)){
+    ls.set(K.model,'auto');
   }
-  if ('speechSynthesis' in window) {
+
+  $('key').value=ls.get(K.key)||'';
+  $('model').value=ls.get(K.model)||'auto';
+  $('pid').value=ls.get(K.pid)||'';
+  $('tok').value=ls.get(K.tok)||'';
+  $('key').addEventListener('input',dot);
+  dot();
+
+  if(!$('key').value.trim())$('settings').classList.remove('hidden');
+  setMode('auto');
+  setQty(1);
+  renderHist();
+  tick();
+  setInterval(tick,1000);
+
+  try{
+    const a=JSON.parse(ls.get(K.last)||'[]');
+    if(Array.isArray(a)&&a.length){
+      st.items=a;
+      renderCards();
+    }
+  }catch{}
+
+  if('speechSynthesis' in window){
     speechSynthesis.getVoices();
-    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
   }
 });
 </script>
